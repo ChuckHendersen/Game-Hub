@@ -8,8 +8,8 @@
 		<version>3.0.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>ProgettoSIW</artifactId>
+	<groupId>it.uniroma3.siw</groupId>
+	<artifactId>GameHub</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ProgettoSIW</name>
 	<description>Demo project for Spring Boot</description>
