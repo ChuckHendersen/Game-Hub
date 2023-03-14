@@ -1,4 +1,4 @@
-package com.example.demo;
+package it.uniroma3.siw.GameHub;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
