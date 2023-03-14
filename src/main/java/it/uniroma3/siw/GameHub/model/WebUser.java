@@ -2,13 +2,10 @@ package it.uniroma3.siw.GameHub.model;
 
 import java.util.Objects;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
-public class User {
+public class WebUser {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,9 +47,9 @@ public class User {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!(obj instanceof User))
+		if (!(obj instanceof WebUser))
 			return false;
-		User other = (User) obj;
+		WebUser other = (WebUser) obj;
 		return Objects.equals(userEmail, other.userEmail);
 	}
 	
