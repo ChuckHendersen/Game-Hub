@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import it.uniroma3.siw.GameHub.model.WebUser;
 
-public interface UserRepository extends CrudRepository<WebUser, Long> {
+public interface WebUserRepository extends CrudRepository<WebUser, Long> {
 	public List<WebUser> findByUsername(String username);
 	
 	public boolean existsByUsername(String username);
