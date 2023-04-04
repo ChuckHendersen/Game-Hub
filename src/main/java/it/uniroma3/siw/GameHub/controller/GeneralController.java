@@ -16,11 +16,6 @@ public class GeneralController {
 	
 	@GetMapping("/")
 	public String index() throws SteamApiException {
-		GetFriendListRequest request = SteamWebApiRequestFactory.createGetFriendListRequest("76561198136135035"); // appId of Dota 2
-        GetFriendList getFriendList = SteamAPI.client.<GetFriendList> processRequest(request);
-        for(Friend f : getFriendList.getFriendslist().getFriends()) {
-        	System.out.println(f.getSteamid());
-        }
 		return "index.html";
 	}
 }
