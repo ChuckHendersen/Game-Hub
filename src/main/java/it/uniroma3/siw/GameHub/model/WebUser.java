@@ -1,6 +1,7 @@
 package it.uniroma3.siw.GameHub.model;
 
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.*;
 
@@ -14,7 +15,8 @@ public class WebUser {
 	private String userEmail;
 	private String steamID64;
 	
-	//private List<WebUser> friendList;
+	@ManyToMany
+	private Set<WebUser> friendList;
 	
 	public Long getId() {
 		return id;
@@ -41,13 +43,13 @@ public class WebUser {
 		this.steamID64 = steamID64;
 	}
 	
-//	public List<WebUser> friendList(){
-//		return friendList;
-//	}
-//	
-//	public void setFriendList(List<WebUser>friendList) {
-//		this.friendList = friendList;
-//	}
+	public Set<WebUser> friendList(){
+		return friendList;
+	}
+	
+	public void setFriendList(Set<WebUser>friendList) {
+		this.friendList = friendList;
+	}
 	
 	@Override
 	public int hashCode() {

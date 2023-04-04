@@ -18,17 +18,4 @@ import it.uniroma3.siw.GameHub.repository.WebUserRepository;
 public class WebUserController {
 	@Autowired
 	WebUserRepository webUserRepository;
-	
-	private static SteamWebApiClient client = new SteamWebApiClient.SteamWebApiClientBuilder("056BDA5087E6B09FF4E875FD1ACAFD3F").build();
-	
-	@GetMapping("/")
-	public String index() throws SteamApiException {
-		GetFriendListRequest request = SteamWebApiRequestFactory.createGetFriendListRequest("76561198136135035");
-		GetFriendList answer = client.<GetFriendList>processRequest(request);
-		Friendslist fl = answer.getFriendslist();
-		for(Friend f : fl.getFriends()) {
-			System.out.println("Amico: "+f.getSteamid());
-		}
-		return "index.html";
-	}
 }
