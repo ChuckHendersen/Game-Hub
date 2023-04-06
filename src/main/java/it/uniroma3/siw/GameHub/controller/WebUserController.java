@@ -16,6 +16,11 @@ public class WebUserController {
 	@Autowired
 	WebUserRepository webUserRepository;
 	
+	@GetMapping("/webUsers")
+	public String webUsers(Model model) {
+		List<WebUser> wus = (List<WebUser>) webUserRepository.findAll();
+	}
+	
 	@GetMapping("/webUser/{id}")
 	public String webUser(@PathVariable("id") Long id,Model model) {
 		WebUser wu=null;
