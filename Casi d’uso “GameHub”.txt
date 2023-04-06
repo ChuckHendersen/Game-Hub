@@ -1,0 +1,60 @@
+﻿Casi d’uso "Game Hub"
+
+
+1. l’utente accede al sito
+2. L’utente effettua il login
+3. viene mostrata la pagina personale dell’utente contenente (a)la lista dei propri giochi, (b) la lista dei giocatori seguiti, (c) il tasto per la ricerca di un nuovo giocatore
+4. l’utente può eseguire tre operazioni: (5) esplorazione dei propri giochi, (6)visualizzazione di un utente salvato tra gli amici, (7) ricerca di un nuovo utente, (8) aggiornamento lista giochi
+5. selezionando un gioco dalla lista l’utente viene rimandato alla pagina Steam del gioco in esame
+6. selezionando un amico viene visualizzato il profilo del giocatore selezionato contenente: (5) la lista dei giochi, (8) il tasto confronta, (9)il tasto “segui”
+7. l’utente può ricercare un altro giocatore tramite un nome, se il giocatore esiste viene reindirizzato sul profilo del giocatore (6)
+8. l’utente può confrontare il proprio profilo con quello del giocatore selezionato e viene mostrata la pagina dei giochi in comune
+9. tramite il tasto “segui” il giocatore viene salvato in una lista specifica. 
+
+
+
+
+cose da modificare: caso d’uso registrazione, cancellazione, giochi in locale 
+
+
+Quali azioni sulla base di dati vengono effettuate (fino ad ora):
+Create:
+* registrazione utente
+* aggiunta gioco in memoria 
+* memorizzazione follow
+
+
+Retrieve:
+* visualizzazione utente
+* visualizzazione gioco
+* visualizzazione lista seguiti
+
+
+Update:
+* aggiornamento info utente
+
+
+Delete:
+* Cessazione di follow
+* cancellazione utente e tutto a cascata.
+
+
+Caricamento online:
+* caricare su un server 
+
+
+
+
+
+
+
+
+Come gestire il caching dei giochi mai visti dal nostro sistema? (CASO 1)
+Quando il sistema entra in contatto* con un gioco mai visto prima, lo si confronta con i giochi nella nostra base di dati. Se viene rilevato un disallineamento, allora viene salvato sulla base di dati. Il sistema non si pone come obiettivo quello di sostituirsi a steam, ma soltanto di memorizzare nella base di dati i giochi di interesse. Un gioco diventa di interesse per il sistema solo se un utente registrato lo possiede sul suo relativo account steam. 
+
+
+Come gestire l’aggiornamento della lista dei giochi? (CASO 2)
+Sarebbe richiesto un aggiornamento sulla lista dei giochi quando un utente già registrato al nostro sistema compra un nuovo gioco. In questo caso bisogna aggiornare nella base di dati la relazione di possesso di un gioco rispetto ad un certo utente. Se il gioco non è mai stati visto prima dal sistema vedere CASO 1.
+
+
+*(L’entrata in contatto con un gioco può accadere in 2 modi. Il primo è la registrazione di un nuovo utente, dove la lista dei giochi posseduti viene scaricata e se viene rilevato un disallineamento fra i giochi memorizzati sulla nostra base di dati (quelli già visti) e la lista ottenuta tramite l’API, allora si salvano quelli che differiscono. Il secondo caso invece accade con l’update, vedere CASO 2.)
