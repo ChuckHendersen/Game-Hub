@@ -24,10 +24,11 @@ public class WebUserController {
 	@PostMapping("/webUsers")
 	public String newWebUser(@ModelAttribute("webUser") WebUser wu, Model model){
 		if(!webUserRepository.existsByUserEmail(wu.getUserEmail())) {
-			model.add
+			model.addAttribute("webUser",wu);
+			return "webUser.html"; 
 		}else {
-			
+			model.addAttribute("messaggioErrore", "Utente già esistente");
+			return "formNewWebUser.html";
 		}
-		return "webUser.html";
 	}
 }
