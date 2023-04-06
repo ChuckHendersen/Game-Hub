@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>User - GameHub</title>
+	</head>
+	<body>
+		<h1>Informazioni Utente</h1>
+		
+		<div th:if="${messaggioErrore}" th:text="${messaggioErrore}"></div>
+		<div th:if="${webUser}">
+			<div th:text="${webUser.username}">
+				
+			</div>
+		</div>
+	</body>
+</html>

@@ -5,8 +5,20 @@
 	</head>
 	<body>
 		<h1>Inserisci dati</h1>
+		<div th:if="${messaggioErrore}" th:text="${messaggioErrore}"></div>
 		<form th:action="@{/webUsers}" method="POST">
-			
+			<div>
+				<span>Username<input required type="text" th:field="${webUser.username}"></input></span>
+			</div>
+			<div>
+				<span>Email<input required type="text" th:field="${webUser.userEmail}"></input></span>
+			</div>
+			<div>
+				<span>SteamID<input required type="number" th:field="${webUser.steamID64}"></input></span>
+			</div>
+			<div>
+				<span><button type="submit">Conferma</button></span>
+			</div>
 		</form>
 	</body>
 </html>
