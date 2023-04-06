@@ -5,6 +5,7 @@
 	</head>
 	<body>
 		<h1>Inserisci dati</h1>
+<<<<<<< HEAD
 		<div th:if="${messaggioErrore}" th:text="${messaggioErrore}"></div>
 		<form th:action="@{/webUsers}" method="POST">
 			<div>
@@ -19,6 +20,19 @@
 			<div>
 				<span><button type="submit">Conferma</button></span>
 			</div>
+=======
+		<form th:action="@{/webUsers}" method="POST" th:object="${webUser}">
+			<div>
+				<span>username<input required type="text" th:field="${webUser.username}"></input></span>
+			</div>
+			<div>
+				<span>email<input required type="text" th:field="${webUser.userEmail}"></input></span>
+			</div>
+			<div>
+				<span>steamID64<input required type="text" th:field="${webUser.steamID64}"></input></span>
+			</div>
+			<span><button type="submit">Conferma</button></span>
+>>>>>>> branch 'main' of https://github.com/ChuckHendersen/ProgettoSIW
 		</form>
 	</body>
 </html>

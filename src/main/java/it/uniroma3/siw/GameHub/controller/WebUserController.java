@@ -15,6 +15,24 @@ public class WebUserController {
 	@Autowired
 	WebUserRepository webUserRepository;
 	
+	@GetMapping("/webUsers")
+	public String webUsers(Model model) {
+		List<WebUser> wus = (List<WebUser>) webUserRepository.findAll();
+	}
+	
+	@GetMapping("/webUser/{id}")
+	public String webUser(@PathVariable("id") Long id,Model model) {
+		WebUser wu=null;
+		try {
+			wu=webUserRepository.findById(id).get();
+			model.addAttribute("webUser", wu);
+		}catch(Exception e) {
+			e.printStackTrace(); // utente non trovato
+			model.addAttribute("messaggioErrore", "Utente non trovato");
+		}
+		return "webUser.html";
+	}
+	
 	@GetMapping("/formNewWebUser")
 	public String formNewWebUser(Model model) {
 		model.addAttribute("webUser", new WebUser());
@@ -29,12 +47,19 @@ public class WebUserController {
 	@PostMapping("/webUsers")
 	public String newWebUser(@ModelAttribute("webUser") WebUser wu, Model model){
 		if(!webUserRepository.existsByUserEmail(wu.getUserEmail())) {
+<<<<<<< HEAD
 			model.addAttribute("webUser", wu);
 			webUserRepository.save(wu);
 			return "webUser.html";
+=======
+			model.addAttribute("webUser",wu);
+			webUserRepository.save(wu);
+			return "webUser.html"; 
+>>>>>>> branch 'main' of https://github.com/ChuckHendersen/ProgettoSIW
 		}else {
 			model.addAttribute("messaggioErrore", "Utente già esistente");
 			return "formNewWebUser.html";
+<<<<<<< HEAD
 		}
 	}
 	
@@ -45,7 +70,8 @@ public class WebUserController {
 			model.addAttribute("webUser", wu);
 		}catch(Exception e) {
 			model.addAttribute("messaggioErrore", "L'utente non esiste");
+=======
+>>>>>>> branch 'main' of https://github.com/ChuckHendersen/ProgettoSIW
 		}
-		return "webUser.html";
 	}
 }
