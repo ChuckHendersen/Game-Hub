@@ -1,5 +1,7 @@
 package it.uniroma3.siw.GameHub.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +19,9 @@ public class WebUserController {
 	
 	@GetMapping("/webUsers")
 	public String webUsers(Model model) {
-		List<WebUser> wus = (List<WebUser>) webUserRepository.findAll();
+		List<WebUser> lista =(List<WebUser>) webUserRepository.findAll();
+		model.addAttribute("webUsers", lista);
+		return "webUsers.html";
 	}
 	
 	@GetMapping("/webUser/{id}")
@@ -39,39 +43,18 @@ public class WebUserController {
 		return "formNewWebUser.html";
 	}
 	
-	@GetMapping("/webUsers")
-	public String webUsers(Model model) {
-		return "webUsers.html";
-	}
+
 	
 	@PostMapping("/webUsers")
 	public String newWebUser(@ModelAttribute("webUser") WebUser wu, Model model){
 		if(!webUserRepository.existsByUserEmail(wu.getUserEmail())) {
-<<<<<<< HEAD
 			model.addAttribute("webUser", wu);
 			webUserRepository.save(wu);
-			return "webUser.html";
-=======
-			model.addAttribute("webUser",wu);
 			webUserRepository.save(wu);
 			return "webUser.html"; 
->>>>>>> branch 'main' of https://github.com/ChuckHendersen/ProgettoSIW
 		}else {
 			model.addAttribute("messaggioErrore", "Utente già esistente");
 			return "formNewWebUser.html";
-<<<<<<< HEAD
-		}
-	}
-	
-	@GetMapping("/webUser/{webUser_id}")
-	public String webUser(@PathVariable("webUser_id") Long id, Model model) {
-		try {
-			WebUser wu = webUserRepository.findById(id).get();
-			model.addAttribute("webUser", wu);
-		}catch(Exception e) {
-			model.addAttribute("messaggioErrore", "L'utente non esiste");
-=======
->>>>>>> branch 'main' of https://github.com/ChuckHendersen/ProgettoSIW
 		}
 	}
 }
