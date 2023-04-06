@@ -4,9 +4,15 @@
 		<title>User - GameHub</title>
 	</head>
 	<body>
-		<h1>Utente</h1>ù
+		<h1>Utente</h1>
 		<div>
-			
+			<span th:text="'Username: '+${webUser.username}"></span>
+		</div>
+		<div>
+			<span th:text="'email: '+${webUser.userEmail}"></span>
+		</div>
+		<div>
+			<span th:text="'steamID64: '+${webUser.steamID64}"></span>
 		</div>
 	</body>
 </html>
