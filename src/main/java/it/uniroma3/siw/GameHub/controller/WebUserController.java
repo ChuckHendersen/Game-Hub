@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import it.uniroma3.siw.GameHub.model.WebUser;
+import it.uniroma3.siw.GameHub.repository.GameRepository;
 import it.uniroma3.siw.GameHub.repository.WebUserRepository;
 
 @Controller
 public class WebUserController {
 	@Autowired
 	WebUserRepository webUserRepository;
+	
+	@Autowired
+	GameRepository gameRepository;
 	
 	@GetMapping("/webUsers")
 	public String webUsers(Model model) {
@@ -65,7 +69,7 @@ public class WebUserController {
 		WebUser wu = null;
 		try {
 			wu=webUserRepository.findById(id).get();
-			GameController.RefreshGames(wu);
+			GameController.RefreshGames(wu,webUserRepository,gameRepository);
 			model.addAttribute("webUser", wu);
 		}catch(Exception e) {
 			e.printStackTrace();

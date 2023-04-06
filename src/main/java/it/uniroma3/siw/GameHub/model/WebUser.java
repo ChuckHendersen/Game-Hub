@@ -18,6 +18,9 @@ public class WebUser {
 	@ManyToMany
 	private Set<WebUser> friendList;
 	
+	@ManyToMany
+	private Set<Game> ownedGames;
+	
 	public Long getId() {
 		return id;
 	}
@@ -51,6 +54,15 @@ public class WebUser {
 		this.friendList = friendList;
 	}
 	
+	public Set<Game> getOwnedGames() {
+		return ownedGames;
+	}
+	public void setOwnedGames(Set<Game> ownedGames) {
+		this.ownedGames = ownedGames;
+	}
+	public Set<WebUser> getFriendList() {
+		return friendList;
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(userEmail);

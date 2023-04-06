@@ -52,5 +52,10 @@ public class Game {
 		return Objects.equals(steamcode, other.steamcode);
 	}
 	
+	@Override
+	public String toString() {
+		return "appID: "+this.steamcode;
+	}
+	
 	
 }
