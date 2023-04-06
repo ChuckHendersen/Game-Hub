@@ -14,5 +14,8 @@
 		<div>
 			<span th:text="'steamID64: '+${webUser.steamID64}"></span>
 		</div>
+		<div>
+			<a th:href="@{'/updateOwnedGames/'+${webUser.id}}">aggiorna giochi posseduti</a>
+		</div>
 	</body>
 </html>

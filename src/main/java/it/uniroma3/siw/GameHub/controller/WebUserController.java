@@ -21,6 +21,9 @@ public class WebUserController {
 	public String webUsers(Model model) {
 		List<WebUser> lista =(List<WebUser>) webUserRepository.findAll();
 		model.addAttribute("webUsers", lista);
+		if(lista.size()==0) {
+			model.addAttribute("messaggioErrore", "nessun utente registrato esistente");
+		}
 		return "webUsers.html";
 	}
 	
@@ -50,11 +53,24 @@ public class WebUserController {
 		if(!webUserRepository.existsByUserEmail(wu.getUserEmail())) {
 			model.addAttribute("webUser", wu);
 			webUserRepository.save(wu);
-			webUserRepository.save(wu);
 			return "webUser.html"; 
 		}else {
 			model.addAttribute("messaggioErrore", "Utente già esistente");
 			return "formNewWebUser.html";
 		}
+	}
+	
+	@GetMapping("/updateOwnedGames/{id}")
+	public String updateOwnedGames(@PathVariable("id") Long id, Model model) {
+		WebUser wu = null;
+		try {
+			wu=webUserRepository.findById(id).get();
+			GameController.RefreshGames(wu);
+			model.addAttribute("webUser", wu);
+		}catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("messaggioErrore", "Utente non esistente");
+		}
+		return "webUser.html";
 	}
 }
