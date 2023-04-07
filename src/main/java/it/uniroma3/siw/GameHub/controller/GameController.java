@@ -26,18 +26,22 @@ public class GameController {
 		GetOwnedGamesRequest request =  SteamWebApiRequestFactory.createGetOwnedGamesRequest(wu.getSteamID64());
 		GetOwnedGames gog = SteamAPI.client.<GetOwnedGames>processRequest(request);
 		System.out.println("Giochi posseduti: "+gog.getResponse().getGames().size());
-		Set<Game> listaGiochi = new HashSet<>();
+		Set<Game> insiemeGiochi = new HashSet<>();
 		for(com.lukaspradel.steamapi.data.json.ownedgames.Game apiGame : gog.getResponse().getGames() ) {
 			Game g = new Game();
 //			System.out.println(apiGame.getName());
 //			System.out.println(apiGame.getAppid());
 			g.setSteamcode(apiGame.getAppid());
 			g.setGamename(apiGame.getName());
-			gr.save(g);
-			listaGiochi.add(g);
+			
+			if(!gr.existsBySteamcode(g.getSteamcode())) {
+				gr.save(g);
+			}
+			
+			insiemeGiochi.add(g);
 		}
-		wu.setOwnedGames(listaGiochi);
-		System.out.println(listaGiochi);
+		wu.setOwnedGames(insiemeGiochi);
+		System.out.println(insiemeGiochi);
 		wur.save(wu);
 	}
 	
