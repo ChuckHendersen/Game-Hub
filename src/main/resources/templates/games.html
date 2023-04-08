@@ -7,8 +7,8 @@
 		<h1>Lista giochi</h1>
 		<div>
 			<ul>
-				<li th:each="">
-					
+				<li th:each="game:${games}">
+					<a th:text="${game.steamcode}" th:href="'/game/'+${game.id}"></a>
 				</li>
 			</ul>
 		</div>

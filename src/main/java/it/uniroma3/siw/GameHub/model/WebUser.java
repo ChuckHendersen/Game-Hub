@@ -12,7 +12,7 @@ public class WebUser {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String username;
-	private String userEmail;
+	private String email;
 	private String steamID64;
 	
 	@ManyToMany
@@ -33,11 +33,11 @@ public class WebUser {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getUserEmail() {
-		return userEmail;
+	public String getEmail() {
+		return email;
 	}
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
+	public void setEmail(String userEmail) {
+		this.email = userEmail;
 	}
 	public String getSteamID64() {
 		return steamID64;
@@ -65,7 +65,7 @@ public class WebUser {
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(userEmail);
+		return Objects.hash(email);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -74,7 +74,7 @@ public class WebUser {
 		if (!(obj instanceof WebUser))
 			return false;
 		WebUser other = (WebUser) obj;
-		return Objects.equals(userEmail, other.userEmail);
+		return Objects.equals(email, other.email);
 	}
 	
 }

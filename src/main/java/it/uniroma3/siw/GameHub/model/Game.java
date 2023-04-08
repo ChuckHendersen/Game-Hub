@@ -10,7 +10,7 @@ public class Game {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private Integer steamcode;
-	private String gamename;
+	private String name;
 	
 	public Long getId() {
 		return id;
@@ -28,12 +28,12 @@ public class Game {
 		this.steamcode = steamcode;
 	}
 	
-	public String getGamename() {
-		return gamename;
+	public String getName() {
+		return name;
 	}
 	
-	public void setGamename(String gamename) {
-		this.gamename = gamename;
+	public void setName(String gamename) {
+		this.name = gamename;
 	}
 	
 	@Override

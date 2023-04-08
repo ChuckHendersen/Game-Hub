@@ -23,10 +23,10 @@ import it.uniroma3.siw.GameHub.repository.WebUserRepository;
 
 @Controller
 public class WebUserController {
-	@Autowired
+	@Autowired 
 	WebUserRepository webUserRepository;
 	
-	@Autowired
+	@Autowired 
 	GameRepository gameRepository;
 	
 	@GetMapping("/webUsers")
@@ -41,14 +41,12 @@ public class WebUserController {
 	
 	@GetMapping("/webUser/{id}")
 	public String webUser(@PathVariable("id") Long id,Model model) {
-		WebUser wu=null;
-		try {
-			wu=webUserRepository.findById(id).get();
-			model.addAttribute("webUser", wu);
-		}catch(Exception e) {
-			e.printStackTrace(); // utente non trovato
+		WebUser wu=getWebUserById(id);
+		if(wu==null) {
 			model.addAttribute("messaggioErrore", "Utente non trovato");
+			return "webUser.html";
 		}
+		model.addAttribute("webUser", wu);
 		return "webUser.html";
 	}
 	
@@ -58,11 +56,9 @@ public class WebUserController {
 		return "formNewWebUser.html";
 	}
 	
-
-	
 	@PostMapping("/webUsers")
 	public String newWebUser(@ModelAttribute("webUser") WebUser wu, Model model){
-		if(!webUserRepository.existsByUserEmail(wu.getUserEmail())) {
+		if(!webUserRepository.existsByEmail(wu.getEmail())) {
 			model.addAttribute("webUser", wu);
 			webUserRepository.save(wu);
 			return "webUser.html"; 
@@ -88,7 +84,7 @@ public class WebUserController {
 //			System.out.println(apiGame.getName());
 //			System.out.println(apiGame.getAppid());
 			g.setSteamcode(apiGame.getAppid());
-			g.setGamename(apiGame.getName());
+			g.setName(apiGame.getName());
 			
 			if(!gameRepository.existsBySteamcode(g.getSteamcode())) {
 				gameRepository.save(g);
@@ -101,10 +97,11 @@ public class WebUserController {
 		return "webUser.html";
 	}
 	
-	public WebUser getWebUserById(Long id) {
+	private WebUser getWebUserById(Long id) {
 		try {
 			return webUserRepository.findById(id).get();
 		}catch (Exception e){
+			e.printStackTrace();
 			return null;
 		}
 	}
