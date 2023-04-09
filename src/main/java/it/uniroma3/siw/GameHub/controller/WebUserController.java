@@ -75,7 +75,7 @@ public class WebUserController {
 			model.addAttribute("messaggioErrore", "utente non trovato");
 			return "webUser.html";
 		}
-		GetOwnedGamesRequest request =  SteamWebApiRequestFactory.createGetOwnedGamesRequest(wu.getSteamID64());
+		GetOwnedGamesRequest request =  new GetOwnedGamesRequest.GetOwnedGamesRequestBuilder(wu.getSteamID64()).includeAppInfo(true).buildRequest();
 		GetOwnedGames gog = SteamAPI.client.<GetOwnedGames>processRequest(request);
 		System.out.println("Giochi posseduti: "+gog.getResponse().getGames().size());
 		Set<Game> insiemeGiochi = wu.getOwnedGames();
