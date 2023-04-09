@@ -10,7 +10,7 @@ public class SteamLoginController {
 
 //	static final private String steamEndpoint = "https://steamcommunity.com/openid/";
 //	static final private String steamApiKey = "056BDA5087E6B09FF4E875FD1ACAFD3F";
-	static final private String steamReturnUrl = "http://localhost:8080/login/steam/verify";
+//	static final private String steamReturnUrl = "http://localhost:8080/login/steam/verify";
 	
 	
 	@GetMapping("/login/steam")

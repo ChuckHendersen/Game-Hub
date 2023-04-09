@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.lukaspradel.steamapi.core.exception.SteamApiException;
-import com.lukaspradel.steamapi.data.json.appnews.GetNewsForApp;
 import com.lukaspradel.steamapi.data.json.ownedgames.GetOwnedGames;
-import com.lukaspradel.steamapi.webapi.request.GetNewsForAppRequest;
 import com.lukaspradel.steamapi.webapi.request.GetOwnedGamesRequest;
 import com.lukaspradel.steamapi.webapi.request.builders.SteamWebApiRequestFactory;
 
@@ -85,12 +83,11 @@ public class WebUserController {
 			if(!gameRepository.existsBySteamcode(apiGame.getAppid())) {
 				Game g = new Game();
 				g.setSteamcode(apiGame.getAppid());
-				g.setName(apiGame.getName());
+				g.setName(apiGame.getName());/**/
 				gameRepository.save(g);
 				insiemeGiochi.add(g);
 			}
 		}
-		System.out.println(insiemeGiochi);
 		webUserRepository.save(wu);
 		model.addAttribute("webUser", wu);
 		return "webUser.html";
