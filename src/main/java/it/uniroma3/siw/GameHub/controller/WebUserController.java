@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.lukaspradel.steamapi.core.exception.SteamApiException;
 import com.lukaspradel.steamapi.data.json.ownedgames.GetOwnedGames;
 import com.lukaspradel.steamapi.webapi.request.GetOwnedGamesRequest;
-import com.lukaspradel.steamapi.webapi.request.builders.SteamWebApiRequestFactory;
 
 import it.uniroma3.siw.GameHub.SteamAPI;
 import it.uniroma3.siw.GameHub.model.Game;
