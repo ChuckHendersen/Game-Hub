@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>Homepage - GameHub</title>
+		<link rel="stylesheet" href="/stylesheet.css?version=2"/>
 	</head>
 	<body>
 		<h1>Benvenuto su gamehub</h1>
@@ -15,11 +16,13 @@
 			<a href="/games">Visualizza giochi</a>
 		</div>
 		<div>
-			<a href="/login/steam">Sign in with Steam</a>
+			<a href="/login/steam"><img src="sits_01.png"/></a>
+		</div>
+		<div>
 			<span th:if="${loggato}" th:text="'Loggato! Id->'+${loggato}"></span>
 		</div>
 		<div>
-			<a href="/redirect"> test redirizionamento</a>
+			<a href="/redirect"> test redirizionamento verso google.com</a>
 		</div>
 	</body>	
 </html>

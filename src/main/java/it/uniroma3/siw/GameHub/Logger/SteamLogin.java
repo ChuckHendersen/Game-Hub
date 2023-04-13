@@ -11,7 +11,7 @@ import org.openid4java.message.*;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SteamLogin extends ExternalPlatformLogin {
+public class SteamLogin{
 	private static final String STEAM_OPENID = "http://steamcommunity.com/openid";
     private final ConsumerManager manager;
     private final Pattern STEAM_REGEX = Pattern.compile("(\\d+)");

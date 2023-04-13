@@ -9,7 +9,7 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 @Configuration
 public class RequestLoggingFilterConfig {
 
-    @Bean
+    @Bean //Cosa è un bean :3
     CommonsRequestLoggingFilter logFilter() {
         CommonsRequestLoggingFilter filter
                 = new CommonsRequestLoggingFilter();
