@@ -8,7 +8,9 @@ import org.openid4java.association.AssociationException;
 import org.openid4java.consumer.*;
 import org.openid4java.discovery.*;
 import org.openid4java.message.*;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SteamLogin extends ExternalPlatformLogin {
 	private static final String STEAM_OPENID = "http://steamcommunity.com/openid";
     private final ConsumerManager manager;
@@ -30,6 +32,7 @@ public class SteamLogin extends ExternalPlatformLogin {
     
     public String login(String callbackUrl) {
         if (this.discovered == null) {
+        	System.out.println("discovered is null");
             return null;
         }
         try {
@@ -43,9 +46,11 @@ public class SteamLogin extends ExternalPlatformLogin {
     
     public String verify(String receivingUrl, Map<?,?> responseMap) {
         if (this.discovered == null) {
+        	System.out.println("discovered is null");
             return null;
         }
         ParameterList responseList = new ParameterList(responseMap);
+        System.out.println(responseList);
         try {
             VerificationResult verification = manager.verify(receivingUrl, responseList, this.discovered);
             Identifier verifiedId = verification.getVerifiedId();
