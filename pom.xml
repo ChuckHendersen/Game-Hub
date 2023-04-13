@@ -22,7 +22,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -56,10 +55,16 @@
     		<artifactId>httpclient5</artifactId>
     		<version>5.2.1</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.openid4java/openid4java -->
 		<dependency>
-  			<groupId>org.pac4j</groupId>
-  			<artifactId>spring-webmvc-pac4j</artifactId>
-  			<version>8.0.0-RC5</version>
+    		<groupId>org.openid4java</groupId>
+   		 	<artifactId>openid4java</artifactId>
+    		<version>1.0.0</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.zalando</groupId>
+    		<artifactId>logbook-spring-boot-starter</artifactId>
+    		<version>1.5.0</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -70,6 +75,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-
 </project>
