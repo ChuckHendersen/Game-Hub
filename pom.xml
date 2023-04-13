@@ -59,7 +59,7 @@
 		<!-- https://mvnrepository.com/artifact/org.openid4java/openid4java -->
 		<dependency>
     		<groupId>org.openid4java</groupId>
-    		<artifactId>openid4java</artifactId>
+   		 	<artifactId>openid4java</artifactId>
     		<version>1.0.0</version>
 		</dependency>
 	</dependencies>
@@ -71,6 +71,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	
-
 </project>
