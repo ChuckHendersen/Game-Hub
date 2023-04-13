@@ -16,6 +16,9 @@
 		</div>
 		<div>
 			<a href="/login/steam">Sign in with Steam</a>
+			<span th:if="${loggato}" th:text="'Loggato! Id->'+${loggato}"></span>
+		</div>
+		<div>
 			<a href="/redirect"> test redirizionamento</a>
 		</div>
 	</body>	

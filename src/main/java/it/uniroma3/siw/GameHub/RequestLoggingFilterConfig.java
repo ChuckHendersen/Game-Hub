@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
+
+//Logger di richieste http (utile per capire cosa accade)
 @Configuration
 public class RequestLoggingFilterConfig {
 

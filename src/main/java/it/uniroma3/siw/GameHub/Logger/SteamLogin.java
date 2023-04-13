@@ -32,7 +32,7 @@ public class SteamLogin extends ExternalPlatformLogin {
     
     public String login(String callbackUrl) {
         if (this.discovered == null) {
-        	System.out.println("discovered is null");
+        	//System.out.println("discovered is null");
             return null;
         }
         try {
@@ -46,20 +46,17 @@ public class SteamLogin extends ExternalPlatformLogin {
     
     public String verify(String receivingUrl, Map<?,?> responseMap) {
         if (this.discovered == null) {
-        	System.out.println("discovered is null");
             return null;
         }
         ParameterList responseList = new ParameterList(responseMap);
-        System.out.println(responseList);
         try {
             VerificationResult verification = manager.verify(receivingUrl, responseList, this.discovered);
             Identifier verifiedId = verification.getVerifiedId();
             if (verifiedId != null) {
                 String id = verifiedId.getIdentifier();
-                System.out.println(id);
+                //System.out.println(id);
                 Matcher matcher = STEAM_REGEX.matcher(id);
                 if (matcher.find()) {
-                    System.out.println();
                     return matcher.group(1);
                 }
             }
