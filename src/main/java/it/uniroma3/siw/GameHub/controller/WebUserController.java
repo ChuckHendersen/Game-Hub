@@ -28,6 +28,9 @@ public class WebUserController {
 	@Autowired 
 	GameRepository gameRepository;
 	
+	@Autowired
+	SteamAPI steamApi;
+	
 	@GetMapping("/webUsers")
 	public String webUsers(Model model) {
 		List<WebUser> lista =(List<WebUser>) webUserRepository.findAll();
@@ -75,7 +78,7 @@ public class WebUserController {
 			return "webUser.html";
 		}
 		GetOwnedGamesRequest request =  new GetOwnedGamesRequest.GetOwnedGamesRequestBuilder(wu.getSteamID64()).includeAppInfo(true).buildRequest();
-		GetOwnedGames gog = SteamAPI.client.<GetOwnedGames>processRequest(request);
+		GetOwnedGames gog = steamApi.getClient().<GetOwnedGames>processRequest(request);
 		System.out.println("Giochi posseduti: "+gog.getResponse().getGames().size());
 		Set<Game> insiemeGiochi = wu.getOwnedGames();
 		for(com.lukaspradel.steamapi.data.json.ownedgames.Game apiGame : gog.getResponse().getGames() ) {
