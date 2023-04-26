@@ -9,4 +9,7 @@ public interface WebUserRepository extends CrudRepository<WebUser, Long> {
 	
 	public boolean existsByUsername(String username);
 	public boolean existsByEmail(String email);
+	public boolean existsBySteamId(String steamId);
+
+	public WebUser getBySteamId(String steamUserID);
 }

@@ -13,7 +13,7 @@ public class WebUser {
 	private Long id;
 	private String username;
 	private String email;
-	private String steamID64;
+	private String steamId;
 	
 	@ManyToMany
 	private Set<WebUser> friendList;
@@ -39,11 +39,11 @@ public class WebUser {
 	public void setEmail(String userEmail) {
 		this.email = userEmail;
 	}
-	public String getSteamID64() {
-		return steamID64;
+	public String getSteamId() {
+		return steamId;
 	}
-	public void setSteamID64(String steamID64) {
-		this.steamID64 = steamID64;
+	public void setSteamId(String steamID64) {
+		this.steamId = steamID64;
 	}
 	
 	public Set<WebUser> friendList(){
