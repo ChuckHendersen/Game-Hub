@@ -43,8 +43,7 @@ public class LoggingController {
 		String steamUserID = externalLogin.verify("http://localhost:8080/login/steam/auth", allParams);
 		if(WURepository.existsBySteamId(steamUserID)) {
 			current = WURepository.getBySteamId(steamUserID);
-		}
-		else {
+		} else {
 			current= new WebUser();
 			current.setSteamId(steamUserID);
 			GetPlayerSummariesRequest request= SteamWebApiRequestFactory.createGetPlayerSummariesRequest(Arrays.asList(steamUserID));

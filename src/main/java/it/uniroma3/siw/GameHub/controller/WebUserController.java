@@ -91,8 +91,7 @@ public class WebUserController {
 			}
 		}
 		webUserRepository.save(wu);
-		model.addAttribute("webUser", wu);
-		return "webUser.html";
+		return "redirect:/webUser/"+wu.getId().toString();
 	}
 	
 	private WebUser getWebUserById(Long id) {
