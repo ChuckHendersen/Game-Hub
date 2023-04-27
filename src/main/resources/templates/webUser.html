@@ -9,7 +9,7 @@
 			<span th:text="'Username: '+${webUser.username}"></span>
 		</div>
 		<div>
-			<span th:text="'email: '+${webUser.email}"></span>
+			<span th:text="'Email: '+${webUser.email}"></span>
 		</div>
 		<div>
 			<span th:text="'steamId: '+${webUser.steamId}"></span>
@@ -25,6 +25,9 @@
 	</div>
 		<div>
 			<a th:href="@{'/updateOwnedGames/'+${webUser.id}}">aggiorna giochi posseduti</a>
+		</div>
+		<div>
+			<span th:text="'Utenti seguiti: '+${webUser.friendList.size}"></span>
 		</div>
 	</body>
 </html>
