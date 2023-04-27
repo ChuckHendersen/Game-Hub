@@ -14,6 +14,15 @@
 		<div>
 			<span th:text="'steamId: '+${webUser.steamId}"></span>
 		</div>
+		
+	<div th:if="${top5Played.isEmpty()}">non hai giocato a nessun gioco nelle ultime 2 settimane, o il tuo profilo è privato</div>
+	<ul>
+		<li th:each="game : ${top5Played}">
+			<a href="game.html" th:href="@{'/game' + '/' + ${game.id}}"
+				th:text="${game.name}">Up! (2000)</a>
+		</li>
+	</ul>
+	</div>
 		<div>
 			<a th:href="@{'/updateOwnedGames/'+${webUser.id}}">aggiorna giochi posseduti</a>
 		</div>
