@@ -26,6 +26,7 @@ import it.uniroma3.siw.GameHub.repository.WebUserRepository;
 
 @Controller
 public class WebUserController {
+	
 	@Autowired 
 	WebUserRepository webUserRepository;
 
