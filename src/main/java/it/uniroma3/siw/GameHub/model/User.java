@@ -6,7 +6,8 @@ import java.util.Set;
 import jakarta.persistence.*;
 
 @Entity
-public class WebUser {
+@Table(name = "users")
+public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,7 +17,7 @@ public class WebUser {
 	private String steamId;
 	
 	@ManyToMany
-	private Set<WebUser> friendList;
+	private Set<User> friendList;
 	
 	@ManyToMany
 	private Set<Game> ownedGames;
@@ -46,11 +47,11 @@ public class WebUser {
 		this.steamId = steamID64;
 	}
 	
-	public Set<WebUser> friendList(){
+	public Set<User> friendList(){
 		return friendList;
 	}
 	
-	public void setFriendList(Set<WebUser>friendList) {
+	public void setFriendList(Set<User>friendList) {
 		this.friendList = friendList;
 	}
 	
@@ -60,7 +61,7 @@ public class WebUser {
 	public void setOwnedGames(Set<Game> ownedGames) {
 		this.ownedGames = ownedGames;
 	}
-	public Set<WebUser> getFriendList() {
+	public Set<User> getFriendList() {
 		return friendList;
 	}
 	@Override
@@ -71,9 +72,9 @@ public class WebUser {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!(obj instanceof WebUser))
+		if (!(obj instanceof User))
 			return false;
-		WebUser other = (WebUser) obj;
+		User other = (User) obj;
 		return Objects.equals(email, other.email);
 	}
 	

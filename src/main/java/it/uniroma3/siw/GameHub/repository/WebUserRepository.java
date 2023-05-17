@@ -2,13 +2,13 @@ package it.uniroma3.siw.GameHub.repository;
 import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
-import it.uniroma3.siw.GameHub.model.WebUser;
+import it.uniroma3.siw.GameHub.model.User;
 
-public interface WebUserRepository extends CrudRepository<WebUser, Long> {
-	public Set<WebUser> findByUsername(String username);
+public interface WebUserRepository extends CrudRepository<User, Long> {
+	public Set<User> findByUsername(String username);
 	
 	public boolean existsByUsername(String username);
 	public boolean existsByEmail(String email);
 	public boolean existsBySteamId(String steamId);
-	public WebUser getBySteamId(String steamUserID);
+	public User getBySteamId(String steamUserID);
 }

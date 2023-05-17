@@ -20,7 +20,7 @@ import com.lukaspradel.steamapi.webapi.request.builders.SteamWebApiRequestFactor
 
 import it.uniroma3.siw.GameHub.SteamAPI;
 import it.uniroma3.siw.GameHub.model.Game;
-import it.uniroma3.siw.GameHub.model.WebUser;
+import it.uniroma3.siw.GameHub.model.User;
 import it.uniroma3.siw.GameHub.repository.GameRepository;
 import it.uniroma3.siw.GameHub.repository.WebUserRepository;
 
@@ -38,7 +38,7 @@ public class WebUserController {
 
 	@GetMapping("/webUsers")
 	public String webUsers(Model model) {
-		List<WebUser> lista =(List<WebUser>) webUserRepository.findAll();
+		List<User> lista =(List<User>) webUserRepository.findAll();
 		model.addAttribute("webUsers", lista);
 		if(lista.size()==0) {
 			model.addAttribute("messaggioErrore", "nessun utente registrato esistente");
@@ -48,7 +48,7 @@ public class WebUserController {
 
 	@GetMapping("/webUser/{id}")
 	public String webUser(@PathVariable("id") Long id,Model model) throws SteamApiException {
-		WebUser wu=getWebUserById(id);
+		User wu=getWebUserById(id);
 		if(wu==null) {
 			model.addAttribute("messaggioErrore", "Utente non trovato");
 			return "webUser.html"; 
@@ -66,12 +66,12 @@ public class WebUserController {
 
 	@GetMapping("/formNewWebUser")
 	public String formNewWebUser(Model model) {
-		model.addAttribute("webUser", new WebUser());
+		model.addAttribute("webUser", new User());
 		return "formNewWebUser.html";
 	}
 
 	@PostMapping("/webUsers")
-	public String newWebUser(@ModelAttribute("webUser") WebUser wu, Model model) throws SteamApiException{
+	public String newWebUser(@ModelAttribute("webUser") User wu, Model model) throws SteamApiException{
 		if(!webUserRepository.existsByEmail(wu.getEmail())) {
 			model.addAttribute("webUser", wu);
 			webUserRepository.save(wu);
@@ -84,7 +84,7 @@ public class WebUserController {
 
 	@GetMapping("/updateOwnedGames/{id}")
 	public String RefreshGames(Model model, @PathVariable("id") Long id) throws SteamApiException {
-		WebUser wu = this.getWebUserById(id);
+		User wu = this.getWebUserById(id);
 		if(wu==null) {
 			model.addAttribute("messaggioErrore", "utente non trovato");
 			return "webUser.html";
@@ -106,7 +106,7 @@ public class WebUserController {
 		return "redirect:/webUser/"+wu.getId().toString();
 	}
 
-	private WebUser getWebUserById(Long id) {
+	private User getWebUserById(Long id) {
 		try {
 			return webUserRepository.findById(id).get();
 		}catch (Exception e){
@@ -115,7 +115,7 @@ public class WebUserController {
 		}
 	}
 
-	private List<Game> top5Games(WebUser user) throws SteamApiException{
+	private List<Game> top5Games(User user) throws SteamApiException{
 		List<Game> topList= new ArrayList<Game>();
 		GetRecentlyPlayedGamesRequest request= SteamWebApiRequestFactory.createGetRecentlyPlayedGamesRequest(user.getSteamId(), 5);
 		GetRecentlyPlayedGames answer= steamApi.getClient().<GetRecentlyPlayedGames>processRequest(request);

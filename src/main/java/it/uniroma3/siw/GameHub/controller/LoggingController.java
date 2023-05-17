@@ -15,7 +15,7 @@ import com.lukaspradel.steamapi.webapi.request.builders.SteamWebApiRequestFactor
 
 import it.uniroma3.siw.GameHub.SteamAPI;
 import it.uniroma3.siw.GameHub.Logger.SteamLogin;
-import it.uniroma3.siw.GameHub.model.WebUser;
+import it.uniroma3.siw.GameHub.model.User;
 import it.uniroma3.siw.GameHub.repository.WebUserRepository;
 
 @Controller
@@ -39,12 +39,12 @@ public class LoggingController {
 
 	@GetMapping("/login/steam/auth") // da steam, dopo aver premuto il bottone di login, si ritorna sul nostro sito
 	public String steamLoginAuth(Model model, @RequestParam Map<String,String> allParams) throws SteamApiException { 
-		WebUser current;
+		User current;
 		String steamUserID = externalLogin.verify("http://localhost:8080/login/steam/auth", allParams);
 		if(WURepository.existsBySteamId(steamUserID)) {
 			current = WURepository.getBySteamId(steamUserID);
 		} else {
-			current= new WebUser();
+			current= new User();
 			current.setSteamId(steamUserID);
 			GetPlayerSummariesRequest request= SteamWebApiRequestFactory.createGetPlayerSummariesRequest(Arrays.asList(steamUserID));
 			GetPlayerSummaries answer = steamApi.getClient().<GetPlayerSummaries>processRequest(request);
