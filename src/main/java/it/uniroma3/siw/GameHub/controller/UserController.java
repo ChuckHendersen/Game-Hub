@@ -22,13 +22,13 @@ import it.uniroma3.siw.GameHub.SteamAPI;
 import it.uniroma3.siw.GameHub.model.Game;
 import it.uniroma3.siw.GameHub.model.User;
 import it.uniroma3.siw.GameHub.repository.GameRepository;
-import it.uniroma3.siw.GameHub.repository.WebUserRepository;
+import it.uniroma3.siw.GameHub.repository.UserRepository;
 
 @Controller
-public class WebUserController {
+public class UserController {
 	
 	@Autowired 
-	WebUserRepository webUserRepository;
+	UserRepository userRepository;
 
 	@Autowired 
 	GameRepository gameRepository;
@@ -38,7 +38,7 @@ public class WebUserController {
 
 	@GetMapping("/webUsers")
 	public String webUsers(Model model) {
-		List<User> lista =(List<User>) webUserRepository.findAll();
+		List<User> lista =(List<User>) userRepository.findAll();
 		model.addAttribute("webUsers", lista);
 		if(lista.size()==0) {
 			model.addAttribute("messaggioErrore", "nessun utente registrato esistente");
@@ -72,9 +72,9 @@ public class WebUserController {
 
 	@PostMapping("/webUsers")
 	public String newWebUser(@ModelAttribute("webUser") User wu, Model model) throws SteamApiException{
-		if(!webUserRepository.existsByEmail(wu.getEmail())) {
+		if(!userRepository.existsByEmail(wu.getEmail())) {
 			model.addAttribute("webUser", wu);
-			webUserRepository.save(wu);
+			userRepository.save(wu);
 			return "webUser.html";
 		}else {
 			model.addAttribute("messaggioErrore", "Utente già esistente");
@@ -102,13 +102,13 @@ public class WebUserController {
 				insiemeGiochi.add(g);
 			}
 		}
-		webUserRepository.save(wu);
+		userRepository.save(wu);
 		return "redirect:/webUser/"+wu.getId().toString();
 	}
 
 	private User getWebUserById(Long id) {
 		try {
-			return webUserRepository.findById(id).get();
+			return userRepository.findById(id).get();
 		}catch (Exception e){
 			e.printStackTrace();
 			return null;
