@@ -14,7 +14,7 @@ import com.lukaspradel.steamapi.webapi.request.GetPlayerSummariesRequest;
 import com.lukaspradel.steamapi.webapi.request.builders.SteamWebApiRequestFactory;
 
 import it.uniroma3.siw.GameHub.SteamAPI;
-import it.uniroma3.siw.GameHub.Logger.SteamLogin;
+import it.uniroma3.siw.GameHub.authentication.SteamLogin;
 import it.uniroma3.siw.GameHub.model.User;
 import it.uniroma3.siw.GameHub.repository.UserRepository;
 

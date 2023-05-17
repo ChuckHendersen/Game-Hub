@@ -16,6 +16,9 @@ public class User {
 	private String email;
 	private String steamId;
 	
+	@OneToOne(mappedBy = "user")
+	private Credentials credentials;
+	
 	@ManyToMany
 	private Set<User> friendList;
 	

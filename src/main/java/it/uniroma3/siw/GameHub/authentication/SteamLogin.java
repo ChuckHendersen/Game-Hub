@@ -1,4 +1,4 @@
-package it.uniroma3.siw.GameHub.Logger;
+package it.uniroma3.siw.GameHub.authentication;
 
 import java.util.Map;
 import java.util.regex.Matcher;
