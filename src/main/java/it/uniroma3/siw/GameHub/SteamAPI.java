@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.lukaspradel.steamapi.webapi.client.SteamWebApiClient;
 
-// Esiste solo un'istanza di SteamWebApiClient
+// Possono esistere più istanze di SteamAPI
 
 @Component
 public class SteamAPI {

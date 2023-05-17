@@ -6,7 +6,6 @@ import it.uniroma3.siw.GameHub.model.User;
 
 public interface WebUserRepository extends CrudRepository<User, Long> {
 	public Set<User> findByUsername(String username);
-	
 	public boolean existsByUsername(String username);
 	public boolean existsByEmail(String email);
 	public boolean existsBySteamId(String steamId);
