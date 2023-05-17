@@ -5,6 +5,15 @@
 		<link rel="stylesheet" href="/stylesheet.css?version=2"/>
 	</head>
 	<body>
+		<header>
+		<div th:if="${userDetails}">
+			<span th:text="${userDetails.username}"></span>
+			<a href="/logout">Logout</a>
+		</div>
+		<div th:unless="${user}">
+			<a href="/login">Login</a>
+		</div>
+	</header>
 		<h1>Benvenuto su gamehub</h1>
 		<div>
 			<a href="/formNewWebUser">Registrati</a>

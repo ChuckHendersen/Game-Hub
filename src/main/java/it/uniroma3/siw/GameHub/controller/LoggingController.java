@@ -30,6 +30,13 @@ public class LoggingController {
 	@Autowired
 	UserRepository userRepository;
 
+	@GetMapping("/login")
+	public String login(Model model) {
+		
+		
+		return "formLogin.html";
+	}
+	
 	@GetMapping("/login/steam")
 	public String steamLogin(Model model) {
 		String steamLogginPageURL; // ridireziona al sito di steam per effettuare il login
