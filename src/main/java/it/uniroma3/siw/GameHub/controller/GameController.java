@@ -1,13 +1,11 @@
 package it.uniroma3.siw.GameHub.controller;
 
 import java.util.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import it.uniroma3.siw.GameHub.model.Game;
 import it.uniroma3.siw.GameHub.repository.GameRepository;
 

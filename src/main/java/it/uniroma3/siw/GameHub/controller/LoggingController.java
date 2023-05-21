@@ -14,9 +14,9 @@ import com.lukaspradel.steamapi.webapi.request.GetPlayerSummariesRequest;
 import com.lukaspradel.steamapi.webapi.request.builders.SteamWebApiRequestFactory;
 
 import it.uniroma3.siw.GameHub.SteamAPI;
-import it.uniroma3.siw.GameHub.Logger.SteamLogin;
-import it.uniroma3.siw.GameHub.model.WebUser;
-import it.uniroma3.siw.GameHub.repository.WebUserRepository;
+import it.uniroma3.siw.GameHub.authentication.SteamLogin;
+import it.uniroma3.siw.GameHub.model.User;
+import it.uniroma3.siw.GameHub.repository.UserRepository;
 
 @Controller
 public class LoggingController {
@@ -28,8 +28,15 @@ public class LoggingController {
 	SteamAPI steamApi;
 
 	@Autowired
-	WebUserRepository WURepository;
+	UserRepository userRepository;
 
+	@GetMapping("/login")
+	public String login(Model model) {
+		
+		
+		return "formLogin.html";
+	}
+	
 	@GetMapping("/login/steam")
 	public String steamLogin(Model model) {
 		String steamLogginPageURL; // ridireziona al sito di steam per effettuare il login
@@ -39,17 +46,17 @@ public class LoggingController {
 
 	@GetMapping("/login/steam/auth") // da steam, dopo aver premuto il bottone di login, si ritorna sul nostro sito
 	public String steamLoginAuth(Model model, @RequestParam Map<String,String> allParams) throws SteamApiException { 
-		WebUser current;
+		User current;
 		String steamUserID = externalLogin.verify("http://localhost:8080/login/steam/auth", allParams);
-		if(WURepository.existsBySteamId(steamUserID)) {
-			current = WURepository.getBySteamId(steamUserID);
+		if(userRepository.existsBySteamId(steamUserID)) {
+			current = userRepository.getBySteamId(steamUserID);
 		} else {
-			current= new WebUser();
+			current= new User();
 			current.setSteamId(steamUserID);
 			GetPlayerSummariesRequest request= SteamWebApiRequestFactory.createGetPlayerSummariesRequest(Arrays.asList(steamUserID));
 			GetPlayerSummaries answer = steamApi.getClient().<GetPlayerSummaries>processRequest(request);
 			current.setUsername(answer.getResponse().getPlayers().get(0).getPersonaname());
-			WURepository.save(current);
+			userRepository.save(current);
 			
 		}
 		//model.addAttribute("webUser", current);
