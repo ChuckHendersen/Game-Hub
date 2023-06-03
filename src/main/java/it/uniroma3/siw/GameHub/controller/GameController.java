@@ -8,16 +8,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import it.uniroma3.siw.GameHub.model.Game;
 import it.uniroma3.siw.GameHub.repository.GameRepository;
+import it.uniroma3.siw.GameHub.service.GameService;
 
 @Controller
 public class GameController {
 	
+		
 	@Autowired
-	public GameRepository gameRepository;
+	private GameService gameService;
 	
 	@GetMapping("/games")
 	public String games(Model model) {
-		List<Game> insiemeGiochi = getGames();
+		Iterable<Game> insiemeGiochi = getGames();
 		if(insiemeGiochi==null) {
 			model.addAttribute("messaggioErrore", "nessun gioco esiste nel database");
 		}else {
@@ -37,9 +39,9 @@ public class GameController {
 		return "game.html";
 	}
 	
-	private List<Game> getGames(){
+	private Iterable<Game> getGames(){
 		try {
-			return (List<Game>) gameRepository.findAll();
+			return gameService.findAll();
 		}catch(Exception e) {
 			e.printStackTrace();
 			return null;
@@ -48,7 +50,7 @@ public class GameController {
 	
 	private Game getGame(Long id) {
 		try {
-			return gameRepository.findById(id).get();
+			return gameService.findById(id);
 		}catch(Exception e) {
 			e.printStackTrace();
 			return null;
