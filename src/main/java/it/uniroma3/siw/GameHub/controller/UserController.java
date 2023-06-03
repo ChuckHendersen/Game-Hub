@@ -28,13 +28,13 @@ import it.uniroma3.siw.GameHub.repository.UserRepository;
 public class UserController {
 	
 	@Autowired 
-	UserRepository userRepository;
+	private UserRepository userRepository;
 
 	@Autowired 
-	GameRepository gameRepository;
+	private GameRepository gameRepository;
 
 	@Autowired
-	SteamAPI steamApi;
+	private SteamAPI steamApi;
 
 	@GetMapping("/webUsers")
 	public String webUsers(Model model) {

@@ -22,13 +22,13 @@ import it.uniroma3.siw.GameHub.repository.UserRepository;
 public class LoggingController {
 
 	@Autowired
-	SteamLogin externalLogin;
+	private SteamLogin externalLogin;
 
 	@Autowired
-	SteamAPI steamApi;
+	private SteamAPI steamApi;
 
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 
 	@GetMapping("/login")
 	public String login(Model model) {
