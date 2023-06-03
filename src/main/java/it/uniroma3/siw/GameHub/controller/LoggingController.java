@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -85,31 +86,37 @@ public class LoggingController {
         return "redirect:/";
     }
 	
-	@GetMapping("/login/steam")
-	public String steamLogin(Model model) {
+	@GetMapping("/login/{user_id}/steam")
+	public String steamLogin(@PathVariable("user_id") Long userId,Model model) {
 		String steamLogginPageURL; // ridireziona al sito di steam per effettuare il login
-		steamLogginPageURL = "redirect:"+externalLogin.login("http://localhost:8080/login/steam/auth");
+		steamLogginPageURL = "redirect:"+externalLogin.login("http://localhost:8080/login/"+userId+"/steam/auth");
 		return steamLogginPageURL;
 	}
 
-	@GetMapping("/login/steam/auth") // da steam, dopo aver premuto il bottone di login, si ritorna sul nostro sito
-	public String steamLoginAuth(Model model, @RequestParam Map<String,String> allParams) throws SteamApiException { 
-		User current;
-		String steamUserID = externalLogin.verify("http://localhost:8080/login/steam/auth", allParams);
-		if(userRepository.existsBySteamId(steamUserID)) {
-			current = userRepository.getBySteamId(steamUserID);
-		} else {
-			current= new User();
-			current.setSteamId(steamUserID);
-			GetPlayerSummariesRequest request= SteamWebApiRequestFactory.createGetPlayerSummariesRequest(Arrays.asList(steamUserID));
-			GetPlayerSummaries answer = steamApi.getClient().<GetPlayerSummaries>processRequest(request);
-			current.setUsername(answer.getResponse().getPlayers().get(0).getPersonaname());
-			userRepository.save(current);
-
-		}
-		//model.addAttribute("webUser", current);
-		return "redirect:"+"/updateOwnedGames/"+current.getId().toString();
-
+//	@GetMapping("/login/{user_id}/steam/auth") // da steam, dopo aver premuto il bottone di login, si ritorna sul nostro sito
+//	public String steamLoginAuth(@PathVariable("user_id") Long userId, Model model, @RequestParam Map<String,String> allParams) throws SteamApiException { 
+//		User current= this.userService.getWebUserById(userId);
+//		String steamUserID = externalLogin.verify("http://localhost:8080/login/steam/auth", allParams);
+//		if(userRepository.existsBySteamId(steamUserID)) {
+//			current = userRepository.getBySteamId(steamUserID);
+//		} else {
+//			current= new User();
+//			current.setSteamId(steamUserID);
+//			GetPlayerSummariesRequest request= SteamWebApiRequestFactory.createGetPlayerSummariesRequest(Arrays.asList(steamUserID));
+//			GetPlayerSummaries answer = steamApi.getClient().<GetPlayerSummaries>processRequest(request);
+//			current.setUsername(answer.getResponse().getPlayers().get(0).getPersonaname());
+//			userRepository.save(current);
+//
+//		}
+//		//model.addAttribute("webUser", current);
+//		return "redirect:"+"/updateOwnedGames/"+current.getId().toString();
+//
+//	}
+	@GetMapping("/login/{user_id}/steam/auth") // da steam, dopo aver premuto il bottone di login, si ritorna sul nostro sito
+	public String steamLoginAuth(@PathVariable("user_id") Long userId, Model model, @RequestParam Map<String,String> allParams) throws SteamApiException { 
+		String steamUserID = externalLogin.verify("http://localhost:8080/login/"+userId+"/steam/auth", allParams);
+		this.userService.updateUserSteamId(userId, steamUserID);
+		return "redirect:/webUser/"+userId;
 	}
 
 

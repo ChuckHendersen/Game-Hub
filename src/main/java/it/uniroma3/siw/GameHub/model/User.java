@@ -30,6 +30,7 @@ public class User {
 	@ManyToMany
 	private Set<Game> ownedGames;
 	
+	
 	public Long getId() {
 		return id;
 	}
@@ -45,20 +46,14 @@ public class User {
 	public String getEmail() {
 		return email;
 	}
-	public void setEmail(String userEmail) {
-		this.email = userEmail;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getSteamId() {
 		return steamId;
 	}
-	public void setSteamId(String steamID64) {
-		this.steamId = steamID64;
-	}
-	public Set<Game> getOwnedGames() {
-		return ownedGames;
-	}
-	public void setOwnedGames(Set<Game> ownedGames) {
-		this.ownedGames = ownedGames;
+	public void setSteamId(String steamId) {
+		this.steamId = steamId;
 	}
 	public Credentials getCredentials() {
 		return credentials;
@@ -77,6 +72,12 @@ public class User {
 	}
 	public void setFollowers(Set<User> followers) {
 		this.followers = followers;
+	}
+	public Set<Game> getOwnedGames() {
+		return ownedGames;
+	}
+	public void setOwnedGames(Set<Game> ownedGames) {
+		this.ownedGames = ownedGames;
 	}
 	@Override
 	public int hashCode() {

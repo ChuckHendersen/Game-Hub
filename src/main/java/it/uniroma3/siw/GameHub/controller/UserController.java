@@ -34,11 +34,8 @@ public class UserController {
 		User wu=userService.getWebUserById(id);
 		if(wu==null) {
 			model.addAttribute("messaggioErrore", "Utente non trovato");
-			return "webUser.html"; 
 		}
 		model.addAttribute("webUser", wu);
-		List <Game> lista = userService.top5Games(wu);
-		model.addAttribute("top5Played", lista);
 		return "webUser.html";
 	}
 

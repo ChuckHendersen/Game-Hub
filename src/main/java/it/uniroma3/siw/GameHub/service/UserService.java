@@ -38,6 +38,7 @@ public class UserService {
 	public Iterable<User> findAll(){
 		return this.userRepository.findAll();
 	}
+	
 	@Transactional
 	public User getWebUserById(Long id) {
 		return userRepository.findById(id).orElse(null);
@@ -116,5 +117,13 @@ public class UserService {
 	@Transactional
 	public User saveUser(User user) {
 		return this.userRepository.save(user);
+	}
+
+	public void updateUserSteamId(Long userId, String steamUserID) {
+		User user = this.getWebUserById(userId);
+		if(user!=null) {
+			user.setSteamId(steamUserID);
+			this.userRepository.save(user);
+		}
 	}
 }
