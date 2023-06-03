@@ -38,7 +38,7 @@ public class UserService {
 	public Iterable<User> findAll(){
 		return this.userRepository.findAll();
 	}
-	
+
 	@Transactional
 	public User getWebUserById(Long id) {
 		return userRepository.findById(id).orElse(null);
@@ -46,16 +46,19 @@ public class UserService {
 	}
 
 	@Transactional
-	public List<Game> top5Games(User user) throws SteamApiException{
+	public List<Game> top5Games(Long id) throws SteamApiException{
+		User wu = this.getWebUserById(id);
 		List<Game> topList= new ArrayList<Game>();
-		GetRecentlyPlayedGamesRequest request= SteamWebApiRequestFactory.createGetRecentlyPlayedGamesRequest(user.getSteamId(), 5);
-		GetRecentlyPlayedGames answer= steamApi.getClient().<GetRecentlyPlayedGames>processRequest(request);
-		for(com.lukaspradel.steamapi.data.json.recentlyplayedgames.Game apiGame : answer.getResponse().getGames() ) {
-			Game g = new Game();
-			g.setSteamcode(apiGame.getAppid());
-			g.setName(apiGame.getName());/**/
-			gameRepository.save(g);
-			topList.add(g);
+		if(wu.getSteamId() != null && !wu.getSteamId().equals("")) {
+			GetRecentlyPlayedGamesRequest request= SteamWebApiRequestFactory.createGetRecentlyPlayedGamesRequest(wu.getSteamId(), 5);
+			GetRecentlyPlayedGames answer= steamApi.getClient().<GetRecentlyPlayedGames>processRequest(request);
+			for(com.lukaspradel.steamapi.data.json.recentlyplayedgames.Game apiGame : answer.getResponse().getGames() ) {
+				Game g = new Game();
+				g.setSteamcode(apiGame.getAppid());
+				g.setName(apiGame.getName());/**/
+				gameRepository.save(g);
+				topList.add(g);
+			}
 		}
 		return topList;
 	}
@@ -89,7 +92,7 @@ public class UserService {
 		}
 		return wu;
 	}
-	
+
 	/**
 	 * Metodo che consente allo user A di seguire user B
 	 * @param aId Id dello user che vuole seguire B
@@ -109,7 +112,7 @@ public class UserService {
 			return null;
 		}
 	}
-	
+
 	public User createUser() {
 		// TODO Auto-generated method stub
 		return new User();

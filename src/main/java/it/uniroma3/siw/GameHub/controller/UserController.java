@@ -18,7 +18,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@GetMapping("/webUsers")
 	public String webUsers(Model model) {
 		List<User> lista = (List<User>) userService.findAll();
@@ -34,8 +34,11 @@ public class UserController {
 		User wu=userService.getWebUserById(id);
 		if(wu==null) {
 			model.addAttribute("messaggioErrore", "Utente non trovato");
+		}else {
+			model.addAttribute("webUser", wu);
+			Iterable<Game> top5PlayedGames = this.userService.top5Games(id);
+			model.addAttribute("top5Played", top5PlayedGames);
 		}
-		model.addAttribute("webUser", wu);
 		return "webUser.html";
 	}
 
