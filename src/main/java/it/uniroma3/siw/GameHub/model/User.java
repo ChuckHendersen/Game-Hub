@@ -95,4 +95,12 @@ public class User {
 		return Objects.equals(email, other.email);
 	}
 	
+	public void addFollowed(User b) {
+		this.followed.add(b);
+	}
+	
+	public void addFollower(User a) {
+		this.followers.add(a);
+	}
+	
 }

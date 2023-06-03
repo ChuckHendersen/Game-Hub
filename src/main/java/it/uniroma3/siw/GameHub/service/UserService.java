@@ -87,4 +87,24 @@ public class UserService {
 		}
 		return wu;
 	}
+	
+	/**
+	 * Metodo che consente allo user A di seguire user B
+	 * @param aId Id dello user che vuole seguire B
+	 * @param bId Id dello user che viene seguito da A
+	 * @return user A se l'operazione ha successo, null altrimenti
+	 */
+	@Transactional
+	public User aFollowsB(Long aId, Long bId) {
+		User a = this.getWebUserById(aId);
+		User b = this.getWebUserById(bId);
+		if(a!= null && b!= null) {
+			b.addFollower(a);
+			a.addFollowed(b);
+			this.userRepository.save(b);
+			return this.userRepository.save(a);
+		}else {
+			return null;
+		}
+	}
 }

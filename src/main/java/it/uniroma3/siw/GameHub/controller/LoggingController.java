@@ -32,11 +32,9 @@ public class LoggingController {
 
 	@GetMapping("/login")
 	public String login(Model model) {
-		
-		
 		return "formLogin.html";
 	}
-	
+
 	@GetMapping("/login/steam")
 	public String steamLogin(Model model) {
 		String steamLogginPageURL; // ridireziona al sito di steam per effettuare il login
@@ -57,7 +55,7 @@ public class LoggingController {
 			GetPlayerSummaries answer = steamApi.getClient().<GetPlayerSummaries>processRequest(request);
 			current.setUsername(answer.getResponse().getPlayers().get(0).getPersonaname());
 			userRepository.save(current);
-			
+
 		}
 		//model.addAttribute("webUser", current);
 		return "redirect:"+"/updateOwnedGames/"+current.getId().toString();
