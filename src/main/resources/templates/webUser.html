@@ -27,10 +27,10 @@
 				th:href="@{'/game' + '/' + ${game.id}}" th:text="${game.name}">Up!
 					(2000)</a></li>
 		</ul>
-	</div>
-	<div>
+		<div>
 		<a th:href="@{'/updateOwnedGames/'+${webUser.id}}">aggiorna giochi
 			posseduti</a>
+	</div>
 	</div>
 </body>
 </html>
