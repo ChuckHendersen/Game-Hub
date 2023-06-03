@@ -1,0 +1,65 @@
+{
+	"folders": {},
+	"connections": {
+		"postgres-jdbc-1882e28ad0e-437b1e8f01c2bed0": {
+			"provider": "postgresql",
+			"driver": "postgres-jdbc",
+			"name": "GameHub",
+			"save-password": true,
+			"configuration": {
+				"host": "localhost",
+				"port": "5432",
+				"database": "GameHub",
+				"url": "jdbc:postgresql://localhost:5432/GameHub",
+				"configurationType": "MANUAL",
+				"home": "postgresql-x64-15",
+				"type": "dev",
+				"properties": {
+					"connectTimeout": "20",
+					"loginTimeout": "20",
+					"escapeSyntaxCallMode": "callIfNoReturn"
+				},
+				"provider-properties": {
+					"@dbeaver-show-non-default-db@": "false",
+					"@dbeaver-show-template-db@": "false",
+					"@dbeaver-show-unavailable-db@": "false",
+					"show-database-statistics": "false",
+					"@dbeaver-read-all-data-types-db@": "false",
+					"read-keys-with-columns": "false",
+					"@dbeaver-use-prepared-statements-db@": "false",
+					"postgresql.dd.plain.string": "false",
+					"postgresql.dd.tag.string": "false"
+				},
+				"auth-model": "native"
+			}
+		},
+		"postgres-jdbc-1882ee2c5b3-411737242de9d9f6": {
+			"provider": "postgresql",
+			"driver": "postgres-jdbc",
+			"name": "siwmovie1",
+			"save-password": true,
+			"configuration": {
+				"host": "localhost",
+				"port": "5432",
+				"database": "siwmovie1",
+				"url": "jdbc:postgresql://localhost:5432/siwmovie1",
+				"configurationType": "MANUAL",
+				"home": "postgresql-x64-15",
+				"type": "dev",
+				"provider-properties": {},
+				"auth-model": "native"
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"auto-close-transactions": false
+		}
+	}
+}
