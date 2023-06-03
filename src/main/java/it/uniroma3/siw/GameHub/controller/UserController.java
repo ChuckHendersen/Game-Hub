@@ -1,7 +1,5 @@
 package it.uniroma3.siw.GameHub.controller;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,34 +10,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.lukaspradel.steamapi.core.exception.SteamApiException;
-import com.lukaspradel.steamapi.data.json.ownedgames.GetOwnedGames;
-import com.lukaspradel.steamapi.data.json.recentlyplayedgames.GetRecentlyPlayedGames;
-import com.lukaspradel.steamapi.webapi.request.GetOwnedGamesRequest;
-import com.lukaspradel.steamapi.webapi.request.GetRecentlyPlayedGamesRequest;
-import com.lukaspradel.steamapi.webapi.request.builders.SteamWebApiRequestFactory;
-
-import it.uniroma3.siw.GameHub.SteamAPI;
 import it.uniroma3.siw.GameHub.model.Game;
 import it.uniroma3.siw.GameHub.model.User;
-import it.uniroma3.siw.GameHub.repository.GameRepository;
-import it.uniroma3.siw.GameHub.repository.UserRepository;
 import it.uniroma3.siw.GameHub.service.UserService;
 
 @Controller
 public class UserController {
-	
-	@Autowired 
-	private UserRepository userRepository;
-
-	@Autowired 
-	private GameRepository gameRepository;
 
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private SteamAPI steamApi;
-
 	@GetMapping("/webUsers")
 	public String webUsers(Model model) {
 		List<User> lista = (List<User>) userService.findAll();
@@ -80,33 +60,20 @@ public class UserController {
 			model.addAttribute("webUser", wu);
 			return "webUser.html";
 		}
-		
+
 	}
 
 	@GetMapping("/updateOwnedGames/{id}")
 	public String RefreshGames(Model model, @PathVariable("id") Long id) throws SteamApiException {
-		User wu = this.userService.getWebUserById(id);
+		User wu = this.userService.refreshGames(id);
 		if(wu==null) {
 			model.addAttribute("messaggioErrore", "utente non trovato");
 			return "webUser.html";
 		}
-		GetOwnedGamesRequest request =  new GetOwnedGamesRequest.GetOwnedGamesRequestBuilder(wu.getSteamId()).includeAppInfo(true).buildRequest();
-		GetOwnedGames gog = steamApi.getClient().<GetOwnedGames>processRequest(request);
-		System.out.println("Giochi posseduti: "+gog.getResponse().getGames().size());
-		Set<Game> insiemeGiochi = wu.getOwnedGames();
-		for(com.lukaspradel.steamapi.data.json.ownedgames.Game apiGame : gog.getResponse().getGames() ) {
-			if(!gameRepository.existsBySteamcode(apiGame.getAppid())) {
-				Game g = new Game();
-				g.setSteamcode(apiGame.getAppid());
-				g.setName(apiGame.getName());/**/
-				gameRepository.save(g);
-				insiemeGiochi.add(g);
-			}
-		}
-		userRepository.save(wu);
 		return "redirect:/webUser/"+wu.getId().toString();
 	}
 
-	
-	
+
+
+
 }

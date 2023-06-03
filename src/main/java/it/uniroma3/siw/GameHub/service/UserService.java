@@ -2,12 +2,15 @@ package it.uniroma3.siw.GameHub.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lukaspradel.steamapi.core.exception.SteamApiException;
+import com.lukaspradel.steamapi.data.json.ownedgames.GetOwnedGames;
 import com.lukaspradel.steamapi.data.json.recentlyplayedgames.GetRecentlyPlayedGames;
+import com.lukaspradel.steamapi.webapi.request.GetOwnedGamesRequest;
 import com.lukaspradel.steamapi.webapi.request.GetRecentlyPlayedGamesRequest;
 import com.lukaspradel.steamapi.webapi.request.builders.SteamWebApiRequestFactory;
 
@@ -30,19 +33,15 @@ public class UserService {
 	@Autowired
 	private SteamAPI steamApi;
 
-	
+
 	@Transactional
 	public Iterable<User> findAll(){
 		return this.userRepository.findAll();
 	}
 	@Transactional
 	public User getWebUserById(Long id) {
-		try {
-			return userRepository.findById(id).get();
-		}catch (Exception e){
-			e.printStackTrace();
-			return null;
-		}
+		return userRepository.findById(id).orElse(null);
+
 	}
 
 	@Transactional
@@ -59,13 +58,33 @@ public class UserService {
 		}
 		return topList;
 	}
-	
+
 	@Transactional
 	public User newWebUser(User wu) {
 		User user=null;
 		if(!userRepository.existsByEmail(wu.getEmail())) {
 			user=userRepository.save(wu);
-				} 
+		} 
 		return user;
+	}
+	public User refreshGames(Long id) throws SteamApiException {
+		User wu= this.getWebUserById(id);
+		if(wu!=null) {
+			GetOwnedGamesRequest request =  new GetOwnedGamesRequest.GetOwnedGamesRequestBuilder(wu.getSteamId()).includeAppInfo(true).buildRequest();
+			GetOwnedGames gog = steamApi.getClient().<GetOwnedGames>processRequest(request);
+			System.out.println("Giochi posseduti: "+gog.getResponse().getGames().size());
+			Set<Game> insiemeGiochi = wu.getOwnedGames();
+			for(com.lukaspradel.steamapi.data.json.ownedgames.Game apiGame : gog.getResponse().getGames() ) {
+				if(!gameRepository.existsBySteamcode(apiGame.getAppid())) {
+					Game g = new Game();
+					g.setSteamcode(apiGame.getAppid());
+					g.setName(apiGame.getName());/**/
+					gameRepository.save(g);
+					insiemeGiochi.add(g);
+				}
+			}
+			wu= userRepository.save(wu);
+		}
+		return wu;
 	}
 }
