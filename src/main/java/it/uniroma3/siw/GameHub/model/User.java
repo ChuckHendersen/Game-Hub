@@ -2,11 +2,8 @@ package it.uniroma3.siw.GameHub.model;
 
 import java.util.Objects;
 import java.util.Set;
-
-import jakarta.validation.constraints.NotBlank;
-
 import jakarta.persistence.*;
-
+import jakarta.validation.constraints.*;
 @Entity
 @Table(name = "users")
 public class User {
