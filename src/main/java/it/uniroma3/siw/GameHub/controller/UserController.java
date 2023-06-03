@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import com.lukaspradel.steamapi.core.exception.SteamApiException;
 import it.uniroma3.siw.GameHub.model.Game;
 import it.uniroma3.siw.GameHub.model.User;
@@ -41,12 +40,6 @@ public class UserController {
 		List <Game> lista = userService.top5Games(wu);
 		model.addAttribute("top5Played", lista);
 		return "webUser.html";
-	}
-
-	@GetMapping("/register")
-	public String formNewWebUser(Model model) {
-		model.addAttribute("webUser", new User());
-		return "formNewWebUser.html";
 	}
 
 	@PostMapping("/webUsers")

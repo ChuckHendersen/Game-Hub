@@ -9,25 +9,17 @@
 		<div>
 			<label>Username</label>
 			<span>
-				<input type="text" placeholder="username" required th:field="${newcredentials.username}" />
-			</span>
-			<span th:if="${#fields.hasErrors('newcredentials.username')}" th:errors="${newcredentials.username}"
-				th:style="'color:red'">
+				<input type="text" placeholder="username" required th:field="${newCredentials.username}" />
 			</span>
 		</div>
 		<div>
 			<label>Password</label>
-			<span><input type="password" placeholder="password" required th:field="${newcredentials.password}" />
-			</span>
-			<span th:if="${#fields.hasErrors('newcredentials.password')}" th:errors="${newcredentials.password}"
-				th:style="'color:red'">
+			<span><input type="password" placeholder="password" required th:field="${newCredentials.password}" />
 			</span>
 		</div>
 			<div>
 			<label>Email</label>
 			<span><input type="text" placeholder="email" required th:field="${user.email}" /></span>
-			<span th:if="${#fields.hasErrors('user.email')}" th:errors="${user.email}" th:style="'color:red'">
-			</span>
 		</div>
 		<div>
 			<button type="submit">Registra</button>

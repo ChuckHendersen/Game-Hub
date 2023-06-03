@@ -8,6 +8,6 @@ import it.uniroma3.siw.GameHub.model.Credentials;
 
 public interface CredentialsRepository extends CrudRepository<Credentials, Long> {
 
-	Optional<Credentials> findByUserName(String userName);
+	Optional<Credentials> findByUsername(String userName);
 
 }

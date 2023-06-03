@@ -67,6 +67,7 @@ public class UserService {
 		} 
 		return user;
 	}
+	@Transactional
 	public User refreshGames(Long id) throws SteamApiException {
 		User wu= this.getWebUserById(id);
 		if(wu!=null) {
@@ -106,5 +107,14 @@ public class UserService {
 		}else {
 			return null;
 		}
+	}
+	
+	public User createUser() {
+		// TODO Auto-generated method stub
+		return new User();
+	}
+	@Transactional
+	public User saveUser(User user) {
+		return this.userRepository.save(user);
 	}
 }
