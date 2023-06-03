@@ -43,7 +43,7 @@ public class UserController {
 		return "webUser.html";
 	}
 
-	@GetMapping("/formNewWebUser")
+	@GetMapping("/register")
 	public String formNewWebUser(Model model) {
 		model.addAttribute("webUser", new User());
 		return "formNewWebUser.html";

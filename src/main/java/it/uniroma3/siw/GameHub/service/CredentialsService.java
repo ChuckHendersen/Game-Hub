@@ -26,6 +26,11 @@ public class CredentialsService {
     }
 
     @Transactional
+    public Credentials getCredentials(String userName) {
+        Optional<Credentials> result = this.credentialsRepository.findByUserName(userName);
+        return result.orElse(null);
+    }
+    @Transactional
     public Credentials saveCredentials(Credentials credentials) {
         credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
         return this.credentialsRepository.save(credentials);

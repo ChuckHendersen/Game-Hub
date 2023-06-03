@@ -3,6 +3,8 @@ package it.uniroma3.siw.GameHub.model;
 import java.util.Objects;
 import java.util.Set;
 
+import jakarta.validation.constraints.NotBlank;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -12,8 +14,11 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	@NotBlank
 	private String username;
+    @NotBlank
 	private String email;
+    
 	private String steamId;
 	
 	@OneToOne(mappedBy = "user")
