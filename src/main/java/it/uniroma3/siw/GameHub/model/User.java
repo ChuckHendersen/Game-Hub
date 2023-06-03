@@ -19,8 +19,11 @@ public class User {
 	@OneToOne(mappedBy = "user")
 	private Credentials credentials;
 	
-	@ManyToMany
-	private Set<User> friendList;
+	@OneToMany
+	private Set<User> followed;
+	
+	@OneToMany
+	private Set<User> followers;
 	
 	@ManyToMany
 	private Set<Game> ownedGames;
@@ -49,23 +52,29 @@ public class User {
 	public void setSteamId(String steamID64) {
 		this.steamId = steamID64;
 	}
-	
-	public Set<User> friendList(){
-		return friendList;
-	}
-	
-	public void setFriendList(Set<User>friendList) {
-		this.friendList = friendList;
-	}
-	
 	public Set<Game> getOwnedGames() {
 		return ownedGames;
 	}
 	public void setOwnedGames(Set<Game> ownedGames) {
 		this.ownedGames = ownedGames;
 	}
-	public Set<User> getFriendList() {
-		return friendList;
+	public Credentials getCredentials() {
+		return credentials;
+	}
+	public void setCredentials(Credentials credentials) {
+		this.credentials = credentials;
+	}
+	public Set<User> getFollowed() {
+		return followed;
+	}
+	public void setFollowed(Set<User> followed) {
+		this.followed = followed;
+	}
+	public Set<User> getFollowers() {
+		return followers;
+	}
+	public void setFollowers(Set<User> followers) {
+		this.followers = followers;
 	}
 	@Override
 	public int hashCode() {
