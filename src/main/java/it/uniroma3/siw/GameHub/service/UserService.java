@@ -106,22 +106,22 @@ public class UserService {
 		if(a!= null && b!= null) {
 			b.addFollower(a);
 			a.addFollowed(b);
-			this.userRepository.save(b);
-			return this.userRepository.save(a);
+			this.userRepository.save(a);
+			return this.userRepository.save(b);
 		}else {
 			return null;
 		}
 	}
 
 	public User createUser() {
-		// TODO Auto-generated method stub
 		return new User();
 	}
+	
 	@Transactional
 	public User saveUser(User user) {
 		return this.userRepository.save(user);
 	}
-
+	@Transactional
 	public void updateUserSteamId(Long userId, String steamUserID) {
 		User user = this.getWebUserById(userId);
 		if(user!=null) {

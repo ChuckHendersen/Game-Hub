@@ -66,7 +66,16 @@ public class UserController {
 		return "redirect:/webUser/"+wu.getId().toString();
 	}
 
-
+	@GetMapping("/newFollow/{Ua_id}/{Ub_id}")
+	public String newFollow(@PathVariable("Ua_id") Long aId, @PathVariable("Ub_id") Long bId, Model model) {
+		User b= this.userService.aFollowsB(aId, bId);
+		if(b!=null) {
+			return "redirect:/webUser/"+b.getId().toString();
+		}
+		else {
+			return "/error";
+		}
+	}
 
 
 }
