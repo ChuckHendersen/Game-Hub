@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Followers - GameHub</title>
+</head>
+
+<body>
+	<h1>Contatti che ti seguono</h1>
+
+	<div th:if="${user.followers.isEmpty()}">strano... non ti segue nessuno... fatti due domande</div>
+	<ul>
+		<li th:each="user : ${user.followers}">
+			<a th:href="@{'/webUser/' + ${user.id}}" th:text="${user.username}">Up!
+				(2000)</a>
+		</li>
+	</ul>
+	</div>
+</body>
+
+</html>

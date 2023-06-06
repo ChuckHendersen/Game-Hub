@@ -40,14 +40,14 @@ public class UserService {
 	}
 
 	@Transactional
-	public User getWebUserById(Long id) {
+	public User findUserById(Long id) {
 		return userRepository.findById(id).orElse(null);
 
 	}
 
 	@Transactional
 	public List<Game> top5Games(Long id) throws SteamApiException{
-		User wu = this.getWebUserById(id);
+		User wu = this.findUserById(id);
 		List<Game> topList= new ArrayList<Game>();
 		if(wu.getSteamId() != null && !wu.getSteamId().equals("")) {
 			GetRecentlyPlayedGamesRequest request= SteamWebApiRequestFactory.createGetRecentlyPlayedGamesRequest(wu.getSteamId(), 5);
@@ -73,7 +73,7 @@ public class UserService {
 	}
 	@Transactional
 	public User refreshGames(Long id) throws SteamApiException {
-		User wu= this.getWebUserById(id);
+		User wu= this.findUserById(id);
 		if(wu!=null) {
 			GetOwnedGamesRequest request =  new GetOwnedGamesRequest.GetOwnedGamesRequestBuilder(wu.getSteamId()).includeAppInfo(true).buildRequest();
 			GetOwnedGames gog = steamApi.getClient().<GetOwnedGames>processRequest(request);
@@ -101,8 +101,8 @@ public class UserService {
 	 */
 	@Transactional
 	public User aFollowsB(Long aId, Long bId) {
-		User a = this.getWebUserById(aId);
-		User b = this.getWebUserById(bId);
+		User a = this.findUserById(aId);
+		User b = this.findUserById(bId);
 		if(a!= null && b!= null) {
 			b.addFollower(a);
 			a.addFollowed(b);
@@ -116,17 +116,23 @@ public class UserService {
 	public User createUser() {
 		return new User();
 	}
-	
+
 	@Transactional
 	public User saveUser(User user) {
 		return this.userRepository.save(user);
 	}
 	@Transactional
 	public void updateUserSteamId(Long userId, String steamUserID) {
-		User user = this.getWebUserById(userId);
+		User user = this.findUserById(userId);
 		if(user!=null) {
 			user.setSteamId(steamUserID);
 			this.userRepository.save(user);
 		}
 	}
+
+	public Iterable<User> getFollowers(Long id) {
+		User user= findUserById(id);
+		return user.getFollowers();
+	}
+
 }

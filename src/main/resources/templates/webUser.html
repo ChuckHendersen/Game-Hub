@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>User - GameHub</title>
+	<title>User - GameHub</title>
 </head>
+
 <body>
 	<h1>Utente</h1>
 	<div>
@@ -23,14 +25,23 @@
 		<div th:if="${top5Played.isEmpty()}">non hai giocato a nessun
 			gioco nelle ultime 2 settimane, o il tuo profilo è privato</div>
 		<ul>
-			<li th:each="game : ${top5Played}"><a href="game.html"
-				th:href="@{'/game' + '/' + ${game.id}}" th:text="${game.name}">Up!
-					(2000)</a></li>
+			<li th:each="game : ${top5Played}">
+				<a th:href="@{'/game' + '/' + ${game.id}}" th:text="${game.name}">Up!
+					(2000)</a>
+			</li>
 		</ul>
 		<div>
-		<a th:href="@{'/updateOwnedGames/'+${webUser.id}}">aggiorna giochi
-			posseduti</a>
+			<a th:href="@{'/updateOwnedGames/'+${webUser.id}}">aggiorna giochi
+				posseduti</a>
+		</div>
 	</div>
+	<div>
+		<a th:href="@{'/followers/' +${webUser.id}}"> Scopri chi ti segue!! </a>
 	</div>
+	<div>
+		<a th:href="@{'/followed/' +${webUser.id}}"> Ricordati di chi stai seguendo!! </a>
+	</div>
+
 </body>
+
 </html>

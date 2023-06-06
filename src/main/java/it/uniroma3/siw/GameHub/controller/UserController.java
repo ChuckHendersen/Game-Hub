@@ -31,7 +31,7 @@ public class UserController {
 
 	@GetMapping("/webUser/{id}")
 	public String webUser(@PathVariable("id") Long id,Model model) throws SteamApiException {
-		User wu=userService.getWebUserById(id);
+		User wu=userService.findUserById(id);
 		if(wu==null) {
 			model.addAttribute("messaggioErrore", "Utente non trovato");
 		}else {
@@ -76,6 +76,18 @@ public class UserController {
 			return "/error";
 		}
 	}
-
-
+	
+	@GetMapping("/followers/{id}")
+	public String followers(@PathVariable("id") Long id, Model model) {
+		User user= this.userService.findUserById(id);
+		model.addAttribute("user", user);
+		return "followers.html";
+	}
+	
+	@GetMapping("/followed/{id}")
+	public String followed(@PathVariable("id") Long id, Model model) {
+		User user= this.userService.findUserById(id);
+		model.addAttribute("user", user);
+		return "followed.html";
+	}
 }
