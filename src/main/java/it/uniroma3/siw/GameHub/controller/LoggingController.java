@@ -1,6 +1,5 @@
 package it.uniroma3.siw.GameHub.controller;
 
-import java.util.Arrays;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,17 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.lukaspradel.steamapi.core.exception.SteamApiException;
-import com.lukaspradel.steamapi.data.json.playersummaries.GetPlayerSummaries;
-import com.lukaspradel.steamapi.webapi.request.GetPlayerSummariesRequest;
-import com.lukaspradel.steamapi.webapi.request.builders.SteamWebApiRequestFactory;
-
-import it.uniroma3.siw.GameHub.SteamAPI;
 import it.uniroma3.siw.GameHub.authentication.SteamLogin;
 import it.uniroma3.siw.GameHub.model.Credentials;
 import it.uniroma3.siw.GameHub.model.User;
-import it.uniroma3.siw.GameHub.repository.UserRepository;
 import it.uniroma3.siw.GameHub.service.CredentialsService;
 import it.uniroma3.siw.GameHub.service.UserService;
 import jakarta.validation.Valid;
@@ -35,16 +27,10 @@ public class LoggingController {
 	private SteamLogin externalLogin;
 
 	@Autowired
-	private SteamAPI steamApi;
-
-	@Autowired
 	private CredentialsService credentialsService;
 	
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private UserRepository userRepository;
 
 	@GetMapping("/login")
 	public String login(Model model) {
