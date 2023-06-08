@@ -113,6 +113,19 @@ public class UserService {
 		}
 	}
 
+	public User aUnfollowsB(Long aId, Long bId) {
+		User a = this.findUserById(aId);
+		User b = this.findUserById(bId);
+		if(a!= null && b!= null) {
+			b.removeFollower(a);
+			a.removeFollowed(b);
+			this.userRepository.save(a);
+			return this.userRepository.save(b);
+		}else {
+			return null;
+		}
+	}
+
 	public User createUser() {
 		return new User();
 	}
@@ -134,5 +147,4 @@ public class UserService {
 		User user= findUserById(id);
 		return user.getFollowers();
 	}
-
 }

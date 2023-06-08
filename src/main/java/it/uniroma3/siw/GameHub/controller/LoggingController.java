@@ -102,7 +102,7 @@ public class LoggingController {
 	public String steamLoginAuth(@PathVariable("user_id") Long userId, Model model, @RequestParam Map<String,String> allParams) throws SteamApiException { 
 		String steamUserID = externalLogin.verify("http://localhost:8080/login/"+userId+"/steam/auth", allParams);
 		this.userService.updateUserSteamId(userId, steamUserID);
-		return "redirect:/webUser/"+userId;
+		return "redirect:/user/"+userId;
 	}
 
 

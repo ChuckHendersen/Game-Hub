@@ -79,6 +79,11 @@ public class User {
 	public void setOwnedGames(Set<Game> ownedGames) {
 		this.ownedGames = ownedGames;
 	}
+
+	public boolean isFollower(User user) {
+		return this.followers.contains(user);
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(email);
@@ -100,5 +105,11 @@ public class User {
 	public void addFollower(User a) {
 		this.followers.add(a);
 	}
-	
+
+	public void removeFollower(User a) {
+		this.followers.remove(a);
+	}
+	public void removeFollowed(User b) {
+		this.followed.remove(b);
+	}
 }

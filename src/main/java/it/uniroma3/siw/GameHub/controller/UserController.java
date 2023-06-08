@@ -19,27 +19,27 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@GetMapping("/webUsers")
+	@GetMapping("/users")
 	public String webUsers(Model model) {
 		List<User> lista = (List<User>) userService.findAll();
-		model.addAttribute("webUsers", lista);
+		model.addAttribute("users", lista);
 		if(lista.size()==0) {
 			model.addAttribute("messaggioErrore", "nessun utente registrato esistente");
 		}
-		return "webUsers.html";
+		return "users.html";
 	}
 
-	@GetMapping("/webUser/{id}")
+	@GetMapping("/user/{id}")
 	public String webUser(@PathVariable("id") Long id,Model model) throws SteamApiException {
 		User wu=userService.findUserById(id);
 		if(wu==null) {
 			model.addAttribute("messaggioErrore", "Utente non trovato");
 		}else {
-			model.addAttribute("webUser", wu);
+			model.addAttribute("user", wu);
 			Iterable<Game> top5PlayedGames = this.userService.top5Games(id);
 			model.addAttribute("top5Played", top5PlayedGames);
 		}
-		return "webUser.html";
+		return "user.html";
 	}
 
 	@PostMapping("/webUsers")
@@ -50,8 +50,8 @@ public class UserController {
 			return "formNewWebUser.html";
 		}
 		else {
-			model.addAttribute("webUser", wu);
-			return "webUser.html";
+			model.addAttribute("user", wu);
+			return "user.html";
 		}
 
 	}
@@ -61,16 +61,27 @@ public class UserController {
 		User wu = this.userService.refreshGames(id);
 		if(wu==null) {
 			model.addAttribute("messaggioErrore", "utente non trovato");
-			return "webUser.html";
+			return "user.html";
 		}
-		return "redirect:/webUser/"+wu.getId().toString();
+		return "redirect:/user/"+wu.getId().toString();
 	}
 
 	@GetMapping("/newFollow/{Ua_id}/{Ub_id}")
 	public String newFollow(@PathVariable("Ua_id") Long aId, @PathVariable("Ub_id") Long bId, Model model) {
 		User b= this.userService.aFollowsB(aId, bId);
 		if(b!=null) {
-			return "redirect:/webUser/"+b.getId().toString();
+			return "redirect:/user/"+b.getId().toString();
+		}
+		else {
+			return "/error";
+		}
+	}
+
+	@GetMapping("/deleteFollow/{Ua_id}/{Ub_id}")
+	public String deleteFollow(@PathVariable("Ua_id") Long aId, @PathVariable("Ub_id") Long bId, Model model) {
+		User b= this.userService.aUnfollowsB(aId, bId);
+		if(b!=null) {
+			return "redirect:/user/"+b.getId().toString();
 		}
 		else {
 			return "/error";

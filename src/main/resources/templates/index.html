@@ -2,36 +2,24 @@
 <html>
 	<head>
 		<title>Homepage - GameHub</title>
-		<link rel="stylesheet" href="/stylesheet.css?version=2"/>
+		<link rel="stylesheet" href="/css/stylesheet.css?version=2"/>
 	</head>
 	<body>
 		<header>
 		<div th:if="${userDetails}">
-			<span th:text="${userDetails.username}"></span>
+			<a th:href="'/user/'+${credentials.user.id}" th:text="${userDetails.username}"></a>
 			<a href="/logout">Logout</a>
 		</div>
-		<div th:unless="${user}">
+		<div th:unless="${userDetails}">
 			<a href="/login">Login</a>
 		</div>
 	</header>
 		<h1>Benvenuto su gamehub</h1>
 		<div>
-			<a href="/register">Registrati</a>
-		</div>
-		<div>
-			<a href="/webUsers"> visualizza utenti</a>
+			<a href="/users"> Visualizza utenti</a>
 		</div>
 		<div>
 			<a href="/games">Visualizza giochi</a>
-		</div>
-		<div>
-			<a href="/login/steam"><img src="sits_01.png"/></a>
-		</div>
-		<div>
-			<span th:if="${loggato}" th:text="'Loggato! Id->'+${loggato}"></span>
-		</div>
-		<div>
-			<a href="/redirect"> test redirizionamento verso il google.com</a>
 		</div>
 	</body>	
 </html>
