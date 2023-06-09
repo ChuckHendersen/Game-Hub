@@ -16,13 +16,13 @@
 	<div>
 		<span th:text="'steamId: '+${user.steamId}"></span>
 	</div>
-	<div>
+	<div th:if="${user.steamId==null}">
 		<a th:href="'/login/'+${user.id}+'/steam'">connetti steam al
 			tuo account</a>
+		<div> INFORMAZIONI STEAM SOLO DOPO AVER OTTENUTO LO STEAM ID</div>
 	</div>
 	<div th:if="${user.steamId}">
-		INFORMAZIONI STEAM SOLO DOPO AVER OTTENUTO LO STEAM ID
-		<div th:if="${top5Played.isEmpty()}">non hai giocato a nessun
+			<div th:if="${top5Played.isEmpty()}">non hai giocato a nessun
 			gioco nelle ultime 2 settimane, o il tuo profilo è privato</div>
 		<ul>
 			<li th:each="game : ${top5Played}">
@@ -41,14 +41,12 @@
 	<div>
 		<a th:href="@{'/followed/' +${user.id}}"> Ricordati di chi stai seguendo!! </a>
 	</div>
-	<div th:if="${credentials.user.id == user.id}">
-		NON POSSO SEGUIRE ME STESSO
-	</div>
+
 	<div th:if="${credentials.user.id != user.id}">
-		<div>
+		<div th:if="${giaSeguito==false}">
 			<a th:href="'/newFollow/'+${credentials.user.id}+'/'+${user.id}">Segui</a>
 		</div>
-		<div>
+		<div th:if="${giaSeguito==true}">
 			<a th:href="'/deleteFollow/'+${credentials.user.id}+'/'+${user.id}">Smetti di Seguire</a>
 		</div>
 	</div>

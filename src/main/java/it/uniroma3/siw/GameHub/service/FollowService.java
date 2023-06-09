@@ -59,4 +59,9 @@ public class FollowService {
         this.followRepository.delete(followToBeDeleted);
     }
 
+    public boolean aFollowsBBool(Long aId, Long bId) throws UserNotFoundException{
+        User a = this.userService.findUserById(aId);
+        User b = this.userService.findUserById(bId);
+        return this.followRepository.findByFollowerIdAndFollowedId(aId, bId).orElse(null) != null;
+    }
 }
