@@ -1,11 +1,13 @@
 package it.uniroma3.siw.GameHub.controller;
 
-import java.util.List;
-
+import com.lukaspradel.steamapi.core.exception.SteamApiException;
 import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import it.uniroma3.siw.GameHub.model.Credentials;
+import it.uniroma3.siw.GameHub.model.Game;
+import it.uniroma3.siw.GameHub.model.User;
 import it.uniroma3.siw.GameHub.service.CredentialsService;
 import it.uniroma3.siw.GameHub.service.FollowService;
+import it.uniroma3.siw.GameHub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,13 +16,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import com.lukaspradel.steamapi.core.exception.SteamApiException;
-import it.uniroma3.siw.GameHub.model.Game;
-import it.uniroma3.siw.GameHub.model.User;
-import it.uniroma3.siw.GameHub.service.UserService;
+
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -29,7 +27,6 @@ public class UserController {
     private UserService userService;
     @Autowired
     private FollowService followService;
-
     @Autowired
     private CredentialsService credentialsService;
 

@@ -1,14 +1,20 @@
 package it.uniroma3.siw.GameHub.authentication;
 
+import org.openid4java.association.AssociationException;
+import org.openid4java.consumer.ConsumerException;
+import org.openid4java.consumer.ConsumerManager;
+import org.openid4java.consumer.VerificationResult;
+import org.openid4java.discovery.DiscoveryException;
+import org.openid4java.discovery.DiscoveryInformation;
+import org.openid4java.discovery.Identifier;
+import org.openid4java.message.AuthRequest;
+import org.openid4java.message.MessageException;
+import org.openid4java.message.ParameterList;
+import org.springframework.stereotype.Component;
+
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.openid4java.association.AssociationException;
-import org.openid4java.consumer.*;
-import org.openid4java.discovery.*;
-import org.openid4java.message.*;
-import org.springframework.stereotype.Component;
 
 @Component
 public class SteamLogin{

@@ -1,8 +1,9 @@
 package it.uniroma3.siw.GameHub.repository;
-import java.util.Set;
 
-import org.springframework.data.repository.CrudRepository;
 import it.uniroma3.siw.GameHub.model.User;
+import org.springframework.data.repository.CrudRepository;
+
+import java.util.Set;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 	public Set<User> findByUsername(String username);

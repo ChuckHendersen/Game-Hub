@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 import javax.sql.DataSource;
 
 @Configuration
@@ -52,7 +53,7 @@ public class AuthConfiguration {
 		.requestMatchers(HttpMethod.GET,"/","/index","/register","/css/**", "/images/**", "favicon.ico").permitAll()
 		// chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register 
 		.requestMatchers(HttpMethod.POST,"/register", "/login").permitAll()
-		// tutti gli utenti autenticati possono accere alle pagine rimanenti 
+		// tutti gli utenti autenticati possono accedere alle pagine rimanenti
 		.anyRequest().authenticated()
 		// LOGIN: qui definiamo il login
 		.and().formLogin()

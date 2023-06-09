@@ -1,14 +1,12 @@
 package it.uniroma3.siw.GameHub.repository;
 
-import java.util.List;
-import java.util.Optional;
-
+import it.uniroma3.siw.GameHub.model.Game;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import it.uniroma3.siw.GameHub.model.Game;
-import it.uniroma3.siw.GameHub.model.User;
+import java.util.List;
+import java.util.Optional;
 
 public interface GameRepository extends CrudRepository<Game, Long> {
 

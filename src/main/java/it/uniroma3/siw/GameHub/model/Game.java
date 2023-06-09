@@ -1,8 +1,8 @@
 package it.uniroma3.siw.GameHub.model;
 
-import java.util.Objects;
-
 import jakarta.persistence.*;
+
+import java.util.Objects;
 
 @Entity
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"steamcode"}) })

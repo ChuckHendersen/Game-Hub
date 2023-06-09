@@ -1,8 +1,7 @@
 package it.uniroma3.siw.GameHub;
 
-import org.springframework.stereotype.Component;
-
 import com.lukaspradel.steamapi.webapi.client.SteamWebApiClient;
+import org.springframework.stereotype.Component;
 
 // Possono esistere più istanze di SteamAPI
 

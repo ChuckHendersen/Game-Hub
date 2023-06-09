@@ -1,10 +1,9 @@
 package it.uniroma3.siw.GameHub.repository;
 
-import java.util.Optional;
-
+import it.uniroma3.siw.GameHub.model.Credentials;
 import org.springframework.data.repository.CrudRepository;
 
-import it.uniroma3.siw.GameHub.model.Credentials;
+import java.util.Optional;
 
 public interface CredentialsRepository extends CrudRepository<Credentials, Long> {
 

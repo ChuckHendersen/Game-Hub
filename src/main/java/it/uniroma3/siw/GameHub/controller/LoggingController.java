@@ -1,29 +1,25 @@
 package it.uniroma3.siw.GameHub.controller;
 
-import java.util.Map;
-
+import com.lukaspradel.steamapi.core.exception.SteamApiException;
+import it.uniroma3.siw.GameHub.authentication.SteamLogin;
 import it.uniroma3.siw.GameHub.controller.form.UserForm;
 import it.uniroma3.siw.GameHub.controller.validator.CredentialsValidator;
 import it.uniroma3.siw.GameHub.controller.validator.UserValidator;
 import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
+import it.uniroma3.siw.GameHub.model.Credentials;
+import it.uniroma3.siw.GameHub.model.User;
+import it.uniroma3.siw.GameHub.service.CredentialsService;
+import it.uniroma3.siw.GameHub.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import com.lukaspradel.steamapi.core.exception.SteamApiException;
-import it.uniroma3.siw.GameHub.authentication.SteamLogin;
-import it.uniroma3.siw.GameHub.model.Credentials;
-import it.uniroma3.siw.GameHub.model.User;
-import it.uniroma3.siw.GameHub.service.CredentialsService;
-import it.uniroma3.siw.GameHub.service.UserService;
-import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Controller
 public class LoggingController {

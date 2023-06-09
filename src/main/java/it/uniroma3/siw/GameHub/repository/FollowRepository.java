@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface FollowRepository extends CrudRepository<Follow, Long> {
     public Optional<Follow> findByFollowerIdAndFollowedId(Long followerId, Long followedId);
 
+    public boolean existsByFollowerIdAndFollowedId(Long followerId, Long followedId);
+
     public Iterable<Follow> findAllByFollowerId(Long followerId);
 
     public Iterable<Follow> findAllByFollowedId(Long followedId);
