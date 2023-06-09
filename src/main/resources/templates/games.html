@@ -8,7 +8,7 @@
 		<div>
 			<ul>
 				<li th:each="game:${games}">
-					<a th:text="${game.steamcode}" th:href="'/game/'+${game.id}"></a>
+					<a th:text="${game.name}" th:href="'/game/'+${game.id}"></a>
 				</li>
 			</ul>
 		</div>
