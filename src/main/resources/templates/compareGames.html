@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Giochi in comune</title>
+</head>
+<div> questi sono i giochi che avete in comune!!!!</div>
+<body>
+<div th:each=" gioco:${games}">
+  <div th:text="${gioco.name}"></div>
+</div>
+</body>
+</html>
