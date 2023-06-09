@@ -21,10 +21,10 @@ public class User {
 	@OneToOne(mappedBy = "user")
 	private Credentials credentials;
 	
-	@OneToMany(mappedBy="follower")
+	@OneToMany(mappedBy="follower", fetch = FetchType.LAZY)
 	private Set<Follow> followed;
 	
-	@OneToMany(mappedBy = "followed")
+	@OneToMany(mappedBy = "followed", fetch = FetchType.LAZY)
 	private Set<Follow> followers;
 	
 	@ManyToMany

@@ -49,6 +49,14 @@ public class UserService {
 
 	}
 
+
+	/**
+	 * Metodo che interroga la steam api per ottenere gli ultimi 5 giochi giocati dall'utente di recente
+	 * @param id id dell'utente
+	 * @return lista di 5 giochi recentemente giocati
+	 * @throws SteamApiException
+	 * @throws UserNotFoundException
+	 */
 	@Transactional
 	public List<Game> top5Games(Long id) throws SteamApiException, UserNotFoundException {
 		User wu = this.findUserById(id);
