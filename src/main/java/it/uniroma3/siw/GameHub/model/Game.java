@@ -5,6 +5,7 @@ import java.util.Objects;
 import jakarta.persistence.*;
 
 @Entity
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"steamcode"}) })
 public class Game {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

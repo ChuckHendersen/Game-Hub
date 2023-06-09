@@ -21,11 +21,11 @@ public class User {
 	@OneToOne(mappedBy = "user")
 	private Credentials credentials;
 	
-	@OneToMany
-	private Set<User> followed;
+	@OneToMany(mappedBy="follower")
+	private Set<Follow> followed;
 	
-	@OneToMany
-	private Set<User> followers;
+	@OneToMany(mappedBy = "followed")
+	private Set<Follow> followers;
 	
 	@ManyToMany
 	private Set<Game> ownedGames;
@@ -61,18 +61,23 @@ public class User {
 	public void setCredentials(Credentials credentials) {
 		this.credentials = credentials;
 	}
-	public Set<User> getFollowed() {
+
+	public Set<Follow> getFollowed() {
 		return followed;
 	}
-	public void setFollowed(Set<User> followed) {
+
+	public void setFollowed(Set<Follow> followed) {
 		this.followed = followed;
 	}
-	public Set<User> getFollowers() {
+
+	public Set<Follow> getFollowers() {
 		return followers;
 	}
-	public void setFollowers(Set<User> followers) {
+
+	public void setFollowers(Set<Follow> followers) {
 		this.followers = followers;
 	}
+
 	public Set<Game> getOwnedGames() {
 		return ownedGames;
 	}
@@ -97,19 +102,21 @@ public class User {
 		User other = (User) obj;
 		return Objects.equals(email, other.email);
 	}
-	
-	public void addFollowed(User b) {
-		this.followed.add(b);
-	}
-	
-	public void addFollower(User a) {
-		this.followers.add(a);
+
+	public void addFollowed(Follow newFollow) {
+		this.followed.add(newFollow);
 	}
 
-	public void removeFollower(User a) {
-		this.followers.remove(a);
+	public void addFollower(Follow newFollow) {
+		this.followers.add(newFollow);
 	}
-	public void removeFollowed(User b) {
-		this.followed.remove(b);
+
+	public void removeFollowed(Follow followToBeDeleted) {
+		this.followed.remove(followToBeDeleted);
 	}
+
+	public void removeFollower(Follow followToBeDeleted) {
+		this.followers.remove(followToBeDeleted);
+	}
+
 }

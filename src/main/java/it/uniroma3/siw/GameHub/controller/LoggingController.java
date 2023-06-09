@@ -1,6 +1,8 @@
 package it.uniroma3.siw.GameHub.controller;
 
 import java.util.Map;
+
+import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,10 +40,11 @@ public class LoggingController {
 	}
 	
 	@GetMapping("/success")
-    public String defaultAfterLogin(Model model) {
+    public String defaultAfterLogin(Model model) throws SteamApiException, UserNotFoundException {
     	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
     	model.addAttribute("credentials", credentials);
+		this.userService.refreshGames(credentials.getUser().getId()); // NON DOVREBBE MAI SOLLEVARE ECCEZIONI
         return "index.html";
     }
 	
@@ -101,8 +104,14 @@ public class LoggingController {
 	@GetMapping("/login/{user_id}/steam/auth") // da steam, dopo aver premuto il bottone di login, si ritorna sul nostro sito
 	public String steamLoginAuth(@PathVariable("user_id") Long userId, Model model, @RequestParam Map<String,String> allParams) throws SteamApiException { 
 		String steamUserID = externalLogin.verify("http://localhost:8080/login/"+userId+"/steam/auth", allParams);
-		this.userService.updateUserSteamId(userId, steamUserID);
-		return "redirect:/user/"+userId;
+		try {
+			this.userService.updateUserSteamId(userId, steamUserID);
+			this.userService.refreshGames(userId);
+			return "redirect:/user/"+userId;
+		} catch (UserNotFoundException e) {
+			model.addAttribute("messaggioErrore",e.getMessage());
+			return "userError.html";
+		}
 	}
 
 

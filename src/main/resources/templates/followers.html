@@ -11,8 +11,8 @@
 <div th:if="${user.followers.isEmpty()}">strano... non ti segue nessuno... fatti due domande</div>
 <div>
     <ul>
-        <li th:each="user : ${user.followers}">
-            <a th:href="@{'/user/' + ${user.id}}" th:text="${user.username}">Up!
+        <li th:each="follow : ${user.followers}">
+            <a th:href="@{'/user/' + ${follow.follower.id}}" th:text="${follow.follower.username}">Up!
                 (2000)</a>
         </li>
     </ul>

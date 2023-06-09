@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,13 +41,18 @@ public class UserService {
 	}
 
 	@Transactional
-	public User findUserById(Long id) {
-		return userRepository.findById(id).orElse(null);
+	public User findUserById(Long id) throws UserNotFoundException {
+		User user = userRepository.findById(id).orElse(null);
+		if(user == null){
+			throw new UserNotFoundException("User with id: " + id + " not found");
+		}else{
+			return user;
+		}
 
 	}
 
 	@Transactional
-	public List<Game> top5Games(Long id) throws SteamApiException{
+	public List<Game> top5Games(Long id) throws SteamApiException, UserNotFoundException {
 		User wu = this.findUserById(id);
 		List<Game> topList= new ArrayList<Game>();
 		if(wu.getSteamId() != null && !wu.getSteamId().equals("")) {
@@ -55,8 +61,7 @@ public class UserService {
 			for(com.lukaspradel.steamapi.data.json.recentlyplayedgames.Game apiGame : answer.getResponse().getGames() ) {
 				Game g = new Game();
 				g.setSteamcode(apiGame.getAppid());
-				g.setName(apiGame.getName());/**/
-				gameRepository.save(g);
+				g.setName(apiGame.getName());
 				topList.add(g);
 			}
 		}
@@ -72,9 +77,9 @@ public class UserService {
 		return user;
 	}
 	@Transactional
-	public User refreshGames(Long id) throws SteamApiException {
+	public User refreshGames(Long id) throws SteamApiException, UserNotFoundException {
 		User wu= this.findUserById(id);
-		if(wu!=null) {
+		if(wu!=null && wu.getSteamId()!=null && !wu.getSteamId().equals("")){
 			GetOwnedGamesRequest request =  new GetOwnedGamesRequest.GetOwnedGamesRequestBuilder(wu.getSteamId()).includeAppInfo(true).buildRequest();
 			GetOwnedGames gog = steamApi.getClient().<GetOwnedGames>processRequest(request);
 			System.out.println("Giochi posseduti: "+gog.getResponse().getGames().size());
@@ -93,39 +98,6 @@ public class UserService {
 		return wu;
 	}
 
-	/**
-	 * Metodo che consente allo user A di seguire user B
-	 * @param aId Id dello user che vuole seguire B
-	 * @param bId Id dello user che viene seguito da A
-	 * @return user A se l'operazione ha successo, null altrimenti
-	 */
-	@Transactional
-	public User aFollowsB(Long aId, Long bId) {
-		User a = this.findUserById(aId);
-		User b = this.findUserById(bId);
-		if(a!= null && b!= null) {
-			b.addFollower(a);
-			a.addFollowed(b);
-			this.userRepository.save(a);
-			return this.userRepository.save(b);
-		}else {
-			return null;
-		}
-	}
-
-	public User aUnfollowsB(Long aId, Long bId) {
-		User a = this.findUserById(aId);
-		User b = this.findUserById(bId);
-		if(a!= null && b!= null) {
-			b.removeFollower(a);
-			a.removeFollowed(b);
-			this.userRepository.save(a);
-			return this.userRepository.save(b);
-		}else {
-			return null;
-		}
-	}
-
 	public User createUser() {
 		return new User();
 	}
@@ -135,16 +107,11 @@ public class UserService {
 		return this.userRepository.save(user);
 	}
 	@Transactional
-	public void updateUserSteamId(Long userId, String steamUserID) {
+	public void updateUserSteamId(Long userId, String steamUserID) throws UserNotFoundException {
 		User user = this.findUserById(userId);
 		if(user!=null) {
 			user.setSteamId(steamUserID);
 			this.userRepository.save(user);
 		}
-	}
-
-	public Iterable<User> getFollowers(Long id) {
-		User user= findUserById(id);
-		return user.getFollowers();
 	}
 }

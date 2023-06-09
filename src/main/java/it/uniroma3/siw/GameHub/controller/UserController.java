@@ -1,6 +1,7 @@
 package it.uniroma3.siw.GameHub.controller;
 import java.util.List;
 
+import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,13 +32,13 @@ public class UserController {
 
 	@GetMapping("/user/{id}")
 	public String webUser(@PathVariable("id") Long id,Model model) throws SteamApiException {
-		User wu=userService.findUserById(id);
-		if(wu==null) {
-			model.addAttribute("messaggioErrore", "Utente non trovato");
-		}else {
+		try {
+			User wu = userService.findUserById(id);
 			model.addAttribute("user", wu);
 			Iterable<Game> top5PlayedGames = this.userService.top5Games(id);
 			model.addAttribute("top5Played", top5PlayedGames);
+		}catch(UserNotFoundException e) {
+			model.addAttribute("messaggioErrore", e.getMessage());
 		}
 		return "user.html";
 	}
@@ -58,47 +59,40 @@ public class UserController {
 
 	@GetMapping("/updateOwnedGames/{id}")
 	public String RefreshGames(Model model, @PathVariable("id") Long id) throws SteamApiException {
-		User wu = this.userService.refreshGames(id);
-		if(wu==null) {
-			model.addAttribute("messaggioErrore", "utente non trovato");
+		User wu = null;
+		try {
+			wu = this.userService.refreshGames(id);
+			model.addAttribute("user", wu);
+			return "redirect:/user/"+wu.getId().toString();
+		} catch (UserNotFoundException e) {
+			model.addAttribute("messaggioErrore", e.getMessage());
 			return "user.html";
 		}
-		return "redirect:/user/"+wu.getId().toString();
 	}
 
-	@GetMapping("/newFollow/{Ua_id}/{Ub_id}")
-	public String newFollow(@PathVariable("Ua_id") Long aId, @PathVariable("Ub_id") Long bId, Model model) {
-		User b= this.userService.aFollowsB(aId, bId);
-		if(b!=null) {
-			return "redirect:/user/"+b.getId().toString();
-		}
-		else {
-			return "/error";
-		}
-	}
-
-	@GetMapping("/deleteFollow/{Ua_id}/{Ub_id}")
-	public String deleteFollow(@PathVariable("Ua_id") Long aId, @PathVariable("Ub_id") Long bId, Model model) {
-		User b= this.userService.aUnfollowsB(aId, bId);
-		if(b!=null) {
-			return "redirect:/user/"+b.getId().toString();
-		}
-		else {
-			return "/error";
-		}
-	}
-	
 	@GetMapping("/followers/{id}")
 	public String followers(@PathVariable("id") Long id, Model model) {
-		User user= this.userService.findUserById(id);
-		model.addAttribute("user", user);
-		return "followers.html";
+		User user= null;
+		try {
+			user = this.userService.findUserById(id);
+			model.addAttribute("user", user);
+			return "followers.html";
+		} catch (UserNotFoundException e) {
+			model.addAttribute("messaggioErrore", e.getMessage());
+			return "user.html";
+		}
 	}
-	
+
 	@GetMapping("/followed/{id}")
 	public String followed(@PathVariable("id") Long id, Model model) {
-		User user= this.userService.findUserById(id);
-		model.addAttribute("user", user);
-		return "followed.html";
+		User user= null;
+		try {
+			user = this.userService.findUserById(id);
+			model.addAttribute("user", user);
+			return "followed.html";
+		} catch (UserNotFoundException e) {
+			model.addAttribute("messaggioErrore", e.getMessage());
+			return "user.html";
+		}
 	}
 }

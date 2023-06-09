@@ -45,10 +45,10 @@
 		NON POSSO SEGUIRE ME STESSO
 	</div>
 	<div th:if="${credentials.user.id != user.id}">
-		<div th:if="${!user.isFollower(credentials.user)}">
+		<div>
 			<a th:href="'/newFollow/'+${credentials.user.id}+'/'+${user.id}">Segui</a>
 		</div>
-		<div th:if="${user.isFollower(credentials.user)}">
+		<div>
 			<a th:href="'/deleteFollow/'+${credentials.user.id}+'/'+${user.id}">Smetti di Seguire</a>
 		</div>
 	</div>
