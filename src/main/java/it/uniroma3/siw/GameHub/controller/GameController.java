@@ -1,5 +1,9 @@
 package it.uniroma3.siw.GameHub.controller;
 
+import com.lukaspradel.steamapi.core.exception.SteamApiException;
+import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
+import it.uniroma3.siw.GameHub.model.User;
+import it.uniroma3.siw.GameHub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +18,9 @@ public class GameController {
 		
 	@Autowired
 	private GameService gameService;
+
+	@Autowired
+	private UserService userService;
 	
 	@GetMapping("/games")
 	public String games(Model model) {
@@ -36,7 +43,20 @@ public class GameController {
 		}
 		return "game.html";
 	}
-	
+
+	@GetMapping("/updateOwnedGames/{id}")
+	public String RefreshGames(Model model, @PathVariable("id") Long id) throws SteamApiException {
+		User wu = null;
+		try {
+			wu = this.userService.refreshGames(id);
+			model.addAttribute("user", wu);
+			return "redirect:/user/" + wu.getId().toString();
+		} catch (UserNotFoundException e) {
+			model.addAttribute("messaggioErrore", e.getMessage());
+			return "user.html";
+		}
+	}
+
 	private Iterable<Game> getGames(){
 		try {
 			return gameService.findAll();

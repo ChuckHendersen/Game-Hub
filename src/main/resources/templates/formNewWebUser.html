@@ -5,21 +5,24 @@
 	</head>
 	<body>
 		<h1>Registrazione nuovo utente</h1>
-	<form th:action="@{/register}" method="POST">
+	<form th:action="@{/register}" method="POST" th:object="${userForm}">
+		<div th:if="${#fields.hasGlobalErrors()}" class="text-danger">
+			<p th:each="err:${#fields.globalErrors()}" th:text="${err}"></p>
+		</div>
 		<div>
 			<label>Username</label>
 			<span>
-				<input type="text" placeholder="username" required th:field="${newCredentials.username}" />
+				<input type="text" placeholder="username" required th:field="*{credentials.username}" />
 			</span>
 		</div>
 		<div>
 			<label>Password</label>
-			<span><input type="password" placeholder="password" required th:field="${newCredentials.password}" />
+			<span><input type="password" placeholder="password" required th:field="*{credentials.password}" />
 			</span>
 		</div>
 			<div>
 			<label>Email</label>
-			<span><input type="text" placeholder="email" required th:field="${user.email}" /></span>
+			<span><input type="text" placeholder="email" required th:field="*{user.email}" /></span>
 		</div>
 		<div>
 			<button type="submit">Registra</button>

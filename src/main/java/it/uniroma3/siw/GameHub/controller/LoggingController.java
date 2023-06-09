@@ -2,6 +2,9 @@ package it.uniroma3.siw.GameHub.controller;
 
 import java.util.Map;
 
+import it.uniroma3.siw.GameHub.controller.form.UserForm;
+import it.uniroma3.siw.GameHub.controller.validator.CredentialsValidator;
+import it.uniroma3.siw.GameHub.controller.validator.UserValidator;
 import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,6 +37,12 @@ public class LoggingController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private CredentialsValidator credentialsValidator;
+
+	@Autowired
+	private UserValidator userValidator;
+
 	@GetMapping("/login")
 	public String login(Model model) {
 		return "formLogin.html";
@@ -50,29 +59,29 @@ public class LoggingController {
 	
 	@GetMapping("/register")
 	public String formNewWebUser(Model model) {
-		model.addAttribute("user", this.userService.createUser());
-		model.addAttribute("newCredentials", this.credentialsService.createCredentials());
+		model.addAttribute("userForm", new UserForm(new Credentials() ,new User()));
 		return "formNewWebUser.html";
 	}
 	
 	@PostMapping("/register")
-    public String registerUser(@Valid @ModelAttribute("user") User user, 
-    			BindingResult userBindingResult, 
-    			@Valid @ModelAttribute("newCredentials") Credentials credentials,
-                BindingResult credentialsBindingResult,
+    public String registerUser(@Valid @ModelAttribute("userForm") UserForm userForm,
+    			BindingResult userFormBindingResult,
                 Model model) {
         // se user e credential hanno entrambi contenuti validi, memorizza User e the Credentials nel DB
-        if(!userBindingResult.hasErrors() && ! credentialsBindingResult.hasErrors()) {
+		Credentials credentials = userForm.getCredentials();
+		User user = userForm.getUser();
+		this.credentialsValidator.validate(credentials, userFormBindingResult);
+		this.userValidator.validate(user, userFormBindingResult);
+        if(!userFormBindingResult.hasErrors()) {
             credentials.setUser(user);
             user.setCredentials(credentials);
+			user.setUsername(credentials.getUsername());
             credentials=credentialsService.saveCredentials(credentials);
             user = userService.saveUser(user);
             model.addAttribute("user", user);
             return "redirect:/login";
         }
-        System.out.println(userBindingResult.getNestedPath());
-        System.out.println(credentialsBindingResult.getNestedPath());
-        return "redirect:/";
+        return "formNewWebUser.html";
     }
 	
 	@GetMapping("/login/{user_id}/steam")
@@ -82,25 +91,6 @@ public class LoggingController {
 		return steamLogginPageURL;
 	}
 
-//	@GetMapping("/login/{user_id}/steam/auth") // da steam, dopo aver premuto il bottone di login, si ritorna sul nostro sito
-//	public String steamLoginAuth(@PathVariable("user_id") Long userId, Model model, @RequestParam Map<String,String> allParams) throws SteamApiException { 
-//		User current= this.userService.getWebUserById(userId);
-//		String steamUserID = externalLogin.verify("http://localhost:8080/login/steam/auth", allParams);
-//		if(userRepository.existsBySteamId(steamUserID)) {
-//			current = userRepository.getBySteamId(steamUserID);
-//		} else {
-//			current= new User();
-//			current.setSteamId(steamUserID);
-//			GetPlayerSummariesRequest request= SteamWebApiRequestFactory.createGetPlayerSummariesRequest(Arrays.asList(steamUserID));
-//			GetPlayerSummaries answer = steamApi.getClient().<GetPlayerSummaries>processRequest(request);
-//			current.setUsername(answer.getResponse().getPlayers().get(0).getPersonaname());
-//			userRepository.save(current);
-//
-//		}
-//		//model.addAttribute("webUser", current);
-//		return "redirect:"+"/updateOwnedGames/"+current.getId().toString();
-//
-//	}
 	@GetMapping("/login/{user_id}/steam/auth") // da steam, dopo aver premuto il bottone di login, si ritorna sul nostro sito
 	public String steamLoginAuth(@PathVariable("user_id") Long userId, Model model, @RequestParam Map<String,String> allParams) throws SteamApiException { 
 		String steamUserID = externalLogin.verify("http://localhost:8080/login/"+userId+"/steam/auth", allParams);
@@ -113,6 +103,4 @@ public class LoggingController {
 			return "userError.html";
 		}
 	}
-
-
 }

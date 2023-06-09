@@ -58,7 +58,7 @@ public class UserController {
         return "user.html";
     }
 
-    @PostMapping("/webUsers")
+    /*@PostMapping("/webUsers")
     public String newWebUser(@ModelAttribute("webUser") User wu, Model model) throws SteamApiException {
         User user = this.userService.newWebUser(wu);
         if (user == null) {
@@ -68,21 +68,7 @@ public class UserController {
             model.addAttribute("user", wu);
             return "user.html";
         }
-
-    }
-
-    @GetMapping("/updateOwnedGames/{id}")
-    public String RefreshGames(Model model, @PathVariable("id") Long id) throws SteamApiException {
-        User wu = null;
-        try {
-            wu = this.userService.refreshGames(id);
-            model.addAttribute("user", wu);
-            return "redirect:/user/" + wu.getId().toString();
-        } catch (UserNotFoundException e) {
-            model.addAttribute("messaggioErrore", e.getMessage());
-            return "user.html";
-        }
-    }
+    }*/
 
     @GetMapping("/followers/{id}")
     public String followers(@PathVariable("id") Long id, Model model) {

@@ -88,7 +88,8 @@ public class UserService {
 				if(!gameRepository.existsBySteamcode(apiGame.getAppid())) {
 					Game g = new Game();
 					g.setSteamcode(apiGame.getAppid());
-					g.setName(apiGame.getName());/**/
+					g.setName(apiGame.getName());
+					insiemeGiochi.add(g);
 					gameRepository.save(g);
 				}else{
 					Game g = gameRepository.findBySteamcode(apiGame.getAppid()).orElse(null);
@@ -115,5 +116,9 @@ public class UserService {
 			user.setSteamId(steamUserID);
 			this.userRepository.save(user);
 		}
+	}
+
+	public boolean existsByEmail(String email) {
+		return this.userRepository.existsByEmail(email);
 	}
 }
