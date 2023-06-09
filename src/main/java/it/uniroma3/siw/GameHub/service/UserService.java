@@ -90,6 +90,8 @@ public class UserService {
 					g.setSteamcode(apiGame.getAppid());
 					g.setName(apiGame.getName());/**/
 					gameRepository.save(g);
+				}else{
+					Game g = gameRepository.findBySteamcode(apiGame.getAppid()).orElse(null);
 					insiemeGiochi.add(g);
 				}
 			}
