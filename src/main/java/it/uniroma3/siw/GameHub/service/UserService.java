@@ -54,13 +54,13 @@ public class UserService {
 	 * Metodo che interroga la steam api per ottenere gli ultimi 5 giochi giocati dall'utente di recente
 	 * @param id id dell'utente
 	 * @return lista di 5 giochi recentemente giocati
-	 * @throws SteamApiException
-	 * @throws UserNotFoundException
+	 * @throws SteamApiException se la richiesta alla steam api fallisce
+	 * @throws UserNotFoundException se l'utente non è presente nel database
 	 */
 	@Transactional
 	public List<Game> top5Games(Long id) throws SteamApiException, UserNotFoundException {
 		User wu = this.findUserById(id);
-		List<Game> topList= new ArrayList<Game>();
+		List<Game> topList= new ArrayList<>();
 		if(wu.getSteamId() != null && !wu.getSteamId().equals("")) {
 			GetRecentlyPlayedGamesRequest request= SteamWebApiRequestFactory.createGetRecentlyPlayedGamesRequest(wu.getSteamId(), 5);
 			GetRecentlyPlayedGames answer= steamApi.getClient().<GetRecentlyPlayedGames>processRequest(request);
@@ -74,14 +74,6 @@ public class UserService {
 		return topList;
 	}
 
-	@Transactional
-	public User newWebUser(User wu) {
-		User user=null;
-		if(!userRepository.existsByEmail(wu.getEmail())) {
-			user=userRepository.save(wu);
-		} 
-		return user;
-	}
 	@Transactional
 	public User refreshGames(Long id) throws SteamApiException, UserNotFoundException {
 		User wu= this.findUserById(id);

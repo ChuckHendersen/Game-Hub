@@ -55,7 +55,7 @@ public class LoggingController {
 	
 	@GetMapping("/register")
 	public String formNewWebUser(Model model) {
-		model.addAttribute("userForm", new UserForm(new Credentials() ,new User()));
+		model.addAttribute("userForm", new UserForm(this.credentialsService.createCredentials() ,this.userService.createUser()));
 		return "formNewWebUser.html";
 	}
 	
@@ -82,9 +82,9 @@ public class LoggingController {
 	
 	@GetMapping("/login/{user_id}/steam")
 	public String steamLogin(@PathVariable("user_id") Long userId,Model model) {
-		String steamLogginPageURL; // ridireziona al sito di steam per effettuare il login
-		steamLogginPageURL = "redirect:"+externalLogin.login("http://localhost:8080/login/"+userId+"/steam/auth");
-		return steamLogginPageURL;
+		String steamLoginPageURL; // ridireziona al sito di steam per effettuare il login
+		steamLoginPageURL = "redirect:"+externalLogin.login("http://localhost:8080/login/"+userId+"/steam/auth");
+		return steamLoginPageURL;
 	}
 
 	@GetMapping("/login/{user_id}/steam/auth") // da steam, dopo aver premuto il bottone di login, si ritorna sul nostro sito
