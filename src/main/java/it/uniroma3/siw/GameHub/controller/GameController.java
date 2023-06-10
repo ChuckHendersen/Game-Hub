@@ -1,16 +1,20 @@
 package it.uniroma3.siw.GameHub.controller;
 
 import com.lukaspradel.steamapi.core.exception.SteamApiException;
+import it.uniroma3.siw.GameHub.exceptions.SameUserException;
 import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import it.uniroma3.siw.GameHub.model.Game;
 import it.uniroma3.siw.GameHub.model.User;
 import it.uniroma3.siw.GameHub.service.GameService;
 import it.uniroma3.siw.GameHub.service.UserService;
+import org.aspectj.bridge.IMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 @Controller
 public class GameController {
@@ -76,11 +80,18 @@ public class GameController {
 	}
 	@GetMapping("/compareGames/{id1}/{id2}")
 	public String compareGames(@PathVariable("id1") Long id1, @PathVariable("id2") Long id2, Model model) {
-		Iterable<Game> insiemeGiochi = this.gameService.findGiochiInComune(id1, id2);
-		if(insiemeGiochi==null) {
-			model.addAttribute("messaggioErrore", "nessun gioco in comune");
-		}else {
-			model.addAttribute("games", insiemeGiochi);
+		List<Game> insiemeGiochi;
+		try {
+			insiemeGiochi =(List<Game>) this.gameService.findGiochiInComune(id1, id2);
+			if(insiemeGiochi==null || insiemeGiochi.size()==0) {
+				model.addAttribute("messaggioErrore", "nessun gioco in comune");
+			}else {
+				model.addAttribute("games", insiemeGiochi);
+			}
+		} catch (SameUserException e) {
+			model.addAttribute("messaggioErrore", e.getMessage());
+		} catch (UserNotFoundException e) {
+			model.addAttribute("messaggioErrore", e.getMessage());
 		}
 		return "compareGames.html";
 	}

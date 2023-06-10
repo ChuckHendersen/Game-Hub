@@ -42,13 +42,17 @@ public class UserService {
 	public User findUserById(Long id) throws UserNotFoundException {
 		User user = userRepository.findById(id).orElse(null);
 		if(user == null){
-			throw new UserNotFoundException("User with id: " + id + " not found");
+			throw new UserNotFoundException("Utente con id: " + id + " non trovato");
 		}else{
 			return user;
 		}
 
 	}
 
+	@Transactional
+	public boolean existsById(Long userId){
+		return this.userRepository.existsById(userId);
+	}
 
 	/**
 	 * Metodo che interroga la steam api per ottenere gli ultimi 5 giochi giocati dall'utente di recente

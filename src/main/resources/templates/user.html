@@ -23,7 +23,7 @@
 	</div>
 	<div th:if="${user.steamId}">
 			<div th:if="${top5Played.isEmpty()}">non hai giocato a nessun
-			gioco nelle ultime 2 settimane, o il tuo profilo è privato</div>
+			gioco nelle ultime 2 settimane, o il profilo è privato</div>
 		<ul>
 			<li th:each="game : ${top5Played}">
 				<a th:href="@{'/game' + '/' + ${game.id}}" th:text="${game.name}">Up!
@@ -36,10 +36,10 @@
 		</div>
 	</div>
 	<div>
-		<a th:href="@{'/followers/' +${user.id}}"> Scopri chi ti segue!! </a>
+		<a th:href="@{'/followers/' +${user.id}}"> Followers </a>
 	</div>
 	<div>
-		<a th:href="@{'/followed/' +${user.id}}"> Ricordati di chi stai seguendo!! </a>
+		<a th:href="@{'/followed/' +${user.id}}"> Seguiti </a>
 	</div>
 
 	<div th:if="${credentials.user.id != user.id}">
@@ -49,6 +49,10 @@
 		<div th:if="${giaSeguito==true}">
 			<a th:href="'/deleteFollow/'+${credentials.user.id}+'/'+${user.id}">Smetti di Seguire</a>
 		</div>
+	</div>
+
+	<div th:if="${credentials.user.id != user.id}">
+		<a th:href="'/compareGames/'+${credentials.user.id}+'/'+${user.id}">Confronta i giochi</a>
 	</div>
 </body>
 

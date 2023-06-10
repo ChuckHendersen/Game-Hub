@@ -6,6 +6,9 @@
 </head>
 <div> questi sono i giochi che avete in comune!!!!</div>
 <body>
+<div th:if="${messaggioErrore}">
+    <div th:text="${messaggioErrore}"></div>
+</div>
 <div th:each=" gioco:${games}">
   <div th:text="${gioco.name}"></div>
 </div>
