@@ -27,6 +27,8 @@ public class GameService {
 		return this.gameRepository.findById(id).orElse(null);
 	}
 
+
+	@Transactional
 	public Iterable<Game> findGiochiInComune(Long utente1Id, Long utente2Id) throws SameUserException, UserNotFoundException {
 		if(!this.userService.existsById(utente1Id) || !this.userService.existsById(utente2Id)){
 			throw new UserNotFoundException("Uno o più utenti da comparare non esistono");

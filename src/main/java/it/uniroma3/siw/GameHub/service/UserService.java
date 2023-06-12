@@ -39,9 +39,6 @@ public class UserService {
     @Autowired
     private SteamAPI steamApi;
 
-    @Autowired
-    private PictureRepository pictureRepository;
-
 
     @Transactional
     public Iterable<User> findAll() {
@@ -130,38 +127,6 @@ public class UserService {
             user.setSteamId(steamUserID);
             this.userRepository.save(user);
         }
-    }
-
-    @Transactional
-    public void updateUserImageFromSteam(Long userId) throws UserNotFoundException, SteamApiException {
-        User user = this.findUserById(userId);
-        if (user.getSteamId() != null) {
-            GetPlayerSummariesRequest request = SteamWebApiRequestFactory.createGetPlayerSummariesRequest(List.of(user.getSteamId()));
-            GetPlayerSummaries answer = steamApi.getClient().<GetPlayerSummaries>processRequest(request);
-            String imageLink = answer.getResponse().getPlayers().get(0).getAvatarfull();
-            user.setSteamProfilePictureLink(imageLink);
-            Picture daCancellare = user.getFoto();
-            user.setFoto(null);
-            userRepository.save(user);
-            if(daCancellare != null)
-                this.pictureRepository.delete(daCancellare);
-        }
-    }
-
-    @Transactional
-    public void updateUserImageFromFile(Long userId, MultipartFile file) throws UserNotFoundException, IOException {
-        User user= this.findUserById(userId);
-        Picture daCancellare = user.getFoto();
-        Picture nuova= new Picture();
-        nuova.setNome(file.getOriginalFilename());
-        nuova.setFoto(file.getBytes());
-        this.pictureRepository.save(nuova);
-        user.setFoto(nuova);
-        user.setSteamProfilePictureLink(null);
-        userRepository.save(user);
-        if(daCancellare != null)
-            this.pictureRepository.delete(daCancellare);
-
     }
 
     public boolean existsByEmail(String email) {

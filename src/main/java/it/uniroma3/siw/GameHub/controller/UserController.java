@@ -7,6 +7,7 @@ import it.uniroma3.siw.GameHub.model.Game;
 import it.uniroma3.siw.GameHub.model.User;
 import it.uniroma3.siw.GameHub.service.CredentialsService;
 import it.uniroma3.siw.GameHub.service.FollowService;
+import it.uniroma3.siw.GameHub.service.PictureService;
 import it.uniroma3.siw.GameHub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -31,6 +32,9 @@ public class UserController {
     private FollowService followService;
     @Autowired
     private CredentialsService credentialsService;
+
+    @Autowired
+    private PictureService pictureService;
 
 
     @GetMapping("/users")
@@ -123,7 +127,7 @@ public class UserController {
     @GetMapping("/setProfileImageFromLink/{userId}")
     public String setProfileImageFromLink(@PathVariable("userId") Long userId, Model model){
         try {
-            this.userService.updateUserImageFromSteam(userId);
+            this.pictureService.updateUserImageFromSteam(userId);
         } catch (UserNotFoundException e) {
             throw new RuntimeException(e);
         } catch (SteamApiException e) {
@@ -135,7 +139,7 @@ public class UserController {
     @GetMapping("/setProfileImageFromFile/{userId}")
     public String setProfileImageFromFile(@PathVariable("userId") Long userId, MultipartFile file, Model model){
         try {
-            this.userService.updateUserImageFromFile(userId, file);
+            this.pictureService.updateUserImageFromFile(userId, file);
         } catch (UserNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
