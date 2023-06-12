@@ -8,7 +8,7 @@
 		<div>
 			<ul>
 				<li th:each="game:${games}">
-					<a th:text="${game.name}" th:href="'/game/'+${game.id}"></a>
+					<a th:text="${game.name}" th:href="'https://store.steampowered.com/app/'+${game.steamcode}"></a>
 				</li>
 			</ul>
 		</div>
