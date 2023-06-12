@@ -146,4 +146,7 @@ public class User {
         this.followers.remove(followToBeDeleted);
     }
 
+    public void setSteamProfilePictureLink(String imageLink) {
+        this.steamProfilePictureLink = imageLink;
+    }
 }
