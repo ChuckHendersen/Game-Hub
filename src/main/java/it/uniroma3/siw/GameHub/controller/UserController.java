@@ -17,7 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -102,5 +104,29 @@ public class UserController {
             credentials = this.credentialsService.getCredentials(user.getUsername());
         }
         return credentials;
+    }
+
+    @GetMapping("/setProfileImageFromLink/{userId}")
+    public String setProfileImageFromLink(@PathVariable("userId") Long userId, Model model){
+        try {
+            this.userService.updateUserImageFromSteam(userId);
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SteamApiException e) {
+            throw new RuntimeException(e);
+        }
+        return "redirect:/user/"+userId;
+    }
+
+    @GetMapping("/setProfileImageFromFile/{userId}")
+    public String setProfileImageFromFile(@PathVariable("userId") Long userId, MultipartFile file, Model model){
+        try {
+            this.userService.updateUserImageFromFile(userId, file);
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return "redirect:/user/"+userId;
     }
 }

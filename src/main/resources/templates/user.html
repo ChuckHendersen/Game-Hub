@@ -7,6 +7,9 @@
 
 <body>
 	<h1>Utente</h1>
+	<div th:if="${user.steamProfilePictureLink}">
+		<img th:src="${user.steamProfilePictureLink}">
+	</div>
 	<div>
 		<span th:text="'Username: '+${user.username}"></span>
 	</div>
