@@ -2,8 +2,10 @@ package it.uniroma3.siw.GameHub.service;
 
 import com.lukaspradel.steamapi.core.exception.SteamApiException;
 import com.lukaspradel.steamapi.data.json.ownedgames.GetOwnedGames;
+import com.lukaspradel.steamapi.data.json.playersummaries.GetPlayerSummaries;
 import com.lukaspradel.steamapi.data.json.recentlyplayedgames.GetRecentlyPlayedGames;
 import com.lukaspradel.steamapi.webapi.request.GetOwnedGamesRequest;
+import com.lukaspradel.steamapi.webapi.request.GetPlayerSummariesRequest;
 import com.lukaspradel.steamapi.webapi.request.GetRecentlyPlayedGamesRequest;
 import com.lukaspradel.steamapi.webapi.request.builders.SteamWebApiRequestFactory;
 import it.uniroma3.siw.GameHub.SteamAPI;
@@ -117,6 +119,17 @@ public class UserService {
 		if(user!=null) {
 			user.setSteamId(steamUserID);
 			this.userRepository.save(user);
+		}
+	}
+
+	@Transactional
+	public void updateUserImageFromSteam(Long userId) throws UserNotFoundException, SteamApiException {
+		User user = this.findUserById(userId);
+		if(user.getSteamId()!=null){
+			GetPlayerSummariesRequest request= SteamWebApiRequestFactory.createGetPlayerSummariesRequest(List.of(user.getSteamId()));
+			GetPlayerSummaries answer= steamApi.getClient().<GetPlayerSummaries>processRequest(request);
+			String imageLink= answer.getResponse().getPlayers().get(0).getAvatarfull();
+			user.setSteamProfilePictureLink(imageLink);
 		}
 	}
 
