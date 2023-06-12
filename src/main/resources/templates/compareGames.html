@@ -12,5 +12,8 @@
 <div th:each=" gioco:${games}">
   <div th:text="${gioco.name}"></div>
 </div>
+<a th:href="'/user/'+${credentials.user.id}">Torna al tuo profilo</a>
+<a th:href="'/user/'+${user.id}">Torna al profilo di ${user.username}</a>
+<a th:href="/">Torna alla home</a>
 </body>
 </html>

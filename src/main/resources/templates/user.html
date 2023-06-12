@@ -57,6 +57,7 @@
 	<div th:if="${credentials.user.id != user.id}">
 		<a th:href="'/compareGames/'+${credentials.user.id}+'/'+${user.id}">Confronta i giochi</a>
 	</div>
+	<a th:href="/">Torna alla home</a>
 </body>
 
 </html>
