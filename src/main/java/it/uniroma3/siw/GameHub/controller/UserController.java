@@ -106,6 +106,20 @@ public class UserController {
         return credentials;
     }
 
+    @GetMapping("/editUserPicture/{id}")
+    public String editUserPicture(@PathVariable("id") Long id, Model model) {
+        User user = null;
+        try {
+            user = this.userService.findUserById(id);
+            model.addAttribute("user", user);
+            return "editUserPicture.html";
+        } catch (UserNotFoundException e) {
+            model.addAttribute("messaggioErrore", e.getMessage());
+            return "user.html";
+        }
+    }
+
+
     @GetMapping("/setProfileImageFromLink/{userId}")
     public String setProfileImageFromLink(@PathVariable("userId") Long userId, Model model){
         try {
