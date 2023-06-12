@@ -149,4 +149,16 @@ public class User {
     public void setSteamProfilePictureLink(String imageLink) {
         this.steamProfilePictureLink = imageLink;
     }
+
+    public boolean hasProfilePicture(){
+        return this.foto != null || this.steamProfilePictureLink != null;
+    }
+
+    public String getProfilePicture(){
+        if(this.foto != null){
+            return this.foto.getHtmlPicture();
+        }else{
+            return this.steamProfilePictureLink;
+        }
+    }
 }

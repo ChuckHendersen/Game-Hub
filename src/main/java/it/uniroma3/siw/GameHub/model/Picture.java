@@ -44,6 +44,9 @@ public class Picture {
         return Base64.getMimeEncoder().encodeToString(foto);
     }
 
+    public String getHtmlPicture() {
+        return "data:image;base64,"+this.getImgData();
+    }
     @Override
     public int hashCode() {
         final int prime = 31;

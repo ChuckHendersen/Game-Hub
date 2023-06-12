@@ -7,9 +7,15 @@
 
 <body>
 	<h1>Utente</h1>
-	<div th:if="${user.steamProfilePictureLink}">
-		<img th:src="${user.steamProfilePictureLink}">
-	</div>
+
+	<a th:href="'/editUserPicture/'+${user.id}"><div>
+		<div th:if="${user.hasProfilePicture()}">
+			<img th:src="${user.getProfilePicture()}">
+		</div>
+		<div th:unless="${user.hasProfilePicture()}">
+			<img src="/images/default_pfp.jpg">
+		</div>
+	</div></a>
 	<div>
 		<span th:text="'Username: '+${user.username}"></span>
 	</div>
@@ -39,10 +45,10 @@
 		</div>
 	</div>
 	<div>
-		<a th:href="@{'/followers/' +${user.id}}"> Followers </a>
+		<a th:href="'/followers/' +${user.id}"> Followers </a>
 	</div>
 	<div>
-		<a th:href="@{'/followed/' +${user.id}}"> Seguiti </a>
+		<a th:href="'/followed/' +${user.id}"> Seguiti </a>
 	</div>
 
 	<div th:if="${credentials.user.id != user.id}">
@@ -57,7 +63,7 @@
 	<div th:if="${credentials.user.id != user.id}">
 		<a th:href="'/compareGames/'+${credentials.user.id}+'/'+${user.id}">Confronta i giochi</a>
 	</div>
-	<a th:href="/">Torna alla home</a>
+	<a href="'/'">Torna alla home</a>
 </body>
 
 </html>

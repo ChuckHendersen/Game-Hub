@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica la tua immagine di profilo</title>
+</head>
+<body>
+  <div>
+  <h1>Modifica la tua immagine di profilo</h1>
+    <form method="post" enctype="multipart/form-data" th:action="'/setProfileImageFromFile/'+${user.id}">
+      <input type="file" name="file" accept="image/*">
+      <input type="submit" value="Modifica">
+    </form>
+    <span>OPPURE</span>
+    <a th:href="'/setProfileImageFromLink/'+${user.id}">prendila dal tuo profilo steam</a>
+  </div>
+</body>
+</html>

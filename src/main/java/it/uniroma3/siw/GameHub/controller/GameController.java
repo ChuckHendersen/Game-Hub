@@ -82,15 +82,15 @@ public class GameController {
 	public String compareGames(@PathVariable("id1") Long id1, @PathVariable("id2") Long id2, Model model) {
 		List<Game> insiemeGiochi;
 		try {
+			model.addAttribute("userA", this.userService.findUserById(id1));
+			model.addAttribute("userB", this.userService.findUserById(id2));
 			insiemeGiochi =(List<Game>) this.gameService.findGiochiInComune(id1, id2);
 			if(insiemeGiochi==null || insiemeGiochi.size()==0) {
 				model.addAttribute("messaggioErrore", "nessun gioco in comune");
 			}else {
 				model.addAttribute("games", insiemeGiochi);
 			}
-		} catch (SameUserException e) {
-			model.addAttribute("messaggioErrore", e.getMessage());
-		} catch (UserNotFoundException e) {
+		} catch (SameUserException | UserNotFoundException e) {
 			model.addAttribute("messaggioErrore", e.getMessage());
 		}
 		return "compareGames.html";
