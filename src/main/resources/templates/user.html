@@ -1,141 +1,158 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
 
-	<title>Pagina utente</title>
+    <title>Pagina utente</title>
 
-	<link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/jumbotron/">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/jumbotron/">
 
-	<!-- Bootstrap core CSS -->
-	<link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
 
-	<!-- Custom styles for this template -->
-	<link href="jumbotron.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="jumbotron.css" rel="stylesheet">
 </head>
 
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 
-	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
-				<div>
-					<a th:href="'/user/'+${credentials.user.id}" th:text="${credentials.user.username}" ></a>
-					<a href="/logout">Logout</a>
-				</div>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <div>
+                    <a th:href="'/user/'+${credentials.user.id}" th:text="${credentials.user.username}"></a>
+                    <a href="/logout">Logout</a>
+                </div>
 
-			</li>
-		</ul>
+            </li>
+        </ul>
 
-		<form th:action="'/findUserByUsername'" method="POST" class="form-inline my-2 my-lg-0">
-			<input class="form-control mr-sm-2" name="Username" type="text" placeholder="Cerca utenti" aria-label="Search">
-			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cerca</button>
-		</form>
-	</div>
+        <form th:action="'/findUserByUsername'" method="POST" class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" name="Username" type="text" placeholder="Cerca utenti"
+                   aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cerca</button>
+        </form>
+    </div>
 </nav>
 
 <main role="main">
+    <div th:if="${user}">
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron container">
+            <div class="row">
+                <div class="col-md-4">
+                    <a th:href="'/editUserPicture/'+${user.id}">
+                        <div>
+                            <div th:if="${user.hasProfilePicture()}">
+                                <img th:src="${user.getProfilePicture()}">
+                            </div>
+                            <div th:unless="${user.hasProfilePicture()}">
+                                <img src="/images/default_pfp.jpg">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <div th:text="${user.username}"></div>
+                    <div th:text="${user.steamId}"></div>
+                </div>
+                <div class="col-md-4">
 
-	<!-- Main jumbotron for a primary marketing message or call to action -->
-	<div class="jumbotron container">
-		<div class="row">
-			<div class="col-md-4">
-				<a th:href="'/editUserPicture/'+${user.id}">
-					<div>
-						<div th:if="${user.hasProfilePicture()}">
-							<img th:src="${user.getProfilePicture()}">
-						</div>
-						<div th:unless="${user.hasProfilePicture()}">
-							<img src="/images/default_pfp.jpg">
-						</div>
-					</div>
-				</a>
-			</div>
-			<div class="col-md-4">
-				<div th:text="${user.username}"></div>
-				<div th:text="${user.steamId}"></div>
-			</div>
-			<div class="col-md-4">
+                    <div>
+                        <div th:if="${user.steamId==null}">
+                            <a th:href="'/login/'+${user.id}+'/steam'">connetti steam al
+                                tuo account</a>
+                            <div> INFORMAZIONI STEAM SOLO DOPO AVER OTTENUTO LO STEAM ID</div>
+                        </div>
+                        <div th:if="${user.steamId}">
+                            <div th:if="${top5Played.isEmpty()}">non hai giocato a nessun
+                                gioco nelle ultime 2 settimane, o il profilo è privato
+                            </div>
+                            <ul>
+                                <li th:each="game : ${top5Played}">
+                                    <a th:href="@{'/game' + '/' + ${game.id}}" th:text="${game.name}">Up!
+                                        (2000)</a>
+                                </li>
+                            </ul>
+                            <div>
+                                <a th:href="@{'/updateOwnedGames/'+${user.id}}">aggiorna giochi
+                                    posseduti</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${credentials.user.id != user.id}">
+                <div th:if="${giaSeguito==false}">
+                    <a th:href="'/newFollow/'+${credentials.user.id}+'/'+${user.id}">Segui</a>
+                </div>
+                <div th:if="${giaSeguito==true}">
+                    <a th:href="'/deleteFollow/'+${credentials.user.id}+'/'+${user.id}">Smetti di Seguire</a>
+                </div>
+            </div>
 
-				<div>
-					<div th:if="${user.steamId==null}">
-						<a th:href="'/login/'+${user.id}+'/steam'">connetti steam al
-							tuo account</a>
-						<div> INFORMAZIONI STEAM SOLO DOPO AVER OTTENUTO LO STEAM ID</div>
-					</div>
-					<div th:if="${user.steamId}">
-						<div th:if="${top5Played.isEmpty()}">non hai giocato a nessun
-							gioco nelle ultime 2 settimane, o il profilo è privato</div>
-						<ul>
-							<li th:each="game : ${top5Played}">
-								<a th:href="@{'/game' + '/' + ${game.id}}" th:text="${game.name}">Up!
-									(2000)</a>
-							</li>
-						</ul>
-						<div>
-							<a th:href="@{'/updateOwnedGames/'+${user.id}}">aggiorna giochi
-								posseduti</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div th:if="${credentials.user.id != user.id}">
-			<div th:if="${giaSeguito==false}">
-				<a th:href="'/newFollow/'+${credentials.user.id}+'/'+${user.id}">Segui</a>
-			</div>
-			<div th:if="${giaSeguito==true}">
-				<a th:href="'/deleteFollow/'+${credentials.user.id}+'/'+${user.id}">Smetti di Seguire</a>
-			</div>
-		</div>
-
-		<div th:if="${credentials.user.id != user.id}">
-			<a th:href="'/compareGames/'+${credentials.user.id}+'/'+${user.id}">Confronta i giochi</a>
-		</div>
+            <div th:if="${credentials.user.id != user.id}">
+                <a th:href="'/compareGames/'+${credentials.user.id}+'/'+${user.id}">Confronta i giochi</a>
+            </div>
 
 
-	</div>
+        </div>
 
-	<div class="container">
-		<!-- Example row of columns -->
-		<div class="row">
-			<div class="col-md-4">
-				<h2>Scopri chi ti segue</h2>
-				<p>Lo so che la vita del nerd è difficile, però ci sono persone che si interessano a te, scopri chi! </p>
-				<p><a class="btn btn-secondary" th:href="'/followers/' +${user.id}" role="button">Followers &raquo;</a></p>
-			</div>
-			<div class="col-md-4">
-				<h2>Ricordati di chi segui</h2>
-				<p>Vai a guardare le persone che hai ritenuto abbastanza interessanti da seguire! </p>
-				<p><a class="btn btn-secondary" th:href="'/followed/' +${user.id}" role="button">Followed &raquo;</a></p>
-			</div>
-			<div class="col-md-4">
-				<h2>Vedi tutti i tuoi giochi</h2>
-				<p>Ma a quanti giochi hai giocato? Qui ci sono tutti i motivi per cui non ti abbronzi neanche d'estate! </p>
-				<p><a class="btn btn-secondary" th:href="'/ownedGames'+${user.id}" role="button">Tutti i tuoi giochi &raquo;</a></p>
-			</div>
-		</div>
+        <div class="container">
+            <!-- Example row of columns -->
+            <div class="row">
+                <div class="col-md-4">
+                    <h2>Scopri chi ti segue</h2>
+                    <p>Lo so che la vita del nerd è difficile, però ci sono persone che si interessano a te, scopri
+                        chi! </p>
+                    <p><a class="btn btn-secondary" th:href="'/followers/' +${user.id}" role="button">Followers
+                        &raquo;</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Ricordati di chi segui</h2>
+                    <p>Vai a guardare le persone che hai ritenuto abbastanza interessanti da seguire! </p>
+                    <p><a class="btn btn-secondary" th:href="'/followed/' +${user.id}" role="button">Followed
+                        &raquo;</a></p>
+                </div>
+                <div class="col-md-4">
+                    <h2>Vedi tutti i tuoi giochi</h2>
+                    <p>Ma a quanti giochi hai giocato? Qui ci sono tutti i motivi per cui non ti abbronzi neanche
+                        d'estate! </p>
+                    <p><a class="btn btn-secondary" th:href="'/ownedGames'+${user.id}" role="button">Tutti i tuoi giochi
+                        &raquo;</a></p>
+                </div>
+            </div>
 
-		<hr>
+            <hr>
 
-	</div> <!-- /container -->
-
+        </div> <!-- /container -->
+    </div>
+    <div th:if="${messaggioErrore}">
+        <div th:text="${messaggioErrore}"></div>
+    </div>
 </main>
 
 <footer class="container">
-	<p>&copy; Giovy e Lollo</p>
+    <p>&copy; Giovy e Lollo</p>
 </footer>
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>
