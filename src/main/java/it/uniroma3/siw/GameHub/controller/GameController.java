@@ -37,7 +37,7 @@ public class GameController {
 		return "games.html";
 	}
 	
-	@GetMapping("/game/{id}")
+	/*@GetMapping("/game/{id}")
 	public String game(@PathVariable("id") Long id, Model model) {
 		Game game = getGame(id);
 		if(game==null) {
@@ -46,7 +46,7 @@ public class GameController {
 			model.addAttribute("game", game);
 		}
 		return "game.html";
-	}
+	}*/
 
 	@GetMapping("/updateOwnedGames/{id}")
 	public String RefreshGames(Model model, @PathVariable("id") Long id) throws SteamApiException {

@@ -11,5 +11,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	public boolean existsByEmail(String email);
 	public boolean existsBySteamId(String steamId);
 	public User getBySteamId(String steamUserID);
-		
+
+	public Iterable<User> findByUsernameContaining(String usernameFragment);
+
 }

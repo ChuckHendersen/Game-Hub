@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -39,13 +41,17 @@ public class UserController {
     private PictureService pictureService;
 
 
-    @GetMapping("/users")
-    public String webUsers(Model model) {
-        List<User> lista = (List<User>) userService.findAll();
-        model.addAttribute("users", lista);
-        if (lista.size() == 0) {
-            model.addAttribute("messaggioErrore", "nessun utente registrato esistente");
-        }
+    @GetMapping("/formFindUserByUsername")
+    public String formFindUser(Model model) {
+        return "formFindUserByUsername.html";
+    }
+
+    @PostMapping("/findUserByUsername")
+    public String findUserByUsername(@RequestParam("username") String username, Model model){
+        String usernameMinuscolo = username.toLowerCase();
+        Set<User> users = new HashSet<>(this.userService.getUsersContainingUsername(username));
+        users.addAll(this.userService.getUsersContainingUsername(usernameMinuscolo));
+        model.addAttribute("users", users);
         return "users.html";
     }
 
@@ -149,4 +155,5 @@ public class UserController {
         }
         return "redirect:/user/"+userId;
     }
+
 }
