@@ -44,7 +44,7 @@
 </nav>
 
 <main role="main">
-    <div th:if="${user}">
+    <div class="mt-5" th:if="${user}">
         <!-- Main jumbotron for a primary marketing message or call to action -->
         <div class="jumbotron container">
             <div class="row">
@@ -52,10 +52,10 @@
                     <a th:href="'/editUserPicture/'+${user.id}">
                         <div>
                             <div th:if="${user.hasProfilePicture()}">
-                                <img th:src="${user.getProfilePicture()}">
+                                <img th:src="${user.getProfilePicture()}" style="object-fit: contain;height: 184px; width:184px; background: blanchedalmond;">
                             </div>
                             <div th:unless="${user.hasProfilePicture()}">
-                                <img src="/images/default_pfp.jpg">
+                                <img src="/images/default_pfp.jpg" style="object-fit: contain;height: 184px; width:184px; background: blanchedalmond;">
                             </div>
                         </div>
                     </a>
@@ -75,6 +75,9 @@
                         <div th:if="${user.steamId}">
                             <div th:if="${top5Played.isEmpty()}">non hai giocato a nessun
                                 gioco nelle ultime 2 settimane, o il profilo è privato
+                            </div>
+                            <div th:if="${!top5Played.isEmpty()}">
+                                Ecco i giochi a cui hai giocato recentemente
                             </div>
                             <ul>
                                 <li th:each="game : ${top5Played}">
