@@ -23,22 +23,29 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <div>
-                    <a href="/user/1">ciao</a>
+                    <a th:href="'/user/'+${credentials.user.id}" th:text="${credentials.user.username}" ></a>
                     <a href="/logout">Logout</a>
                 </div>
+
             </li>
         </ul>
+
+        <form th:action="'/findUserByUsername'" method="POST" class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" name="Username" type="text" placeholder="Cerca utenti" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cerca</button>
+        </form>
     </div>
 </nav>
 
 <div class="jumbotron">
     <div class="container">
-        <h1 class="display-3">I nostri giochi</h1>
-        <p>Questa è una lista dei nostri giochi... TUTTI i nostri giochi</p>
+        <h1 class="display-3">Giochi in comune</h1>
+        <p>Questa è la lista dei giochi in comune</p>
     </div>
 </div>
 
@@ -49,7 +56,7 @@
 
     <div class="game-list">
         <div th:each="gioco: ${games}">
-            <div th:text="${gioco.name}"></div>
+          <div>  <a th:text="${gioco.name}" th:href="'https://store.steampowered.com/app/' + ${gioco.steamcode}"></a> </div>
         </div>
     </div>
 

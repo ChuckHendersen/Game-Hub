@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @PostMapping("/findUserByUsername")
-    public String findUserByUsername(@RequestParam("username") String username, Model model){
+    public String findUserByUsername(@RequestParam("Username") String username, Model model){
         String usernameMinuscolo = username.toLowerCase();
         Set<User> users = new HashSet<>(this.userService.getUsersContainingUsername(username));
         users.addAll(this.userService.getUsersContainingUsername(usernameMinuscolo));

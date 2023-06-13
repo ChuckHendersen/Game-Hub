@@ -27,15 +27,15 @@
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item active">
 				<div>
-					<a href="/user/1">ciao</a>
+					<a th:href="'/user/'+${credentials.user.id}" th:text="${credentials.user.username}" ></a>
 					<a href="/logout">Logout</a>
 				</div>
 
 			</li>
 		</ul>
 
-		<form action="/findUserByUsername" method="POST" class="form-inline my-2 my-lg-0"><input type="hidden" name="_csrf" value="X8kMI53y1b2Y_AJ-gSOZvOeRjwAM6y_3OEHeyCvzeFlgfNIWPv5oFKzD7Yq1zDtJuQ6t3db3ojhvjk7aW3bmrhjHG2oBTrMl"/>
-			<input class="form-control mr-sm-2" name="username" type="text" placeholder="Cerca utenti" aria-label="Search">
+		<form th:action="'/findUserByUsername'" method="POST" class="form-inline my-2 my-lg-0">
+			<input class="form-control mr-sm-2" name="Username" type="text" placeholder="Cerca utenti" aria-label="Search">
 			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cerca</button>
 		</form>
 	</div>
