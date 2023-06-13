@@ -40,7 +40,7 @@ public class GameController {
 	@GetMapping("/ownedGames/{user_id}")
 	public String ownedGames(@PathVariable("user_id") Long userId, Model model){
 		try {
-			List<Game> ownedGames = (List<Game>) this.gameService.getOwnedGames(userId);
+			Iterable<Game> ownedGames = this.gameService.getOwnedGames(userId);
 			model.addAttribute("games", ownedGames);
 		} catch (UserNotFoundException e) {
 			model.addAttribute("messaggioErrore", e.getMessage());

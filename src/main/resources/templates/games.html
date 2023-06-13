@@ -4,6 +4,9 @@
 		<title>Giochi</title>
 	</head>
 	<body>
+	<div th:if="${messaggioErrore}">
+		<span th:text="${messaggioErrore}"></span>
+	</div>
 		<h1>Lista giochi</h1>
 		<div>
 			<ul>
