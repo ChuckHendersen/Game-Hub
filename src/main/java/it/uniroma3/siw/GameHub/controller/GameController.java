@@ -36,6 +36,17 @@ public class GameController {
 		}
 		return "games.html";
 	}
+
+	@GetMapping("/ownedGames/{user_id}")
+	public String ownedGames(@PathVariable("user_id") Long userId, Model model){
+		try {
+			List<Game> ownedGames = (List<Game>) this.gameService.getOwnedGames(userId);
+			model.addAttribute("games", ownedGames);
+		} catch (UserNotFoundException e) {
+			model.addAttribute("messaggioErrore", e.getMessage());
+		}
+		return "games.html";
+	}
 	
 	/*@GetMapping("/game/{id}")
 	public String game(@PathVariable("id") Long id, Model model) {

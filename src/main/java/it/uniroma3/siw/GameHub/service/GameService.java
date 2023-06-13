@@ -3,6 +3,7 @@ package it.uniroma3.siw.GameHub.service;
 import it.uniroma3.siw.GameHub.exceptions.SameUserException;
 import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import it.uniroma3.siw.GameHub.model.Game;
+import it.uniroma3.siw.GameHub.model.User;
 import it.uniroma3.siw.GameHub.repository.GameRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,4 +39,9 @@ public class GameService {
 		}
 		return this.gameRepository.findGiochiInComune(utente1Id, utente2Id);
 	}
+
+    public Iterable<Game> getOwnedGames(Long userId) throws UserNotFoundException {
+		User user = this.userService.findUserById(userId);
+		return user.getOwnedGames();
+    }
 }
