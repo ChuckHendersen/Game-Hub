@@ -2,6 +2,9 @@
 <html>
 	<head>
 		<title>Registrazione - GameHub</title>
+		<meta th:replace="~{fragments/header.html :: metaFragment}"/>
+		<link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
+		<link th:replace="~{fragments/bootstrap.html :: bsCss}" />
 	</head>
 	<body>
 		<h1>Registrazione nuovo utente</h1>
@@ -28,6 +31,7 @@
 			<button type="submit">Registra</button>
 		</div>
 	</form>
+	<div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
 </body>
 </html>
 	

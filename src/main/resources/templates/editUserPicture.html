@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>Modifica la tua immagine di profilo</title>
+  <meta th:replace="~{fragments/header.html :: metaFragment}"/>
+  <link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
+  <link th:replace="~{fragments/bootstrap.html :: bsCss}" />
 </head>
 <body>
   <div>
@@ -14,5 +16,6 @@
     <span>OPPURE</span>
     <a th:href="'/setProfileImageFromLink/'+${user.id}">prendila dal tuo profilo steam</a>
   </div>
+  <div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
 </body>
 </html>

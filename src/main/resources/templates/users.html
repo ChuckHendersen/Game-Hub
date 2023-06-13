@@ -1,22 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
-
+	<meta th:replace="~{fragments/header.html :: metaFragment}"/>
+	<link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
+	<link th:replace="~{fragments/bootstrap.html :: bsCss}" />
 	<title>Users</title>
-
-	<link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/jumbotron/">
-
-	<!-- Bootstrap core CSS -->
-	<link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
-
-	<!-- Custom styles for this template -->
-	<link href="jumbotron.css" rel="stylesheet">
 </head>
 
 <body>
@@ -67,6 +55,7 @@
 <footer class="container">
 	<p>&copy; Giovy e Lollo</p>
 </footer>
+<div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
 	</body>
 </html>
 	

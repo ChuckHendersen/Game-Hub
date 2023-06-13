@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta th:replace="~{fragments/header.html :: metaFragment}"/>
+    <link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
+    <link th:replace="~{fragments/bootstrap.html :: bsCss}" />
     <title>Title</title>
 </head>
 <body>
   stai provando a fare qualcosa di strano con sti follow?
   nun lo fa... nun lo fa...
   <span th:text="${messaggioErrore}"></span>
-
+  <div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
 </body>
 </html>

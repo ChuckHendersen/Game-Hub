@@ -5,7 +5,9 @@
 	<title>
 		SiwMovie - Login
 	</title>
-	<link rel="stylesheet" href="/css/stylesheet.css" />
+	<meta th:replace="~{fragments/header.html :: metaFragment}"/>
+	<link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
+	<link th:replace="~{fragments/bootstrap.html :: bsCss}" />
 </head>
 
 <body>
@@ -38,6 +40,7 @@
 	<div>
 		<a th:href="@{/register}" th:text="Registrati">Registrati</a>
 	</div>
+	<div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
 </body>
 
 </html>

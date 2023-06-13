@@ -1,24 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <link th:fragment="bsCss" rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
-
     <title>Homepage - GameHub</title>
-
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/jumbotron/">
-
-    <!-- Bootstrap core CSS -->
-    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="jumbotron.css" rel="stylesheet">
+    <meta th:replace="~{fragments/header.html :: metaFragment}"/>
+    <link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
+    <link th:replace="~{fragments/bootstrap.html :: bsCss}" />
 </head>
 
 <body>
@@ -62,7 +48,7 @@
 
     <div th:if="${userDetails}" class="container">
         <!-- Example row of columns -->
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-4">
                 <h2>Vai al tuo profilo</h2>
                 <p>entra nel tuo profilo, scopri chi ti segue, ricordati di chi segui, scopri a quali giochi hai giocato
@@ -83,7 +69,7 @@
 
     </div> <!-- /container -->
     <div th:unless="${userDetails}" class="container">
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-4">
                 <h2>Registrati</h2>
                 <p>Unisciti oggi e migliora la tua gaming experience.</p>
@@ -112,11 +98,6 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-<script src="../../assets/js/vendor/popper.min.js"></script>
-<script src="../../dist/js/bootstrap.min.js"></script>
+<div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
 </body>
 </html>

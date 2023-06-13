@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta th:replace="~{fragments/header.html :: metaFragment}"/>
+    <link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
+    <link th:replace="~{fragments/bootstrap.html :: bsCss}" />
     <title>Cerca un utente per username</title>
 </head>
 <body>
@@ -11,5 +13,6 @@
         </label>
         <span><button type="submit">Cerca</button></span>
     </form>
+    <div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
 </body>
 </html>
