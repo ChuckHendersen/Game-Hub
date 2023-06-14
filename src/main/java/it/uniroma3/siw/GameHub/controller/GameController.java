@@ -32,6 +32,7 @@ public class GameController {
 		if(insiemeGiochi==null) {
 			model.addAttribute("messaggioErrore", "nessun gioco esiste nel database");
 		}else {
+			model.addAttribute("titoloListaGiochi", "Tutti i nostri giochi");
 			model.addAttribute("games", insiemeGiochi);	
 		}
 		return "games.html";
@@ -42,6 +43,7 @@ public class GameController {
 		try {
 			Iterable<Game> ownedGames = this.gameService.getOwnedGames(userId);
 			model.addAttribute("games", ownedGames);
+			model.addAttribute("titoloListaGiochi", "Giochi posseduti da " + this.userService.findUserById(userId).getUsername());
 		} catch (UserNotFoundException e) {
 			model.addAttribute("messaggioErrore", e.getMessage());
 		}
@@ -63,7 +65,7 @@ public class GameController {
 	public String RefreshGames(Model model, @PathVariable("id") Long id) throws SteamApiException {
 		User wu = null;
 		try {
-			wu = this.userService.refreshGames(id);
+			wu = this.gameService.refreshGames(id);
 			model.addAttribute("user", wu);
 			return "redirect:/user/" + wu.getId().toString();
 		} catch (UserNotFoundException e) {

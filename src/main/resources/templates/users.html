@@ -1,61 +1,39 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<meta th:replace="~{fragments/header.html :: metaFragment}"/>
-	<link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
-	<link th:replace="~{fragments/bootstrap.html :: bsCss}" />
-	<title>Users</title>
+    <meta th:replace="~{fragments/header.html :: metaFragment}"/>
+    <link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
+    <link th:replace="~{fragments/bootstrap.html :: bsCss}"/>
+    <title>Users</title>
 </head>
 
 <body>
-
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-
-	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
-				<div>
-					<a th:href="'/user/'+${credentials.user.id}" th:text="${credentials.user.username}" ></a>
-					<a href="/logout">Logout</a>
-				</div>
-
-			</li>
-		</ul>
-
-		<form th:action="'/findUserByUsername'" method="POST" class="form-inline my-2 my-lg-0">
-			<input class="form-control mr-sm-2" name="Username" type="text" placeholder="Cerca utenti" aria-label="Search">
-			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cerca</button>
-		</form>
-	</div>
-</nav>
-
+<nav th:replace="~{fragments/loginHeader.html :: header}"></nav>
 <div class="jumbotron">
-	<div class="container">
-		<h1 class="display-3">Utenti trovati</h1>
-		<p>se non l'hai trovato cerca meglio!</p>
-	</div>
+    <div class="container">
+        <h1 class="display-3">Utenti trovati</h1>
+        <p>se non l'hai trovato cerca meglio!</p>
+    </div>
 </div>
-		<div th:if="${messaggioErrore}">
-			<span th:text="${messaggioErrore}"></span>
-		</div>
-		<div th:if="${users.isEmpty()}">nessun utente trovato</div>
-<table class="table table-striped">
-	<tbody>
-	<tr th:each="user : ${users}">
-		<td>
-			<a th:href="@{'/user/' + ${user.id}}" th:text="${user.username}">Up!
-				(2000)</a>
-		</td>
-	</tr>
-	</tbody>
-</table>
-
-		<a th:href="'/user/'+${credentials.user.id}">Torna al tuo profilo</a>
-
-<footer class="container">
-	<p>&copy; Giovy e Lollo</p>
-</footer>
+<div th:if="${messaggioErrore}">
+    <span th:text="${messaggioErrore}"></span>
+</div>
+<div th:if="${users.isEmpty()}">nessun utente trovato</div>
+<div class="container">
+    <table class="table table-striped">
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td>
+                <a th:href="@{'/user/' + ${user.id}}" th:text="${user.username}">Up!
+                    (2000)</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="'/user/'+${credentials.user.id}">Torna al tuo profilo</a>
+</div>
+<footer th:replace="~{fragments/footer.html :: footer}"></footer>
 <div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
-	</body>
+</body>
 </html>
 	

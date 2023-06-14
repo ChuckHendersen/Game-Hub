@@ -1,37 +1,40 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Registrazione - GameHub</title>
-		<meta th:replace="~{fragments/header.html :: metaFragment}"/>
-		<link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
-		<link th:replace="~{fragments/bootstrap.html :: bsCss}" />
-	</head>
-	<body>
-		<h1>Registrazione nuovo utente</h1>
-	<form th:action="@{/register}" method="POST" th:object="${userForm}">
-		<div th:if="${#fields.hasGlobalErrors()}" class="text-danger">
-			<p th:each="err:${#fields.globalErrors()}" th:text="${err}"></p>
-		</div>
-		<div>
-			<label>Username</label>
-			<span>
-				<input type="text" placeholder="username" required th:field="*{credentials.username}" />
-			</span>
-		</div>
-		<div>
-			<label>Password</label>
-			<span><input type="password" placeholder="password" required th:field="*{credentials.password}" />
-			</span>
-		</div>
-			<div>
-			<label>Email</label>
-			<span><input type="text" placeholder="email" required th:field="*{user.email}" /></span>
-		</div>
-		<div>
-			<button type="submit">Registra</button>
-		</div>
-	</form>
-	<div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
+<head>
+    <title>Registrazione - GameHub</title>
+    <meta th:replace="~{fragments/header.html :: metaFragment}"/>
+    <link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
+    <link th:replace="~{fragments/bootstrap.html :: bsCss}"/>
+</head>
+<body>
+<header th:replace="~{fragments/logoHeader.html :: logoHeader}"></header>
+<div class="d-flex flex-column align-items-center">
+    <h1 class="text-center mt-5">Registrazione nuovo utente</h1>
+    <form th:action="@{/register}" method="POST" th:object="${userForm}" class="form-signin">
+        <div th:if="${#fields.hasGlobalErrors()}" class="text-danger">
+            <p th:each="err:${#fields.globalErrors()}" th:text="${err}"></p>
+        </div>
+        <div class="mb-3 mt-3">
+            <input type="text" class="form-control" id="username" placeholder="Username" required
+                   th:field="${userForm.credentials.username}"/>
+
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" id="password" placeholder="Password" required
+                   th:field="${userForm.credentials.password}"/>
+
+        </div>
+        <div class="mb-3">
+            <input type="email" class="form-control" id="email" placeholder="Email" required
+                   th:field="${userForm.user.email}"/>
+
+        </div>
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary">Registrati</button>
+        </div>
+    </form>
+</div>
+<div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
 </body>
 </html>
 	

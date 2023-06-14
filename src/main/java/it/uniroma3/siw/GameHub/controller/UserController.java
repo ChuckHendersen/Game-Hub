@@ -5,10 +5,7 @@ import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import it.uniroma3.siw.GameHub.model.Credentials;
 import it.uniroma3.siw.GameHub.model.Game;
 import it.uniroma3.siw.GameHub.model.User;
-import it.uniroma3.siw.GameHub.service.CredentialsService;
-import it.uniroma3.siw.GameHub.service.FollowService;
-import it.uniroma3.siw.GameHub.service.PictureService;
-import it.uniroma3.siw.GameHub.service.UserService;
+import it.uniroma3.siw.GameHub.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -40,11 +37,8 @@ public class UserController {
     @Autowired
     private PictureService pictureService;
 
-
-    @GetMapping("/formFindUserByUsername")
-    public String formFindUser(Model model) {
-        return "formFindUserByUsername.html";
-    }
+    @Autowired
+    private GameService gameService;
 
     @PostMapping("/findUserByUsername")
     public String findUserByUsername(@RequestParam("Username") String username, Model model){
@@ -60,7 +54,7 @@ public class UserController {
         try {
             User wu = userService.findUserById(id);
             model.addAttribute("user", wu);
-            Iterable<Game> top5PlayedGames = this.userService.top5Games(id);
+            Iterable<Game> top5PlayedGames = this.gameService.top5Games(id);
             model.addAttribute("top5Played", top5PlayedGames);
             model.addAttribute("giaSeguito", this.followService.aFollowsBBool(this.getCredentials().getUser().getId(), id));
         } catch (UserNotFoundException e) {
@@ -122,9 +116,14 @@ public class UserController {
     public String editUserPicture(@PathVariable("id") Long id, Model model) {
         User user = null;
         try {
-            user = this.userService.findUserById(id);
-            model.addAttribute("user", user);
-            return "editUserPicture.html";
+            Long currentUserId = this.getCredentials().getUser().getId();
+            if(currentUserId.equals(id)) {
+                user = this.userService.findUserById(id);
+                model.addAttribute("user", user);
+                return "editUserPicture.html";
+            } else {
+                return "redirect:/user/"+id;
+            }
         } catch (UserNotFoundException e) {
             model.addAttribute("messaggioErrore", e.getMessage());
             return "user.html";
@@ -136,10 +135,8 @@ public class UserController {
     public String setProfileImageFromLink(@PathVariable("userId") Long userId, Model model){
         try {
             this.pictureService.updateUserImageFromSteam(userId);
-        } catch (UserNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SteamApiException e) {
-            throw new RuntimeException(e);
+        } catch (UserNotFoundException | SteamApiException e) {
+            model.addAttribute("messaggioErrore", e.getMessage());
         }
         return "redirect:/user/"+userId;
     }
@@ -147,11 +144,12 @@ public class UserController {
     @PostMapping("/setProfileImageFromFile/{userId}")
     public String setProfileImageFromFile(@PathVariable("userId") Long userId, @RequestParam("file") MultipartFile file, Model model){
         try {
+            if(file.getBytes().length==0){
+                throw new IOException("File vuoto");
+            }
             this.pictureService.updateUserImageFromFile(userId, file);
-        } catch (UserNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (UserNotFoundException | IOException e) {
+            model.addAttribute("messaggioErrore", e.getMessage());
         }
         return "redirect:/user/"+userId;
     }

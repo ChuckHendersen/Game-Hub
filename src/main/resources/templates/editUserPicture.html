@@ -2,20 +2,24 @@
 <html lang="en">
 <head>
     <title>Modifica la tua immagine di profilo</title>
-  <meta th:replace="~{fragments/header.html :: metaFragment}"/>
-  <link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
-  <link th:replace="~{fragments/bootstrap.html :: bsCss}" />
+    <meta th:replace="~{fragments/header.html :: metaFragment}"/>
+    <link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
+    <link th:replace="~{fragments/bootstrap.html :: bsCss}"/>
 </head>
 <body>
-  <div>
-  <h1>Modifica la tua immagine di profilo</h1>
-    <form method="post" enctype="multipart/form-data" th:action="'/setProfileImageFromFile/'+${user.id}">
-      <input type="file" name="file" accept="image/*">
-      <input type="submit" value="Modifica">
-    </form>
-    <span>OPPURE</span>
-    <a th:href="'/setProfileImageFromLink/'+${user.id}">prendila dal tuo profilo steam</a>
-  </div>
-  <div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
+<nav th:replace="~{fragments/loginHeader.html :: header}"></nav>
+<main role="main" class="mt-5">
+    <div class="container mt-5">
+        <h1 class="mt-5">Modifica la tua immagine di profilo</h1>
+        <form method="post" enctype="multipart/form-data" th:action="'/setProfileImageFromFile/'+${user.id}">
+            <input class="btn btn-secondary" type="file" name="file" accept="image/*">
+            <input class="btn btn-primary" type="submit" value="Carica">
+        </form>
+        <span>OPPURE</span>
+        <a th:href="'/setProfileImageFromLink/'+${user.id}">prendila dal tuo profilo steam</a>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer.html :: footer}"></footer>
+<div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
 </body>
 </html>

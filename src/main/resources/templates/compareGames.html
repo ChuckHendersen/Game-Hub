@@ -23,54 +23,28 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <div>
-                    <a th:href="'/user/'+${credentials.user.id}" th:text="${credentials.user.username}" ></a>
-                    <a href="/logout">Logout</a>
-                </div>
-
-            </li>
-        </ul>
-
-        <form th:action="'/findUserByUsername'" method="POST" class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" name="Username" type="text" placeholder="Cerca utenti" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cerca</button>
-        </form>
-    </div>
-</nav>
-
+<nav th:replace="~{fragments/loginHeader.html :: header}"></nav>
 <div class="jumbotron">
     <div class="container">
         <h1 class="display-3">Giochi in comune</h1>
-        <p>Questa è la lista dei giochi in comune</p>
+        <p>Questa è la lista dei giochi in comune fra <a th:text="${userA.username}" th:href="'/user/' + ${userA.id}"></a> e <a th:text="${userB.username}" th:href="'/user/' + ${userB.id}"></a></p>
     </div>
 </div>
-
 <div class="container">
     <div th:if="${messaggioErrore}" class="alert alert-danger" role="alert">
         <div th:text="${messaggioErrore}"></div>
     </div>
-
-    <div class="game-list">
-        <div th:each="gioco: ${games}">
-          <div>  <a th:text="${gioco.name}" th:href="'https://store.steampowered.com/app/' + ${gioco.steamcode}"></a> </div>
-        </div>
-    </div>
-
-    <div class="profile-links">
-        <a th:href="'/user/' + ${userA.id}" th:text="'Torna al profilo di ' + ${userA.username}">Torna al profilo di A</a>
-        <a th:href="'/user/' + ${userB.id}" th:text="'Vai al profilo di ' + ${userB.username}">Vai al profilo di B</a>
-        <a href="/">Torna alla home</a>
-    </div>
+    <table class="table table-striped">
+        <tbody>
+        <tr th:each="game : ${games}">
+            <td>
+                <a th:text="${game.name}" th:href="'https://store.steampowered.com/app/' + ${game.steamcode}"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-
-<footer class="container">
-    <p>&copy; Giovy e Lollo</p>
-</footer>
+<footer th:replace="~{fragments/footer.html :: footer}"></footer>
 <div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
 </body>
 </html>

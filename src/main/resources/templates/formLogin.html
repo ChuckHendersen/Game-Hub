@@ -1,46 +1,33 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-	<title>
-		SiwMovie - Login
-	</title>
-	<meta th:replace="~{fragments/header.html :: metaFragment}"/>
-	<link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
-	<link th:replace="~{fragments/bootstrap.html :: bsCss}" />
+    <title>
+        SiwMovie - Login
+    </title>
+    <meta th:replace="~{fragments/header.html :: metaFragment}"/>
+    <link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
+    <link th:replace="~{fragments/bootstrap.html :: bsCss}"/>
 </head>
-
 <body>
-	<header>
-		<div th:if="${userDetails}">
-			<span th:text="${userDetails.username}"></span>
-			<a href="/logout">Logout</a>
-		</div>
-		<div th:unless="${user}">
-			<a href="/login">Login</a>
-		</div>
-	</header>
-	<h1>Login</h1>
-	<form th:action="@{/login}" method="POST">
-			<div>
-				<span>Username:</span>
-				<span><input name="username" type="text" required /></span>
-			</div>
-			<div>
-				<span>Password:</span>
-				<span><input name="password" type="password" required /></span>
-			</div>
-			<div>
-				<span th:if="${param.error != null}">Username o password errati</span>
-			</div>
-			<div>
-				<span><button type="submit">Login</button></span>
-			</div>
-	</form>
-	<div>
-		<a th:href="@{/register}" th:text="Registrati">Registrati</a>
-	</div>
-	<div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
+<header th:replace="~{fragments/logoHeader.html :: logoHeader}"></header>
+<div class="d-flex flex-column align-items-center">
+    <h1 class="mt-5">Login</h1>
+    <form th:action="@{/login}" method="POST" class="form-signin">
+        <div class="mb-3 mt-3">
+            <input placeholder="Username" autofocus name="username" type="text" required/><br>
+        </div>
+        <div class="mb-3">
+            <input placeholder="Password" name="password" type="password" required/><br>
+        </div>
+        <span th:if="${param.error != null}">Username o password errati</span>
+        <div class="d-flex justify-content-center mb-3 mt-2">
+            <button class="btn btn-primary" type="submit">Login</button>
+        </div>
+        <div class="d-flex justify-content-center mb-3">
+            <a th:href="@{/register}" th:text="Registrati">Registrati</a>
+        </div>
+    </form>
+</div>
+<div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
 </body>
-
 </html>

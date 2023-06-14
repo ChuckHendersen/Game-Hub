@@ -1,8 +1,10 @@
 package it.uniroma3.siw.GameHub.repository;
 
+import it.uniroma3.siw.GameHub.model.Game;
 import it.uniroma3.siw.GameHub.model.User;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
 import java.util.Set;
 
 public interface UserRepository extends CrudRepository<User, Long> {
@@ -11,7 +13,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	public boolean existsByEmail(String email);
 	public boolean existsBySteamId(String steamId);
 	public User getBySteamId(String steamUserID);
-
 	public Iterable<User> findByUsernameContaining(String usernameFragment);
 
 }

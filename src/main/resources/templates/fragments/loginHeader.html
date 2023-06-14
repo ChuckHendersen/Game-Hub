@@ -1,54 +1,35 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="headerfiles(title)">
-<meta charset="UTF-8" />
-<link th:href="@{/css/stylesheet.css?version=2}" rel="stylesheet">
+    <meta charset="UTF-8"/>
+    <link th:href="@{/css/stylesheet.css?version=2}" rel="stylesheet">
 </head>
 <body>
 
-	<header th:fragment="headerLogin" class="bg-light">
-			<nav class="navbar navbar-expand navbar-light bg-light">
-				<a class="navbar-brand" href="/"> 
-					<img src="/images/logo-siw.png" alt="Logo del sito" />
-				</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-     				<span class="navbar-toggler-icon"></span>
-   				</button>
-   				<div class="d-flex ml-auto" id="navbarMenu">
-     				<ul class="navbar-nav ml-auto">
-     					<li  th:if="${credentials}">
-     						<a class="nav-link" th:text="${credentials.username}" th:href="'/users/'+${credentials.user.id}"></a>
-     					</li>
-     					<li  th:if="${credentials}">
-     						<a class="nav-link" href="/logout">Logout</a>
-     					</li>
-        				<li  th:unless="${credentials}" class="nav-item">
-          					<a class="nav-link" href="/login">Login</a>
-        				</li>
-      				</ul>
-    			</div>
-			</nav>
-	</header>
-	<header th:fragment="headerLoginPage" class="bg-light">
-		<nav class="navbar navbar-expand navbar-light bg-light">
-				<a class="navbar-brand" href="/"> 
-					<img src="/images/logo-siw.png" alt="Logo del sito" />
-				</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-     				<span class="navbar-toggler-icon"></span>
-   				</button>
-   				<div class="d-flex ml-auto" id="navbarMenu">
-     				<ul class="navbar-nav ml-auto">
-						 <l1>
-							 
-						 </l1>
-      				</ul>
-    			</div>
-			</nav>
-	</header>
+<nav th:fragment="header" class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <div th:if="${userDetails}">
+                    <a class="btn btn-secondary" href="/logout">Logout</a>
+                    <a class="ml-3" th:href="'/user/'+${credentials.user.id}" th:text="${userDetails.username}"></a>
+                </div>
+                <div th:unless="${userDetails}">
+                    <a class="btn btn-primary" href="/login">Login</a>
+                </div>
+            </li>
+        </ul>
 
-	<footer th:fragment="footer">
-		<a th:href="@{/}">Home</a>
-	</footer>
+        <form th:action="'/findUserByUsername'" method="POST" class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" name="Username" type="text" placeholder="Cerca utenti"
+                   aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cerca</button>
+        </form>
+    </div>
+</nav>
+
+<footer th:fragment="footer">
+    <a th:href="@{/}">Home</a>
+</footer>
 </body>
 </html>

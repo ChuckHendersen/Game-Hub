@@ -3,33 +3,12 @@
 <head>
     <meta th:replace="~{fragments/header.html :: metaFragment}"/>
     <link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
-    <link th:replace="~{fragments/bootstrap.html :: bsCss}" />
+    <link th:replace="~{fragments/bootstrap.html :: bsCss}"/>
     <title>Pagina utente</title>
 </head>
 
 <body>
-
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <div>
-                    <a th:href="'/user/'+${credentials.user.id}" th:text="${credentials.user.username}"></a>
-                    <a href="/logout">Logout</a>
-                </div>
-
-            </li>
-        </ul>
-
-        <form th:action="'/findUserByUsername'" method="POST" class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" name="Username" type="text" placeholder="Cerca utenti"
-                   aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cerca</button>
-        </form>
-    </div>
-</nav>
-
+<nav th:replace="~{fragments/loginHeader.html :: header}"></nav>
 <main role="main">
     <div class="mt-5" th:if="${user}">
         <!-- Main jumbotron for a primary marketing message or call to action -->
@@ -39,10 +18,12 @@
                     <a th:href="'/editUserPicture/'+${user.id}">
                         <div>
                             <div th:if="${user.hasProfilePicture()}">
-                                <img th:src="${user.getProfilePicture()}" style="object-fit: contain;height: 184px; width:184px; background: blanchedalmond;">
+                                <img th:src="${user.getProfilePicture()}"
+                                     style="object-fit: contain;height: 184px; width:184px; background: blanchedalmond;">
                             </div>
                             <div th:unless="${user.hasProfilePicture()}">
-                                <img src="/images/default_pfp.jpg" style="object-fit: contain;height: 184px; width:184px; background: blanchedalmond;">
+                                <img src="/images/default_pfp.jpg"
+                                     style="object-fit: contain;height: 184px; width:184px; background: blanchedalmond;">
                             </div>
                         </div>
                     </a>
@@ -50,6 +31,17 @@
                 <div class="col-md-4">
                     <div th:text="${user.username}"></div>
                     <div th:text="${user.steamId}"></div>
+                    <div th:if="${credentials.user.id != user.id}">
+                        <div th:if="${giaSeguito==false}">
+                            <a class="btn btn-primary mt-2" th:href="'/newFollow/'+${credentials.user.id}+'/'+${user.id}">Segui</a>
+                        </div>
+                        <div th:if="${giaSeguito==true}">
+                            <a class="btn btn-secondary mt-2" th:href="'/deleteFollow/'+${credentials.user.id}+'/'+${user.id}">Smetti di Seguire</a>
+                        </div>
+                    </div>
+                    <div th:if="${credentials.user.id != user.id}">
+                        <a class="btn btn-primary mt-2" th:href="'/compareGames/'+${credentials.user.id}+'/'+${user.id}">Confronta i giochi</a>
+                    </div>
                 </div>
                 <div class="col-md-4">
 
@@ -66,34 +58,16 @@
                             <div th:if="${!top5Played.isEmpty()}">
                                 Ecco i giochi a cui hai giocato recentemente
                             </div>
-                            <ul>
-                                <li th:each="game : ${top5Played}">
-                                    <a th:href="@{'/game' + '/' + ${game.id}}" th:text="${game.name}">Up!
-                                        (2000)</a>
-                                </li>
-                            </ul>
-                            <div th:if="${credentials.user.id == user.id}">
-                                <a th:href="@{'/updateOwnedGames/'+${user.id}}">aggiorna giochi
-                                    posseduti</a>
+
+                            <div th:each="game : ${top5Played}">
+                                <a th:href="'https://store.steampowered.com/app/' + ${game.steamcode}"
+                                   th:text="${game.name}">Up!
+                                    (2000)</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div th:if="${credentials.user.id != user.id}">
-                <div th:if="${giaSeguito==false}">
-                    <a th:href="'/newFollow/'+${credentials.user.id}+'/'+${user.id}">Segui</a>
-                </div>
-                <div th:if="${giaSeguito==true}">
-                    <a th:href="'/deleteFollow/'+${credentials.user.id}+'/'+${user.id}">Smetti di Seguire</a>
-                </div>
-            </div>
-
-            <div th:if="${credentials.user.id != user.id}">
-                <a th:href="'/compareGames/'+${credentials.user.id}+'/'+${user.id}">Confronta i giochi</a>
-            </div>
-
-
         </div>
 
         <div class="container">
@@ -113,27 +87,23 @@
                         &raquo;</a></p>
                 </div>
                 <div class="col-md-4">
-                    <h2>Vedi tutti i tuoi giochi</h2>
+                    <h2>Giochi posseduti</h2>
                     <p>Ma a quanti giochi hai giocato? Qui ci sono tutti i motivi per cui non ti abbronzi neanche
                         d'estate! </p>
-                    <p><a class="btn btn-secondary" th:href="'/ownedGames/'+${user.id}" role="button">Tutti i tuoi giochi
-                        &raquo;</a></p>
+                    <span><a class="btn btn-secondary" th:href="'/ownedGames/'+${user.id}" role="button">Vedi giochi
+                        &raquo;</a></span>
+                    <span style="float:right;" th:if="${credentials.user.id == user.id}">
+                        <a class="btn btn-secondary" th:href="@{'/updateOwnedGames/'+${user.id}}">Aggiorna giochi &raquo;</a>
+                    </span>
                 </div>
             </div>
-
-            <hr>
-
         </div> <!-- /container -->
     </div>
     <div th:if="${messaggioErrore}">
         <div th:text="${messaggioErrore}"></div>
     </div>
 </main>
-
-<footer class="container">
-    <p>&copy; Giovy e Lollo</p>
-</footer>
-
-
+<footer th:replace="~{fragments/footer.html :: footer}"></footer>
 <div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
+</body>
 </html>

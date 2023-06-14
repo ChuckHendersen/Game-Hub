@@ -1,58 +1,37 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<title>GIOCHI</title>
-	<meta th:replace="~{fragments/header.html :: metaFragment}"/>
-	<link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
-	<link th:replace="~{fragments/bootstrap.html :: bsCss}" />
+    <title>GIOCHI</title>
+    <meta th:replace="~{fragments/header.html :: metaFragment}"/>
+    <link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
+    <link th:replace="~{fragments/bootstrap.html :: bsCss}"/>
 </head>
 
 <body>
-
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-
-	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
-				<div>
-					<a th:href="'/user/'+${credentials.user.id}" th:text="${credentials.user.username}" ></a>
-					<a href="/logout">Logout</a>
-				</div>
-
-			</li>
-		</ul>
-
-		<form th:action="'/findUserByUsername'" method="POST" class="form-inline my-2 my-lg-0">
-			<input class="form-control mr-sm-2" name="Username" type="text" placeholder="Cerca utenti" aria-label="Search">
-			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cerca</button>
-		</form>
-	</div>
-</nav>
-
+<nav th:replace="~{fragments/loginHeader.html :: header}"></nav>
 <div class="jumbotron">
-	<div class="container">
-		<h1 class="display-3">I nostri giochi</h1>
-		<p>Questa è una lista dei nostri giochi... TUTTI i nostri giochi</p>
-	</div>
+    <div class="container">
+        <h1 class="display-3" th:text="${titoloListaGiochi}">Titolo lista giochi</h1>
+        <p>Spizzate un po' sti giochi</p>
+    </div>
 </div>
-
-<table class="table table-striped">
-	<thead>
-	<tr>
-		<th>Nomi</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr th:each="game : ${games}">
-		<td>
-			<a th:text="${game.name}" th:href="'https://store.steampowered.com/app/' + ${game.steamcode}"></a>
-		</td>
-	</tr>
-	</tbody>
-</table>
-<footer class="container">
-	<p>&copy; Giovy e Lollo</p>
-</footer>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nomi</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="game : ${games}">
+            <td>
+                <a th:text="${game.name}" th:href="'https://store.steampowered.com/app/' + ${game.steamcode}"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="~{fragments/footer.html :: footer}"></footer>
 <div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
 </body>
 </html>

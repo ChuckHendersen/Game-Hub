@@ -3,13 +3,16 @@
 <head>
     <meta th:replace="~{fragments/header.html :: metaFragment}"/>
     <link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
-    <link th:replace="~{fragments/bootstrap.html :: bsCss}" />
+    <link th:replace="~{fragments/bootstrap.html :: bsCss}"/>
     <title>Title</title>
 </head>
 <body>
-  stai provando a fare qualcosa di strano con sti follow?
-  nun lo fa... nun lo fa...
-  <span th:text="${messaggioErrore}"></span>
-  <div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
+<nav th:replace="~{fragments/loginHeader.html :: header}"></nav>
+<div class="container">
+    stai provando a fare qualcosa di strano con sti follow?
+    nun lo fa... nun lo fa...
+    <span th:text="${messaggioErrore}"></span>
+</div>
+<div th:replace="~{fragments/bootstrap.html :: bsScript}"></div>
 </body>
 </html>

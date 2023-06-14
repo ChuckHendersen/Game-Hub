@@ -19,7 +19,7 @@ public interface GameRepository extends CrudRepository<Game, Long> {
 			"JOIN users u2 ON ug2.user_id = u2.id " +
 			"WHERE u1.id = :utente1Id AND u2.id = :utente2Id", nativeQuery=true)
 	public List<Game> findGiochiInComune(@Param("utente1Id")Long utente1, @Param("utente2Id")Long utente2);
-
+	
 	public Optional<Game> findBySteamcode(Integer steamcode);
 
 }

@@ -4,43 +4,23 @@
     <title>Homepage - GameHub</title>
     <meta th:replace="~{fragments/header.html :: metaFragment}"/>
     <link th:replace="~{fragments/header.html :: stylesheetFragment}"/>
-    <link th:replace="~{fragments/bootstrap.html :: bsCss}" />
+    <link th:replace="~{fragments/bootstrap.html :: bsCss}"/>
 </head>
 
 <body>
-
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-
-    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <div th:if="${userDetails}">
-                    <a class="btn btn-secondary" href="/logout">Logout</a>
-                    <a class="ml-3" th:href="'/user/'+${credentials.user.id}" th:text="${userDetails.username}"></a>
-                </div>
-                <div th:unless="${userDetails}">
-                    <a class="btn btn-primary" href="/login">Login</a>
-                </div>
-            </li>
-        </ul>
-
-        <form th:action="'/findUserByUsername'" method="POST" class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" name="Username" type="text" placeholder="Cerca utenti"
-                   aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cerca</button>
-        </form>
-    </div>
-</nav>
-
+<nav th:replace="~{fragments/loginHeader.html :: header}"></nav>
 <main role="main">
-
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
         <div class="container">
             <div class="row">
+                <div class="col titolo">
+                    <h1 class="display-3">GAME-HUB</h1>
+                    <p>Trova i tuoi amici, seguitevi a vicenda, scoprite quali giochi avete in comune, giocate
+                        insieme.</p>
+                </div>
                 <div class="col">
-                <h1 class="display-3">GAME-HUB</h1>
-                <p>Trova i tuoi amici, seguitevi a vicenda, scoprite quali giochi avete in comune, giocate insieme.</p>
+                    <img src="/images/logo.webp" alt="Logo del sito" style="height:100%;"/>
                 </div>
             </div>
         </div>
@@ -51,22 +31,21 @@
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <h2>Vai al tuo profilo</h2>
-                <p>entra nel tuo profilo, scopri chi ti segue, ricordati di chi segui, scopri a quali giochi hai giocato
+                <p>entra nel tuo profilo, scopri chi ti segue, ricordati di chi segui, scopri a quali giochi hai
+                    giocato
                     più spesso</p>
-                <p><a class="btn btn-secondary" th:href="'/user/'+${credentials.user.id}" role="button">Il tuo profilo
+                <p><a class="btn btn-secondary" th:href="'/user/'+${credentials.user.id}" role="button">Il tuo
+                    profilo
                     &raquo;</a></p>
             </div>
             <div class="col-md-4">
                 <h2>Guarda i giochi</h2>
-                <p>Una lunghissima lista di tutti i giochi presenti nel nostro database, ora non potrai mai più dire che
+                <p>Una lunghissima lista di tutti i giochi presenti nel nostro database, ora non potrai mai più dire
+                    che
                     non sai a cosa giocare </p>
                 <p><a class="btn btn-secondary" th:href="'/games'" role="button">Vedi giochi &raquo;</a></p>
             </div>
-
         </div>
-
-        <hr>
-
     </div> <!-- /container -->
     <div th:unless="${userDetails}" class="container">
         <div class="row justify-content-center">
@@ -83,17 +62,16 @@
             </div>
             <div class="col-md-4">
                 <h2>Attenzione</h2>
-                <p>Ricordati di impostare il profilo steam come pubblico. Se questo non viene fatto GameHub non sarà in grado accedere ai tuoi dati o a quelli dei tuoi amici e non potremo assisterti</p>
-                <p>Vuoi sapere come cambiare le impostazioni di privacy? <a href="https://help.steampowered.com/it/faqs/view/588C-C67D-0251-C276">Visita questa pagina!</a></p>
+                <p>Ricordati di impostare il profilo steam come pubblico. Se questo non viene fatto GameHub non sarà
+                    in grado accedere ai tuoi dati o a quelli dei tuoi amici e non potremo assisterti</p>
+                <p>Vuoi sapere come cambiare le impostazioni di privacy? <a
+                        href="https://help.steampowered.com/it/faqs/view/588C-C67D-0251-C276">Visita questa
+                    pagina!</a></p>
             </div>
         </div>
-        <hr>
     </div>
 </main>
-
-<footer class="container">
-    <p>&copy; Giovy e Lollo</p>
-</footer>
+<footer th:replace="~{fragments/footer.html :: footer}"></footer>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->

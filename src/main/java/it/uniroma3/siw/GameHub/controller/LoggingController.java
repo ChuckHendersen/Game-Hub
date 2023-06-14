@@ -9,6 +9,7 @@ import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import it.uniroma3.siw.GameHub.model.Credentials;
 import it.uniroma3.siw.GameHub.model.User;
 import it.uniroma3.siw.GameHub.service.CredentialsService;
+import it.uniroma3.siw.GameHub.service.GameService;
 import it.uniroma3.siw.GameHub.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,9 @@ public class LoggingController {
 	@Autowired
 	private UserValidator userValidator;
 
+	@Autowired
+	private GameService gameService;
+
 	@GetMapping("/login")
 	public String login(Model model) {
 		return "formLogin.html";
@@ -49,7 +53,7 @@ public class LoggingController {
     	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     	Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
     	model.addAttribute("credentials", credentials);
-		this.userService.refreshGames(credentials.getUser().getId()); // NON DOVREBBE MAI SOLLEVARE ECCEZIONI
+		this.gameService.refreshGames(credentials.getUser().getId()); // NON DOVREBBE MAI SOLLEVARE ECCEZIONI
         return "index.html";
     }
 	
@@ -92,7 +96,7 @@ public class LoggingController {
 		String steamUserID = externalLogin.verify("http://localhost:8080/login/"+userId+"/steam/auth", allParams);
 		try {
 			this.userService.updateUserSteamId(userId, steamUserID);
-			this.userService.refreshGames(userId);
+			this.gameService.refreshGames(userId);
 			return "redirect:/user/"+userId;
 		} catch (UserNotFoundException e) {
 			model.addAttribute("messaggioErrore",e.getMessage());
