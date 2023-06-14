@@ -39,9 +39,7 @@ public class PictureService {
 
     @Transactional
     public void updateUserImageFromSteam(Long userId) throws UserNotFoundException, SteamApiException, InvalidUserOperationException {
-        if(!this.credentialsService.getCurrentCredentials().getUser().getId().equals(userId)){
-            throw new InvalidUserOperationException("Non sei tu il proprietario di questo account");//check if the user is the same as the one logged in (security
-        }
+        this.credentialsService.checkCurrentUserIsAuthorized(userId);
         User user = this.userService.findUserById(userId);
         if (user.getSteamId() != null) {
             GetPlayerSummariesRequest request = SteamWebApiRequestFactory.createGetPlayerSummariesRequest(List.of(user.getSteamId()));
@@ -58,9 +56,7 @@ public class PictureService {
 
     @Transactional
     public void updateUserImageFromFile(Long userId, MultipartFile file) throws UserNotFoundException, IOException, InvalidUserOperationException {
-        if(!this.credentialsService.getCurrentCredentials().getUser().getId().equals(userId)){
-            throw new InvalidUserOperationException("Non sei tu il proprietario di questo account");//check if the user is the same as the one logged in (security
-        }
+        this.credentialsService.checkCurrentUserIsAuthorized(userId);
         User user= this.userService.findUserById(userId);
         Picture daCancellare = user.getFoto();
         Picture nuova= new Picture();

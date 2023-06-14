@@ -80,9 +80,7 @@ public class UserService {
 
     @Transactional
     public void updateUserSteamId(Long userId, String steamUserID) throws UserNotFoundException, InvalidUserOperationException {
-        if(!this.credentialsService.getCurrentCredentials().getUser().getId().equals(userId)){
-            throw new InvalidUserOperationException("Non puoi modificare l'account di un altro utente");
-        }
+        this.credentialsService.checkCurrentUserIsAuthorized(userId);
         User user = this.findUserById(userId);
         if (user != null) {
             user.setSteamId(steamUserID);

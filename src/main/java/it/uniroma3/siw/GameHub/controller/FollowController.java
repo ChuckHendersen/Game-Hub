@@ -1,6 +1,7 @@
 package it.uniroma3.siw.GameHub.controller;
 
 import it.uniroma3.siw.GameHub.exceptions.InvalidFollowException;
+import it.uniroma3.siw.GameHub.exceptions.InvalidUserOperationException;
 import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import it.uniroma3.siw.GameHub.service.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class FollowController {
         } catch (UserNotFoundException e) {
             model.addAttribute("messaggioErrore", e.getMessage());
             return "user.html";
-        }catch (InvalidFollowException e) {
+        }catch (InvalidFollowException | InvalidUserOperationException e) {
             model.addAttribute("messaggioErrore", e.getMessage());
             return "followError.html";
         }
@@ -37,7 +38,7 @@ public class FollowController {
         } catch (UserNotFoundException e) {
             model.addAttribute("messaggioErrore", e.getMessage());
             return "user.html";
-        } catch (InvalidFollowException e) {
+        } catch (InvalidFollowException | InvalidUserOperationException e) {
             model.addAttribute("messaggioErrore", e.getMessage());
             return "followError.html";
         }

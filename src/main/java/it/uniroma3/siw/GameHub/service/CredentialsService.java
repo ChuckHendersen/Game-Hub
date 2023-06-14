@@ -1,5 +1,6 @@
 package it.uniroma3.siw.GameHub.service;
 
+import it.uniroma3.siw.GameHub.exceptions.InvalidUserOperationException;
 import it.uniroma3.siw.GameHub.model.Credentials;
 import it.uniroma3.siw.GameHub.repository.CredentialsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +58,12 @@ public class CredentialsService {
             credentials = this.getCredentials(user.getUsername());
         }
         return credentials;
+    }
+
+    @Transactional
+    public void checkCurrentUserIsAuthorized(Long userId) throws InvalidUserOperationException {
+        if(!this.getCurrentCredentials().getUser().getId().equals(userId)){
+            throw new InvalidUserOperationException("Utente non autorizzato");
+        }
     }
 }

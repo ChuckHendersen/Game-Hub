@@ -1,6 +1,7 @@
 package it.uniroma3.siw.GameHub.service;
 
 import it.uniroma3.siw.GameHub.exceptions.InvalidFollowException;
+import it.uniroma3.siw.GameHub.exceptions.InvalidUserOperationException;
 import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import it.uniroma3.siw.GameHub.model.Follow;
 import it.uniroma3.siw.GameHub.model.User;
@@ -18,6 +19,9 @@ public class FollowService {
     @Autowired
     private FollowRepository followRepository;
 
+    @Autowired
+    private CredentialsService credentialsService;
+
     /**
      * Metodo che consente allo user A di seguire user B
      * @param aId Id dello user che vuole seguire B
@@ -26,9 +30,10 @@ public class FollowService {
      * @throws InvalidFollowException se A è uguale a B o se A segue già B
      */
     @Transactional
-    public void aFollowsB(Long aId, Long bId) throws UserNotFoundException, InvalidFollowException {
+    public void aFollowsB(Long aId, Long bId) throws UserNotFoundException, InvalidFollowException, InvalidUserOperationException {
         User a = this.userService.findUserById(aId);
         User b = this.userService.findUserById(bId);
+        this.credentialsService.checkCurrentUserIsAuthorized(aId);
         if(!a.equals(b)){
             if(this.followRepository.existsByFollowerIdAndFollowedId(aId, bId)){
                 throw new InvalidFollowException("L'utente segue già l'utente specificato");
@@ -51,9 +56,10 @@ public class FollowService {
      */
 
     @Transactional
-    public void aUnfollowsB(Long aId, Long bId) throws UserNotFoundException, InvalidFollowException{
+    public void aUnfollowsB(Long aId, Long bId) throws UserNotFoundException, InvalidFollowException, InvalidUserOperationException {
         User a = this.userService.findUserById(aId);
         User b = this.userService.findUserById(bId);
+        this.credentialsService.checkCurrentUserIsAuthorized(aId);
         Follow followToBeDeleted = this.followRepository.findByFollowerIdAndFollowedId(aId, bId).orElse(null);
         if(followToBeDeleted == null){
             throw new InvalidFollowException("L'utente non segue l'utente specificato");
