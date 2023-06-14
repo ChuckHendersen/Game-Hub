@@ -1,0 +1,2 @@
+Per il deployment cambiare la porta server.port=80 e
+spring.datasource.url=jdbc:postgresql://localhost:5432/gamehub (GameHub con g e h minuscole)

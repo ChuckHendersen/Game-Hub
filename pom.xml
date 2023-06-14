@@ -8,6 +8,7 @@
 		<version>3.0.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	<packaging>war</packaging>
 	<groupId>it.uniroma3.siw</groupId>
 	<artifactId>GameHub</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
