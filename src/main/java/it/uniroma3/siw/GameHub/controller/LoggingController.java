@@ -5,6 +5,7 @@ import it.uniroma3.siw.GameHub.authentication.SteamLogin;
 import it.uniroma3.siw.GameHub.controller.form.UserForm;
 import it.uniroma3.siw.GameHub.controller.validator.CredentialsValidator;
 import it.uniroma3.siw.GameHub.controller.validator.UserValidator;
+import it.uniroma3.siw.GameHub.exceptions.InvalidUserOperationException;
 import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import it.uniroma3.siw.GameHub.model.Credentials;
 import it.uniroma3.siw.GameHub.model.User;
@@ -98,9 +99,9 @@ public class LoggingController {
 			this.userService.updateUserSteamId(userId, steamUserID);
 			this.gameService.refreshGames(userId);
 			return "redirect:/user/"+userId;
-		} catch (UserNotFoundException e) {
+		} catch (UserNotFoundException | InvalidUserOperationException e) {
 			model.addAttribute("messaggioErrore",e.getMessage());
-			return "userError.html";
+			return "user.html";
 		}
 	}
 }

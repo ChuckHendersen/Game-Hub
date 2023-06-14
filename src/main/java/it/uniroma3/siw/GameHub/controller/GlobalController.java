@@ -39,6 +39,7 @@ public class GlobalController {
         }
         return credentials;
     }
+
     @GetMapping("/risorsaNonTrovata")
     	public String risorsaNonTrovata() {
     		return "risorsaNonTrovata.html";

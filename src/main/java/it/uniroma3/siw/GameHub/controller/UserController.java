@@ -1,6 +1,7 @@
 package it.uniroma3.siw.GameHub.controller;
 
 import com.lukaspradel.steamapi.core.exception.SteamApiException;
+import it.uniroma3.siw.GameHub.exceptions.InvalidUserOperationException;
 import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import it.uniroma3.siw.GameHub.model.Credentials;
 import it.uniroma3.siw.GameHub.model.Game;
@@ -135,8 +136,9 @@ public class UserController {
     public String setProfileImageFromLink(@PathVariable("userId") Long userId, Model model){
         try {
             this.pictureService.updateUserImageFromSteam(userId);
-        } catch (UserNotFoundException | SteamApiException e) {
+        } catch (UserNotFoundException | SteamApiException | InvalidUserOperationException e) {
             model.addAttribute("messaggioErrore", e.getMessage());
+            return "user.html";
         }
         return "redirect:/user/"+userId;
     }
@@ -148,8 +150,9 @@ public class UserController {
                 throw new IOException("File vuoto");
             }
             this.pictureService.updateUserImageFromFile(userId, file);
-        } catch (UserNotFoundException | IOException e) {
+        } catch (UserNotFoundException | IOException | InvalidUserOperationException e) {
             model.addAttribute("messaggioErrore", e.getMessage());
+            return "user.html";
         }
         return "redirect:/user/"+userId;
     }

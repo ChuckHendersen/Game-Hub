@@ -5,6 +5,7 @@ import com.lukaspradel.steamapi.data.json.playersummaries.GetPlayerSummaries;
 import com.lukaspradel.steamapi.webapi.request.GetPlayerSummariesRequest;
 import com.lukaspradel.steamapi.webapi.request.builders.SteamWebApiRequestFactory;
 import it.uniroma3.siw.GameHub.SteamAPI;
+import it.uniroma3.siw.GameHub.exceptions.InvalidUserOperationException;
 import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import it.uniroma3.siw.GameHub.model.Picture;
 import it.uniroma3.siw.GameHub.model.User;
@@ -33,8 +34,14 @@ public class PictureService {
     @Autowired
     private PictureRepository pictureRepository;
 
+    @Autowired
+    private CredentialsService credentialsService;
+
     @Transactional
-    public void updateUserImageFromSteam(Long userId) throws UserNotFoundException, SteamApiException {
+    public void updateUserImageFromSteam(Long userId) throws UserNotFoundException, SteamApiException, InvalidUserOperationException {
+        if(!this.credentialsService.getCurrentCredentials().getUser().getId().equals(userId)){
+            throw new InvalidUserOperationException("Non sei tu il proprietario di questo account");//check if the user is the same as the one logged in (security
+        }
         User user = this.userService.findUserById(userId);
         if (user.getSteamId() != null) {
             GetPlayerSummariesRequest request = SteamWebApiRequestFactory.createGetPlayerSummariesRequest(List.of(user.getSteamId()));
@@ -50,7 +57,10 @@ public class PictureService {
     }
 
     @Transactional
-    public void updateUserImageFromFile(Long userId, MultipartFile file) throws UserNotFoundException, IOException {
+    public void updateUserImageFromFile(Long userId, MultipartFile file) throws UserNotFoundException, IOException, InvalidUserOperationException {
+        if(!this.credentialsService.getCurrentCredentials().getUser().getId().equals(userId)){
+            throw new InvalidUserOperationException("Non sei tu il proprietario di questo account");//check if the user is the same as the one logged in (security
+        }
         User user= this.userService.findUserById(userId);
         Picture daCancellare = user.getFoto();
         Picture nuova= new Picture();

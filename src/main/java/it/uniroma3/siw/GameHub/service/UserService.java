@@ -9,6 +9,7 @@ import com.lukaspradel.steamapi.webapi.request.GetPlayerSummariesRequest;
 import com.lukaspradel.steamapi.webapi.request.GetRecentlyPlayedGamesRequest;
 import com.lukaspradel.steamapi.webapi.request.builders.SteamWebApiRequestFactory;
 import it.uniroma3.siw.GameHub.SteamAPI;
+import it.uniroma3.siw.GameHub.exceptions.InvalidUserOperationException;
 import it.uniroma3.siw.GameHub.exceptions.UserNotFoundException;
 import it.uniroma3.siw.GameHub.model.Game;
 import it.uniroma3.siw.GameHub.model.Picture;
@@ -39,6 +40,8 @@ public class UserService {
     @Autowired
     private SteamAPI steamApi;
 
+    @Autowired
+    private CredentialsService credentialsService;
 
     @Transactional
     public Iterable<User> findAll() {
@@ -76,7 +79,10 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserSteamId(Long userId, String steamUserID) throws UserNotFoundException {
+    public void updateUserSteamId(Long userId, String steamUserID) throws UserNotFoundException, InvalidUserOperationException {
+        if(!this.credentialsService.getCurrentCredentials().getUser().getId().equals(userId)){
+            throw new InvalidUserOperationException("Non puoi modificare l'account di un altro utente");
+        }
         User user = this.findUserById(userId);
         if (user != null) {
             user.setSteamId(steamUserID);
