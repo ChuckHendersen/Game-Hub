@@ -18,8 +18,8 @@
 <div th:if="${messaggioErrore}">
     <span th:text="${messaggioErrore}"></span>
 </div>
-<div th:if="${users.isEmpty()}">nessun utente trovato</div>
 <div class="container">
+    <div th:if="${users.isEmpty()}">nessun utente trovato</div>
     <table class="table table-striped">
         <tbody>
         <tr th:each="user : ${users}">

@@ -88,13 +88,13 @@ public class LoggingController {
 	@GetMapping("/login/{user_id}/steam")
 	public String steamLogin(@PathVariable("user_id") Long userId,Model model) {
 		String steamLoginPageURL; // ridireziona al sito di steam per effettuare il login
-		steamLoginPageURL = "redirect:"+externalLogin.login("http://3.68.134.177/login/"+userId+"/steam/auth");
+		steamLoginPageURL = "redirect:"+externalLogin.login("http://localhost:8080/login/"+userId+"/steam/auth");
 		return steamLoginPageURL;
 	}
 
 	@GetMapping("/login/{user_id}/steam/auth") // da steam, dopo aver premuto il bottone di login, si ritorna sul nostro sito
 	public String steamLoginAuth(@PathVariable("user_id") Long userId, Model model, @RequestParam Map<String,String> allParams) throws SteamApiException { 
-		String steamUserID = externalLogin.verify("http://3.68.134.177/login/"+userId+"/steam/auth", allParams);
+		String steamUserID = externalLogin.verify("http://localhost:8080/login/"+userId+"/steam/auth", allParams);
 		try {
 			this.userService.updateUserSteamId(userId, steamUserID);
 			this.gameService.refreshGames(userId);
