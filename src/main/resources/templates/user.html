@@ -33,23 +33,25 @@
                     <div th:text="${user.steamId}"></div>
                     <div th:if="${credentials.user.id != user.id}">
                         <div th:if="${giaSeguito==false}">
-                            <a class="btn btn-primary mt-2" th:href="'/newFollow/'+${credentials.user.id}+'/'+${user.id}">Segui</a>
+                            <a class="btn btn-primary mt-2"
+                               th:href="'/newFollow/'+${credentials.user.id}+'/'+${user.id}">Segui</a>
                         </div>
                         <div th:if="${giaSeguito==true}">
-                            <a class="btn btn-secondary mt-2" th:href="'/deleteFollow/'+${credentials.user.id}+'/'+${user.id}">Smetti di Seguire</a>
+                            <a class="btn btn-secondary mt-2"
+                               th:href="'/deleteFollow/'+${credentials.user.id}+'/'+${user.id}">Smetti di Seguire</a>
                         </div>
                     </div>
                     <div th:if="${credentials.user.id != user.id}">
-                        <a class="btn btn-primary mt-2" th:href="'/compareGames/'+${credentials.user.id}+'/'+${user.id}">Confronta i giochi</a>
+                        <a class="btn btn-primary mt-2"
+                           th:href="'/compareGames/'+${credentials.user.id}+'/'+${user.id}">Confronta i giochi</a>
                     </div>
                 </div>
                 <div class="col-md-4">
 
                     <div>
                         <div th:if="${user.steamId==null}">
-                            <a th:href="'/login/'+${user.id}+'/steam'">connetti steam al
-                                tuo account</a>
-                            <div> INFORMAZIONI STEAM SOLO DOPO AVER OTTENUTO LO STEAM ID</div>
+                            <div>Account Steam ancora non collegato</div>
+                            <a th:if="${credentials.user.id == user.id}" th:href="'/login/'+${user.id}+'/steam'"><img src="/images/sits_01.png"></a>
                         </div>
                         <div th:if="${user.steamId}">
                             <div th:if="${top5Played.isEmpty()}">non hai giocato a nessun
@@ -99,7 +101,7 @@
             </div>
         </div> <!-- /container -->
     </div>
-    <div th:if="${messaggioErrore}">
+    <div class="jumbotron container" th:if="${messaggioErrore}">
         <div th:text="${messaggioErrore}"></div>
     </div>
 </main>

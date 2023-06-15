@@ -87,9 +87,15 @@ public class LoggingController {
 	
 	@GetMapping("/login/{user_id}/steam")
 	public String steamLogin(@PathVariable("user_id") Long userId,Model model) {
-		String steamLoginPageURL; // ridireziona al sito di steam per effettuare il login
-		steamLoginPageURL = "redirect:"+externalLogin.login("http://localhost:8080/login/"+userId+"/steam/auth");
-		return steamLoginPageURL;
+		try {
+			this.credentialsService.checkCurrentUserIsAuthorized(userId);
+			String steamLoginPageURL; // ridireziona al sito di steam per effettuare il login
+			steamLoginPageURL = "redirect:"+externalLogin.login("http://localhost:8080/login/"+userId+"/steam/auth");
+			return steamLoginPageURL;
+		} catch (InvalidUserOperationException e) {
+			model.addAttribute("messaggioErrore",e.getMessage());
+			return "user.html";
+		}
 	}
 
 	@GetMapping("/login/{user_id}/steam/auth") // da steam, dopo aver premuto il bottone di login, si ritorna sul nostro sito
