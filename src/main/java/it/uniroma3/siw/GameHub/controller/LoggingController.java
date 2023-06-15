@@ -26,82 +26,89 @@ import java.util.Map;
 @Controller
 public class LoggingController {
 
-	@Autowired
-	private SteamLogin externalLogin;
+    @Autowired
+    private SteamLogin externalLogin;
 
-	@Autowired
-	private CredentialsService credentialsService;
-	
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private CredentialsService credentialsService;
 
-	@Autowired
-	private CredentialsValidator credentialsValidator;
+    @Autowired
+    private UserService userService;
 
-	@Autowired
-	private UserValidator userValidator;
+    @Autowired
+    private CredentialsValidator credentialsValidator;
 
-	@Autowired
-	private GameService gameService;
+    @Autowired
+    private UserValidator userValidator;
 
-	@GetMapping("/login")
-	public String login(Model model) {
-		return "formLogin.html";
-	}
-	
-	@GetMapping("/success")
+    @Autowired
+    private GameService gameService;
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        return "formLogin.html";
+    }
+
+    @GetMapping("/success")
     public String defaultAfterLogin(Model model) throws SteamApiException, UserNotFoundException {
-    	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    	Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-    	model.addAttribute("credentials", credentials);
-		this.gameService.refreshGames(credentials.getUser().getId()); // NON DOVREBBE MAI SOLLEVARE ECCEZIONI
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+        model.addAttribute("credentials", credentials);
+        this.gameService.refreshGames(credentials.getUser().getId()); // NON DOVREBBE MAI SOLLEVARE ECCEZIONI
         return "index.html";
     }
-	
-	@GetMapping("/register")
-	public String formNewWebUser(Model model) {
-		model.addAttribute("userForm", new UserForm(this.credentialsService.createCredentials() ,this.userService.createUser()));
-		return "formNewWebUser.html";
-	}
-	
-	@PostMapping("/register")
+
+    @GetMapping("/register")
+    public String formNewWebUser(Model model) {
+        model.addAttribute("userForm", new UserForm(this.credentialsService.createCredentials(), this.userService.createUser()));
+        return "formNewWebUser.html";
+    }
+
+    @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("userForm") UserForm userForm,
-    			BindingResult userFormBindingResult,
-                Model model) {
+                               BindingResult userFormBindingResult,
+                               Model model) {
         // se user e credential hanno entrambi contenuti validi, memorizza User e the Credentials nel DB
-		Credentials credentials = userForm.getCredentials();
-		User user = userForm.getUser();
-		this.credentialsValidator.validate(credentials, userFormBindingResult);
-		this.userValidator.validate(user, userFormBindingResult);
-        if(!userFormBindingResult.hasErrors()) {
+        Credentials credentials = userForm.getCredentials();
+        User user = userForm.getUser();
+        this.credentialsValidator.validate(credentials, userFormBindingResult);
+        this.userValidator.validate(user, userFormBindingResult);
+        if (!userFormBindingResult.hasErrors()) {
             credentials.setUser(user);
             user.setCredentials(credentials);
-			user.setUsername(credentials.getUsername());
-            credentials=credentialsService.saveCredentials(credentials);
+            user.setUsername(credentials.getUsername());
+            credentials = credentialsService.saveCredentials(credentials);
             user = userService.saveUser(user);
             model.addAttribute("user", user);
             return "redirect:/login";
         }
         return "formNewWebUser.html";
     }
-	
-	@GetMapping("/login/{user_id}/steam")
-	public String steamLogin(@PathVariable("user_id") Long userId,Model model) {
-		String steamLoginPageURL; // ridireziona al sito di steam per effettuare il login
-		steamLoginPageURL = "redirect:"+externalLogin.login("http://game-hub.it/login/"+userId+"/steam/auth");
-		return steamLoginPageURL;
-	}
 
-	@GetMapping("/login/{user_id}/steam/auth") // da steam, dopo aver premuto il bottone di login, si ritorna sul nostro sito
-	public String steamLoginAuth(@PathVariable("user_id") Long userId, Model model, @RequestParam Map<String,String> allParams) throws SteamApiException { 
-		String steamUserID = externalLogin.verify("http://game-hub.it/login/"+userId+"/steam/auth", allParams);
-		try {
-			this.userService.updateUserSteamId(userId, steamUserID);
-			this.gameService.refreshGames(userId);
-			return "redirect:/user/"+userId;
-		} catch (UserNotFoundException | InvalidUserOperationException e) {
-			model.addAttribute("messaggioErrore",e.getMessage());
-			return "user.html";
-		}
-	}
+    @GetMapping("/login/{user_id}/steam")
+    public String steamLogin(@PathVariable("user_id") Long userId, Model model) {
+        try {
+            this.credentialsService.checkCurrentUserIsAuthorized(userId);
+            String steamLoginPageURL; // ridireziona al sito di steam per effettuare il login
+            steamLoginPageURL = "redirect:"+externalLogin.login("http://game-hub.it/login/"+userId+"/steam/auth");
+            return steamLoginPageURL;
+        } catch (InvalidUserOperationException e) {
+            model.addAttribute("messaggioErrore", e.getMessage());
+            return "user.html";
+        }
+    }
+
+    @GetMapping("/login/{user_id}/steam/auth")
+    // da steam, dopo aver premuto il bottone di login, si ritorna sul nostro sito
+    public String steamLoginAuth(@PathVariable("user_id") Long userId, Model model, @RequestParam Map<String, String> allParams) throws SteamApiException {
+        String steamUserID = externalLogin.verify("http://game-hub.it/login/" + userId + "/steam/auth", allParams);
+        try {
+            this.userService.updateUserSteamId(userId, steamUserID);
+            this.gameService.refreshGames(userId);
+            return "redirect:/user/" + userId;
+        } catch (UserNotFoundException | InvalidUserOperationException e) {
+            model.addAttribute("messaggioErrore", e.getMessage());
+            return "user.html";
+        }
+    }
 }
