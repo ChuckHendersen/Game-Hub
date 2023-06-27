@@ -12,7 +12,7 @@ public class SteamAPI {
 	private SteamWebApiClient client;
 	
 	public SteamAPI() {
-		client = new SteamWebApiClient.SteamWebApiClientBuilder("056BDA5087E6B09FF4E875FD1ACAFD3F").build();
+		client = new SteamWebApiClient.SteamWebApiClientBuilder("YOURSTEAMWEBAPIKEY").build();
 	}
 	
 	public SteamWebApiClient getClient() {
